@@ -5,7 +5,7 @@ import { Degree } from "../Shared/Degree";
 
 
 // Regular Polygon in 3D
-//  Eg., Number of sides - 3
+//  Eg., Number of sides - 6
 //
 //      Top Face - Single side length - A 
 //      ______
