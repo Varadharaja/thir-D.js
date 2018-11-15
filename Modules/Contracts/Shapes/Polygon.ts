@@ -28,6 +28,7 @@ export class Polygon implements IShape
 {
 
     // Basic properties of the Shape
+    SidesCount: number; 
     A: number;
     B: number;
     H: number;
