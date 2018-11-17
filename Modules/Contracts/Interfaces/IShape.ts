@@ -1,11 +1,12 @@
 import { Point } from "../Shared/Point";
 import { Transformation } from "../Shared/Transformation";
+import { Plane } from "../Shared/Plane";
 
 
 export interface IShape
 {
-    // Function to  generate the coordinates
-    Points: () => Point[] ;
+    // Planes
+    Planes: ()=>Plane[];
     // Transformation Effects
     Transformation: Transformation;   
 }

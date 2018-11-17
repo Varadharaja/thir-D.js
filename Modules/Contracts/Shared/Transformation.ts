@@ -8,4 +8,12 @@ export class Transformation
     Rotation: Angle;
     Skewness: Angle;
     Zoom: Scale;
+
+    constructor(translate: Point, rotate: Angle, skew: Angle, zoom: Scale)
+    {
+        this.Translation = translate;
+        this.Rotation = rotate;
+        this.Skewness = skew;
+        this.Zoom  = zoom; 
+    }
 }

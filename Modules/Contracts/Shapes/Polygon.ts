@@ -2,6 +2,7 @@ import { IShape } from "../Interfaces/IShape";
 import { Point } from "../Shared/Point";
 import { Transformation } from "../Shared/Transformation";
 import { Degree } from "../Shared/Degree";
+import { Plane } from "../Shared/Plane";
 
 
 // Regular Polygon in 3D
@@ -40,11 +41,22 @@ export class Polygon implements IShape
     // IShape members
     Transformation: Transformation;   
 
-    Points: () => Point[] = function(): Point[]
+    Planes: ()=> Plane[] = function(): Plane[]
     {
-        var points:Point[] = new Array();
-        // Logic to generate the coordinates based on A,B, H, Top & Bottom Angles 
-        return points;
+        var planes: Plane[] = new Array();
+
+        return planes;
     }
+
+    constructor(a: number, b: number, h: number, tAng : Degree = new Degree(0), bAng: Degree= new Degree(0))
+    {
+
+        this.A = a;
+        this.B = b;
+        this.H = h;
+        this.TopAngle = tAng;
+        this.BottomAngle = bAng;         
+    }
+
 
 }
