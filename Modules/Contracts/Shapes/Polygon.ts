@@ -3,6 +3,7 @@ import { Point } from "../Shared/Point";
 import { Transformation } from "../Shared/Transformation";
 import { Degree } from "../Shared/Degree";
 import { Plane } from "../Shared/Plane";
+import { Angle } from "../Shared/Angle";
 
 
 // Regular Polygon in 3D
@@ -34,8 +35,8 @@ export class Polygon implements IShape
     B: number;
     H: number;
 
-    TopAngle : Degree;
-    BottomAngle: Degree;
+    TopFaceInclination : Angle;
+    BottomFaceInclination: Angle;
 
     
     // IShape members
@@ -44,18 +45,26 @@ export class Polygon implements IShape
     Planes: ()=> Plane[] = function(): Plane[]
     {
         var planes: Plane[] = new Array();
+        var theta = Math.PI * (1/2 - 1/this.SidesCount);
+
+        var R = this.A/2 * 1/Math.cos(theta);
+        var topFacePoints:Point[] = new Array();
+
+        
+
+
 
         return planes;
     }
 
-    constructor(a: number, b: number, h: number, tAng : Degree = new Degree(0), bAng: Degree= new Degree(0))
+    constructor(a: number, b: number, h: number, tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
     {
 
         this.A = a;
         this.B = b;
         this.H = h;
-        this.TopAngle = tAng;
-        this.BottomAngle = bAng;         
+        this.TopFaceInclination = tAng;
+        this.BottomFaceInclination = bAng;         
     }
 
 

@@ -6,11 +6,11 @@ export class Angle
     beta : Degree;
     gamma : Degree;
 
-    constructor(a: Degree, b: Degree, g:Degree)
+    constructor(a: number, b: number, g:number)
     {
-        this.alpha = a;
-        this.beta = b;
-        this.gamma = g;
+        this.alpha = new Degree(a);
+        this.beta = new Degree(b);
+        this.gamma = new Degree(g);
     }
 
 }
