@@ -97,12 +97,14 @@ export class Polygon implements IShape
         return planes;
     }
 
-    constructor(a: number, b: number, h: number, tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
+    constructor(sides:number,a: number, b: number, h: number, color: Color,tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
     {
+        this.SidesCount =sides;
 
         this.A = a;
         this.B = b;
         this.H = h;
+        this.Color = color;
         this.TopFaceInclination = tAng;
         this.BottomFaceInclination = bAng;         
     }
