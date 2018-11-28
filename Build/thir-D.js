@@ -106,13 +106,15 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
             this.Planes = function () {
                 var planes = new Array();
                 var theta = Math.PI * (1 / 2 - 1 / this.SidesCount);
-                var R = this.A / 2 * 1 / Math.cos(theta);
+                var R1 = this.A / 2 * 1 / Math.cos(theta);
+                var R2 = this.B / 2 * 1 / Math.cos(theta);
+                var alpha = 2 * Math.PI / this.SidesCount;
                 var topFacePoints = new Array();
                 var bottomFacePoints = new Array();
-                var origin = new Point_1.Point(0, 0, 0);
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_1.Point(0, 0, 0);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
-                    var topPt = new Point_1.Point(origin.x + R * Math.cos(sideIdx * theta), origin.y + this.H, origin.z + Math.sin(sideIdx * theta));
-                    var pt = new Point_1.Point(origin.x + R * Math.cos(sideIdx * theta), origin.y, origin.z + Math.sin(sideIdx * theta));
+                    var topPt = new Point_1.Point(origin.x + R1 * Math.cos(sideIdx * alpha), origin.y + this.H, origin.z + R1 * Math.sin(sideIdx * alpha));
+                    var pt = new Point_1.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
                     topFacePoints[sideIdx] = topPt;
                     bottomFacePoints[sideIdx] = pt;
                 }
@@ -121,13 +123,13 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
-                    var idx2 = ((sideIdx + 1) == this.SidesCount - 1) ? 0 : sideIdx + 1;
+                    var idx2 = ((sideIdx + 1) == this.SidesCount) ? 0 : sideIdx + 1;
                     facePoints =
                         [
                             topFacePoints[idx1],
                             topFacePoints[idx2],
-                            bottomFacePoints[idx1],
-                            bottomFacePoints[idx2]
+                            bottomFacePoints[idx2],
+                            bottomFacePoints[idx1]
                         ];
                     planes[planes.length] = new Plane_1.Plane(facePoints, this.Color);
                 }

@@ -50,23 +50,26 @@ export class Polygon implements IShape
         var planes: Plane[] = new Array();
         var theta = Math.PI * (1/2 - 1/this.SidesCount);
 
-        var R = this.A/2 * 1/Math.cos(theta);
+        var R1 = this.A/2 * 1/Math.cos(theta);
+        var R2 = this.B/2 * 1/Math.cos(theta);
+
+        var alpha = 2* Math.PI/this.SidesCount;
         var topFacePoints:Point[] = new Array();
         var bottomFacePoints: Point[] = new Array();
-        var origin = new Point(0,0,0);
+        var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
 
         for (var sideIdx=0;sideIdx < this.SidesCount; sideIdx++)
         {
             var topPt =     new Point(
-                origin.x + R * Math.cos(sideIdx * theta),
+                origin.x + R1 * Math.cos(sideIdx * alpha),
                 origin.y + this.H,
-                origin.z + Math.sin(sideIdx*theta)
+                origin.z + R1 * Math.sin(sideIdx * alpha)
            );
 
            var pt =     new Point(
-                origin.x + R * Math.cos(sideIdx * theta),
+                origin.x + R2 * Math.cos(sideIdx * alpha),
                 origin.y,
-                origin.z + Math.sin(sideIdx*theta)
+                origin.z + R2 * Math.sin(sideIdx * alpha)
             );
 
             topFacePoints[sideIdx] = topPt;
@@ -81,13 +84,13 @@ export class Polygon implements IShape
         {
             var facePoints:Point[] = new Array();
             var idx1 = sideIdx;
-            var idx2 = ((sideIdx+1) == this.SidesCount-1) ? 0 : sideIdx+1;
+            var idx2 = ((sideIdx+1) == this.SidesCount) ? 0 : sideIdx+1;
             facePoints = 
             [
                 topFacePoints[idx1],
                 topFacePoints[idx2],
-                bottomFacePoints[idx1],
-                bottomFacePoints[idx2]
+                bottomFacePoints[idx2],
+                bottomFacePoints[idx1]
             ];
             
             planes[planes.length] = new Plane(facePoints, this.Color);

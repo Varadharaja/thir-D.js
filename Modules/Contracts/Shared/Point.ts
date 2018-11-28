@@ -6,7 +6,7 @@ export class Point
 
     constructor(X:number, Y:number, Z:number)
     {
-        this.x = X;
+        this.x = X
         this.y = Y;
         this.z = Z;
     }
