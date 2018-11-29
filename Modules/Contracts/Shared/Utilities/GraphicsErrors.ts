@@ -18,22 +18,20 @@ export class ContextInitializationError extends GraphicsError{
 
 export class ShaderLoadError extends GraphicsError{
 
-    constructor(message?: any){
+    constructor(glContext:WebGLRenderingContext, shader:WebGLShader){
 
-        if(message == undefined || message == null)
-            message = "Unable to load shader";
-
+        var message = glContext.getShaderInfoLog(shader);
         super(message);
+        glContext.deleteShader(shader);
     }
 }
 
 export class ShaderProgramInitializationError extends GraphicsError{
 
-    constructor(message?: any){
+    constructor(glContext:WebGLRenderingContext, program:WebGLProgram){
 
-        if(message == undefined || message == null)
-            message = "Unable to initialize shader program";
-
+        var message = glContext.getProgramInfoLog(program);
         super(message);
+        glContext.deleteProgram(program);
     }
 }

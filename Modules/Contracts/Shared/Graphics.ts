@@ -1,16 +1,17 @@
 import * as GraphicsErrors from "./Utilities/GraphicsErrors";
+import { Polygon } from "../Shapes/Polygon";
 
 export class Graphics{
 
-    GLContext: WebGLRenderingContext;
+    context: WebGLRenderingContext;
 
     initializeContext(canvasElementId: string) : void{
 
         try{
             
             var canvas = document.getElementById(canvasElementId) as HTMLCanvasElement;
-            this.GLContext = canvas.getContext("webgl");
-            if(this.GLContext == null){
+            this.context = canvas.getContext("webgl");
+            if(this.context == null){
                 throw new GraphicsErrors.ContextInitializationError();
             }
         }
@@ -32,7 +33,7 @@ export class Graphics{
 
         if(!glContext.getProgramParameter(shaderProgram, glContext.LINK_STATUS)){
 
-            throw new GraphicsErrors.ShaderProgramInitializationError();
+            throw new GraphicsErrors.ShaderProgramInitializationError(glContext, shaderProgram);
         }
 
         return shaderProgram;
@@ -46,10 +47,13 @@ export class Graphics{
 
         if(!glContext.getShaderParameter(shader, glContext.COMPILE_STATUS)){
 
-            glContext.deleteShader(shader);
-            throw new GraphicsErrors.ShaderLoadError();
+            throw new GraphicsErrors.ShaderLoadError(glContext, shader);
         }
 
         return shader;
+    }
+
+    renderPolygon(polygon: Polygon){
+        
     }
 }
