@@ -15,3 +15,25 @@ export class ContextInitializationError extends GraphicsError{
         super(message);
     }
 }
+
+export class ShaderLoadError extends GraphicsError{
+
+    constructor(message?: any){
+
+        if(message == undefined || message == null)
+            message = "Unable to load shader";
+
+        super(message);
+    }
+}
+
+export class ShaderProgramInitializationError extends GraphicsError{
+
+    constructor(message?: any){
+
+        if(message == undefined || message == null)
+            message = "Unable to initialize shader program";
+
+        super(message);
+    }
+}
