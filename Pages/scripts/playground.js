@@ -12,7 +12,7 @@ var transformNS;
 var pointNS;
 var sharedNS;
 
-require(required,function(poly,clr, txm, pt, shd)
+requirejs(required,function(poly,clr, txm, pt, shd)
 {
     PolygonNS = poly;
     ColorNS = clr;
