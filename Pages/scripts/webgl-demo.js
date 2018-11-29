@@ -65,22 +65,28 @@
                     idxs.push(vxLen-1,centroidVxIdx,vxLen);
 
                 }
+                var rnd = Math.random();
+
+                var clr = planes[plCnt].Color;
+                var r = clr.red;
+                var g = clr.green;
+                var b = clr.blue;
+                colors.push(r, g,b);
 
             }
+
+            var clrIdx = colors.length-3;
+            var r = colors[clrIdx];
+            var g =  colors[clrIdx+1];
+            var b =  colors[clrIdx+2];
+            colors.push(r, g,b);
 
             vxs[idx]    = centroid[0] / planes[plCnt].Points.length;
             vxs[idx+1]  = centroid[1] / planes[plCnt].Points.length;
             vxs[idx+2]  = centroid[2] / planes[plCnt].Points.length;
-            var randColor = Math.random(); 
-            colors.push(randColor, randColor, randColor, randColor)
-            colors.push(randColor, randColor, randColor, randColor)
-            colors.push(randColor, randColor, randColor, randColor)
-            colors.push(randColor, randColor, randColor, randColor)
-
         }
         vertices = vxs;
         indices = idxs;
-        //indices  = [1, 0, 2, 2, 0, 3, 3, 0, 4, 4, 0, 1];
         console.log(vxs);
         console.log(idxs);
         

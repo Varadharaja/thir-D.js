@@ -96,7 +96,7 @@ define("Interfaces/IShape", ["require", "exports"], function (require, exports) 
     "use strict";
     exports.__esModule = true;
 });
-define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle"], function (require, exports, Point_1, Plane_1, Angle_1) {
+define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shared/Color"], function (require, exports, Point_1, Plane_1, Angle_1, Color_1) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function () {
@@ -131,7 +131,11 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    planes[planes.length] = new Plane_1.Plane(facePoints, this.Color);
+                    var r = this.Color.red;
+                    var g = this.Color.green;
+                    var b = this.Color.blue;
+                    var clr = new Color_1.Color(r * (1 - sideIdx / 10) / 255, g * (1 - sideIdx / 10) / 255, b * (1 - sideIdx / 10) / 255);
+                    planes[planes.length] = new Plane_1.Plane(facePoints, clr);
                 }
                 return planes;
             };

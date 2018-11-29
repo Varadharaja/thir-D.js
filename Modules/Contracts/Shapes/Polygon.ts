@@ -92,8 +92,15 @@ export class Polygon implements IShape
                 bottomFacePoints[idx2],
                 bottomFacePoints[idx1]
             ];
+
             
-            planes[planes.length] = new Plane(facePoints, this.Color);
+            
+            var r = this.Color.red;
+            var g = this.Color.green;
+            var b = this.Color.blue;
+
+            var clr = new Color(r* (1- sideIdx/10)/255,g * (1- sideIdx/10)/255,b * (1- sideIdx/10)/255);
+            planes[planes.length] = new Plane(facePoints,clr);
 
         }
 
