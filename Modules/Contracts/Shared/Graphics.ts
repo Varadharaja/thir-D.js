@@ -53,6 +53,10 @@ export class Graphics{
         return shader;
     }
 
+    static default3DShader(){
+        return "";
+    }
+
     renderPolygon(polygon: Polygon){
         
     }
