@@ -65,8 +65,7 @@
                     idxs.push(vxLen-1,centroidVxIdx,vxLen);
 
                 }
-                var rnd = Math.random();
-
+                
                 var clr = planes[plCnt].Color;
                 var r = clr.red;
                 var g = clr.green;
@@ -75,10 +74,12 @@
 
             }
 
+            var rnd =0.2;
+
             var clrIdx = colors.length-3;
-            var r = colors[clrIdx];
-            var g =  colors[clrIdx+1];
-            var b =  colors[clrIdx+2];
+            var r = colors[clrIdx] - (rnd );
+            var g =  colors[clrIdx+1] - rnd;
+            var b =  colors[clrIdx+2] - rnd;
             colors.push(r, g,b);
 
             vxs[idx]    = centroid[0] / planes[plCnt].Points.length;
@@ -161,7 +162,7 @@
         gl.enableVertexAttribArray(color);
         gl.useProgram(shaderProgram);
 
-         proj_matrix = get_projection(40, canvas.width/canvas.height, 1, 1000);
+         proj_matrix = get_projection(50, canvas.width/canvas.height, 1, 1000);
 
         mov_matrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
          view_matrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
@@ -235,7 +236,7 @@
             {
                 var dt = time-time_old;
                 rotateZ(mov_matrix, dt*0.000);//time
-                rotateY(mov_matrix, dt*0.0002);
+                rotateY(mov_matrix, dt*0.00009);
                 rotateX(mov_matrix, dt*0.000);
                 time_old = time;
 

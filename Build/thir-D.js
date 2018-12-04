@@ -71,9 +71,9 @@ define("Shared/Color", ["require", "exports"], function (require, exports) {
     var Color = (function () {
         function Color(r, g, b, a) {
             if (a === void 0) { a = 1; }
-            this.red = r;
-            this.green = g;
-            this.blue = b;
+            this.red = r / 255;
+            this.green = g / 255;
+            this.blue = b / 255;
             this.alpha = a;
         }
         return Color;
@@ -96,7 +96,55 @@ define("Interfaces/IShape", ["require", "exports"], function (require, exports) 
     "use strict";
     exports.__esModule = true;
 });
-define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shared/Color"], function (require, exports, Point_1, Plane_1, Angle_1, Color_1) {
+define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane"], function (require, exports, Point_1, Plane_1) {
+    "use strict";
+    exports.__esModule = true;
+    var Cube = (function () {
+        function Cube(l, w, h, clr) {
+            this.Planes = function () {
+                var planes = new Array();
+                var topFacePoints = new Array();
+                var bottomFacePoints = new Array();
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_1.Point(0, 0, 0);
+                topFacePoints = [
+                    new Point_1.Point(origin.x, origin.y, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y, origin.z + this.W),
+                    new Point_1.Point(origin.x, origin.y, origin.z + this.W)
+                ];
+                bottomFacePoints = [
+                    new Point_1.Point(origin.x, origin.y + this.H, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y + this.H, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y + this.H, origin.z + this.W),
+                    new Point_1.Point(origin.x, origin.y + this.H, origin.z + this.W)
+                ];
+                planes[planes.length] = new Plane_1.Plane(topFacePoints, this.Color);
+                planes[planes.length] = new Plane_1.Plane(bottomFacePoints, this.Color);
+                for (var sideIdx = 0; sideIdx < 4; sideIdx++) {
+                    var facePoints = new Array();
+                    var idx1 = sideIdx;
+                    var idx2 = ((sideIdx + 1) == 4) ? 0 : sideIdx + 1;
+                    facePoints =
+                        [
+                            topFacePoints[idx1],
+                            topFacePoints[idx2],
+                            bottomFacePoints[idx2],
+                            bottomFacePoints[idx1]
+                        ];
+                    planes[planes.length] = new Plane_1.Plane(facePoints, this.Color);
+                }
+                return planes;
+            };
+            this.L = l;
+            this.W = w;
+            this.H = h;
+            this.Color = clr;
+        }
+        return Cube;
+    }());
+    exports.Cube = Cube;
+});
+define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle"], function (require, exports, Point_2, Plane_2, Angle_1) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function () {
@@ -111,15 +159,15 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                 var alpha = 2 * Math.PI / this.SidesCount;
                 var topFacePoints = new Array();
                 var bottomFacePoints = new Array();
-                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_1.Point(0, 0, 0);
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_2.Point(0, 0, 0);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
-                    var topPt = new Point_1.Point(origin.x + R1 * Math.cos(sideIdx * alpha), origin.y + this.H, origin.z + R1 * Math.sin(sideIdx * alpha));
-                    var pt = new Point_1.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
+                    var topPt = new Point_2.Point(origin.x + R1 * Math.cos(sideIdx * alpha), origin.y + this.H, origin.z + R1 * Math.sin(sideIdx * alpha));
+                    var pt = new Point_2.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
                     topFacePoints[sideIdx] = topPt;
                     bottomFacePoints[sideIdx] = pt;
                 }
-                planes[planes.length] = new Plane_1.Plane(topFacePoints, this.Color);
-                planes[planes.length] = new Plane_1.Plane(bottomFacePoints, this.Color);
+                planes[planes.length] = new Plane_2.Plane(topFacePoints, this.Color);
+                planes[planes.length] = new Plane_2.Plane(bottomFacePoints, this.Color);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
@@ -131,11 +179,7 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    var r = this.Color.red;
-                    var g = this.Color.green;
-                    var b = this.Color.blue;
-                    var clr = new Color_1.Color(r * (1 - sideIdx / 10) / 255, g * (1 - sideIdx / 10) / 255, b * (1 - sideIdx / 10) / 255);
-                    planes[planes.length] = new Plane_1.Plane(facePoints, clr);
+                    planes[planes.length] = new Plane_2.Plane(facePoints, this.Color);
                 }
                 return planes;
             };
@@ -150,4 +194,34 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
         return Polygon;
     }());
     exports.Polygon = Polygon;
+});
+define("Shared/ShapeAggregator", ["require", "exports", "Shared/Plane", "Shared/Point"], function (require, exports, Plane_3, Point_3) {
+    "use strict";
+    exports.__esModule = true;
+    var ShapeAggregator = (function () {
+        function ShapeAggregator(transformation) {
+            this.Planes = new Array();
+            this.Add = function (shape) {
+                this.Planes = this.Planes.concat(shape.Planes());
+            };
+            this.AddPlanes = function (planes) {
+                this.Planes = this.Planes.concat(planes);
+            };
+            this.TransformedPlanes = function () {
+                var aggPlanes = new Array();
+                for (var plCnt = 0; plCnt < this.Planes.length; plCnt++) {
+                    var pts = new Array();
+                    for (var ptCnt = 0; ptCnt < this.Planes[plCnt].Points.length; ptCnt++) {
+                        var pt = this.Planes[plCnt].Points[ptCnt];
+                        pts.push(new Point_3.Point(pt.x * this.Transformation.Zoom.xScale, pt.y * this.Transformation.Zoom.yScale, pt.z * this.Transformation.Zoom.zScale));
+                    }
+                    aggPlanes.push(new Plane_3.Plane(pts, this.Planes[plCnt].Color));
+                }
+                return aggPlanes;
+            };
+            this.Transformation = transformation;
+        }
+        return ShapeAggregator;
+    }());
+    exports.ShapeAggregator = ShapeAggregator;
 });
