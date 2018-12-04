@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define("Shared/Point", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
@@ -194,6 +207,103 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
         return Polygon;
     }());
     exports.Polygon = Polygon;
+});
+define("Shared/Utilities/GraphicsErrors", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var GraphicsError = (function (_super) {
+        __extends(GraphicsError, _super);
+        function GraphicsError(message) {
+            return _super.call(this, message) || this;
+        }
+        return GraphicsError;
+    }(Error));
+    exports.GraphicsError = GraphicsError;
+    var ContextInitializationError = (function (_super) {
+        __extends(ContextInitializationError, _super);
+        function ContextInitializationError(message) {
+            var _this = this;
+            if (message == undefined || message == null)
+                message = "Unable to initialize WebGL. Your browser may not support it.";
+            _this = _super.call(this, message) || this;
+            return _this;
+        }
+        return ContextInitializationError;
+    }(GraphicsError));
+    exports.ContextInitializationError = ContextInitializationError;
+    var ShaderLoadError = (function (_super) {
+        __extends(ShaderLoadError, _super);
+        function ShaderLoadError(glContext, shader) {
+            var _this = this;
+            var message = glContext.getShaderInfoLog(shader);
+            _this = _super.call(this, message) || this;
+            glContext.deleteShader(shader);
+            return _this;
+        }
+        return ShaderLoadError;
+    }(GraphicsError));
+    exports.ShaderLoadError = ShaderLoadError;
+    var ShaderProgramInitializationError = (function (_super) {
+        __extends(ShaderProgramInitializationError, _super);
+        function ShaderProgramInitializationError(glContext, program) {
+            var _this = this;
+            var message = glContext.getProgramInfoLog(program);
+            _this = _super.call(this, message) || this;
+            glContext.deleteProgram(program);
+            return _this;
+        }
+        return ShaderProgramInitializationError;
+    }(GraphicsError));
+    exports.ShaderProgramInitializationError = ShaderProgramInitializationError;
+});
+define("Shared/Graphics", ["require", "exports", "Shared/Utilities/GraphicsErrors"], function (require, exports, GraphicsErrors) {
+    "use strict";
+    exports.__esModule = true;
+    var Graphics = (function () {
+        function Graphics() {
+        }
+        Graphics.prototype.initializeContext = function (canvasElementId) {
+            try {
+                var canvas = document.getElementById(canvasElementId);
+                this.context = canvas.getContext("webgl");
+                if (this.context == null) {
+                    throw new GraphicsErrors.ContextInitializationError();
+                }
+            }
+            catch (error) {
+                console.error(error);
+            }
+        };
+        ;
+        Graphics.initializeShaderProgram = function (glContext, vertexShaderSource, fragmentShaderSource) {
+            var vertexShader = Graphics.loadShader(glContext, glContext.VERTEX_SHADER, vertexShaderSource);
+            var fragmentShader = Graphics.loadShader(glContext, glContext.FRAGMENT_SHADER, fragmentShaderSource);
+            var shaderProgram = glContext.createProgram();
+            glContext.attachShader(shaderProgram, vertexShader);
+            glContext.attachShader(shaderProgram, fragmentShader);
+            glContext.linkProgram(shaderProgram);
+            if (!glContext.getProgramParameter(shaderProgram, glContext.LINK_STATUS)) {
+                throw new GraphicsErrors.ShaderProgramInitializationError(glContext, shaderProgram);
+            }
+            return shaderProgram;
+        };
+        Graphics.loadShader = function (glContext, shaderType, shaderSource) {
+            var shader = glContext.createShader(shaderType);
+            glContext.shaderSource(shader, shaderSource);
+            glContext.compileShader(shader);
+            if (!glContext.getShaderParameter(shader, glContext.COMPILE_STATUS)) {
+                throw new GraphicsErrors.ShaderLoadError(glContext, shader);
+            }
+            return shader;
+        };
+        Graphics.default3DShader = function () {
+            return "";
+        };
+        Graphics.prototype.renderPolygon = function (polygon) {
+        };
+        return Graphics;
+    }());
+    exports.Graphics = Graphics;
 });
 define("Shared/ShapeAggregator", ["require", "exports", "Shared/Plane", "Shared/Point"], function (require, exports, Plane_3, Point_3) {
     "use strict";

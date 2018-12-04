@@ -17,7 +17,8 @@ var pointNS;
 var cubeNS;
 var shapeAggregatorNS;
 var scaleNS;
-require(required,function(poly,clr, txm, pt,  cbe,shpAgg,scl)
+
+requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl)
 {
     PolygonNS = poly;
     ColorNS = clr;

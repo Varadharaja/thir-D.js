@@ -5,6 +5,16 @@
         <script src="../Pages/scripts/ext/require.min.js"></script>
         <script src="../Build/thir-D.js"></script>
         <script   src="../Pages/scripts/ext/jquery.min.js" ></script>
+        <script id="3d-vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 a_position;
+ 
+            uniform mat4 u_matrix;
+ 
+            void main() {
+            // Multiply the position by the matrix.
+            gl_Position = u_matrix * a_position;
+            }
+        </script>
     </head>
     <body>
         <div >
