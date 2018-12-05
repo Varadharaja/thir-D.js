@@ -62,15 +62,14 @@ export class Cube extends Shape
         this.Planes =  planes;
     }
 
-    constructor(l:number, w:number, h:number, clr: Color)
+    constructor(name: string,l:number, w:number, h:number, clr: Color)
     {
-        super();
+        super(name);
         this.L =l;
         this.W = w;
         this.H = h;         
         this.Color = clr;
 
-        this.SetPlanes();
     }
 
 

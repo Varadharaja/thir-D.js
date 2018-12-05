@@ -40,18 +40,18 @@ function GetShapes()
 
    var shapeAggregator = new shapeAggregatorNS.ShapeAggregator();
 
-   var ground = new cubeNS.Cube(6,6,0.2,new ColorNS.Color(0,255,0));
+   var ground = new cubeNS.Cube("ground",6,6,0.2,new ColorNS.Color(0,255,0));
    ground.Transformation = new transformNS.Transformation(new pointNS.Point(-3,-1.5,-3));
 
    shapeAggregator.Add(ground);
 
-   var water = new cubeNS.Cube(5,5,0.3,new ColorNS.Color(0,0,255));
+   var water = new cubeNS.Cube("water",5,5,0.3,new ColorNS.Color(0,0,255));
    water.Transformation = new transformNS.Transformation(new pointNS.Point(-2.5,-1.55,-2.5));
 
    shapeAggregator.Add(water);
 
 
-   var island = new cubeNS.Cube(4,4,0.3, new ColorNS.Color(0,255,0));
+   var island = new cubeNS.Cube("island",4,4,0.3, new ColorNS.Color(0,255,0));
 
     island.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.495,-2));
 
@@ -64,7 +64,7 @@ function GetShapes()
         for (var brickCnt=0; brickCnt< 20; brickCnt++)
         {
             // back wall
-            var brick = new cubeNS.Cube(0.2,0.2,0.1, new ColorNS.Color(208,133,111));
+            var brick = new cubeNS.Cube("back_wall_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
             brick.Transformation = new transformNS.Transformation(new pointNS.Point((rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2,-1.18+rowCnt * 0.1,-2));
 
             shapeAggregator.Add(brick);
@@ -72,7 +72,7 @@ function GetShapes()
             // front wall
             if (brickCnt<= 7 ||  brickCnt>= 13 )
             {
-                brick = new cubeNS.Cube(0.2,0.2,0.1, new ColorNS.Color(208,133,111));
+                brick = new cubeNS.Cube("front_wall_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
                 brick.Transformation = new transformNS.Transformation(new pointNS.Point((rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2,-1.18+rowCnt * 0.1,1.8));
             }
 
@@ -86,13 +86,13 @@ function GetShapes()
         for (var brickCnt=0; brickCnt< 19; brickCnt++)
         {
             // side wall 1
-            var brick = new cubeNS.Cube(0.2,0.2,0.1, new ColorNS.Color(208,133,111));
+            var brick = new cubeNS.Cube("side_wall1_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
             brick.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.18+rowCnt * 0.1,(rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2));
 
             shapeAggregator.Add(brick);
 
             // side wall 2
-            brick = new cubeNS.Cube(0.2,0.2,0.1, new ColorNS.Color(208,133,111));
+            brick = new cubeNS.Cube("side_wall2_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
             brick.Transformation = new transformNS.Transformation(new pointNS.Point(1.8,-1.18+rowCnt * 0.1,(rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2));
 
             shapeAggregator.Add(brick);
@@ -100,7 +100,7 @@ function GetShapes()
     }
     
      
-   var frontWall = new cubeNS.Cube(3.8,0.2,0.1, new ColorNS.Color(208,133,111));
+   var frontWall = new cubeNS.Cube("frontwall",3.8,0.2,0.1, new ColorNS.Color(208,133,111));
    frontWall.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.18,1.3));
    shapeAggregator.Add(frontWall);
     
@@ -111,7 +111,7 @@ function GetShapes()
     
    */
    
-   var frontWallCeiling = new cubeNS.Cube(3.8,0.2,0.1, new ColorNS.Color(210,139,119));
+   var frontWallCeiling = new cubeNS.Cube("frontCeiling",3.8,0.2,0.1, new ColorNS.Color(210,139,119));
    frontWallCeiling.Transformation =  new transformNS.Transformation(new pointNS.Point(-2,-0.7,1.3));
    shapeAggregator.Add(frontWallCeiling);
 
@@ -122,14 +122,13 @@ function GetShapes()
         {
 
             
-            var pillar = new PolygonNS.Polygon(6,0.04,0.04,0.5, new ColorNS.Color(208,133,111));
+            var pillar = new PolygonNS.Polygon("pillar_"+ pillarCnt,6,0.04,0.04,0.5, new ColorNS.Color(208,133,111));
 
             pillar.Transformation = new transformNS.Transformation(new pointNS.Point(-1.9 + pillarCnt * 0.2,-1.18,1.4));
             pillar.SetPlanes();
             shapeAggregator.AddPlanes(pillar.Planes);
         }
    }
-   
 
 
    return shapeAggregator.Planes;

@@ -129,7 +129,7 @@ define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils"], funct
     "use strict";
     exports.__esModule = true;
     var Shape = (function () {
-        function Shape() {
+        function Shape(Name) {
             this.Clone = function () {
                 var clonedShape = JSON.parse(JSON.stringify(this));
                 return clonedShape;
@@ -141,6 +141,7 @@ define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils"], funct
             this.Zoom = function () {
             };
             this.Id = GxUtils_1.GxUtils.NewGuid();
+            this.Name = Name;
         }
         return Shape;
     }());
@@ -151,8 +152,8 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
     exports.__esModule = true;
     var Cube = (function (_super) {
         __extends(Cube, _super);
-        function Cube(l, w, h, clr) {
-            var _this = _super.call(this) || this;
+        function Cube(name, l, w, h, clr) {
+            var _this = _super.call(this, name) || this;
             _this.SetPlanes = function () {
                 var planes = new Array();
                 var topFacePoints = new Array();
@@ -191,7 +192,6 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
             _this.W = w;
             _this.H = h;
             _this.Color = clr;
-            _this.SetPlanes();
             return _this;
         }
         return Cube;
@@ -203,10 +203,10 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
     exports.__esModule = true;
     var Polygon = (function (_super) {
         __extends(Polygon, _super);
-        function Polygon(sides, a, b, h, color, tAng, bAng) {
+        function Polygon(name, sides, a, b, h, color, tAng, bAng) {
             if (tAng === void 0) { tAng = new Angle_1.Angle(0, 0, 0); }
             if (bAng === void 0) { bAng = new Angle_1.Angle(0, 0, 0); }
-            var _this = _super.call(this) || this;
+            var _this = _super.call(this, name) || this;
             _this.SetPlanes = function () {
                 var planes = new Array();
                 var theta = Math.PI * (1 / 2 - 1 / this.SidesCount);

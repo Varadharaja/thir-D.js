@@ -14,11 +14,11 @@ export class Shape implements IShape
     SetPlanes:()=> void;
 
 
-    constructor()
+    constructor(Name: string)
     {
 
         this.Id =    GxUtils.NewGuid();
-        
+        this.Name = Name;
     }
 
     Clone: ()=> IShape = function():IShape

@@ -98,9 +98,9 @@ export class Polygon extends Shape
         this.Planes = planes;
     }
 
-    constructor(sides:number,a: number, b: number, h: number, color: Color,tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
+    constructor(name: string , sides:number,a: number, b: number, h: number, color: Color,tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
     {
-        super();
+        super(name);
         this.SidesCount =sides;
 
         this.A = a;
