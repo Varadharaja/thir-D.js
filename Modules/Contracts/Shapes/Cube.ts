@@ -37,8 +37,8 @@ export class Cube extends Shape
             new Point(origin.x , origin.y+ this.H,origin.z+ this.W)
         ];
 
-        planes[planes.length] = new Plane(topFacePoints, this.Color);
-        planes[planes.length] = new Plane(bottomFacePoints, this.Color);
+        planes[planes.length] = new Plane(topFacePoints, this.Color, this.Id);
+        planes[planes.length] = new Plane(bottomFacePoints, this.Color,this.Id);
 
 
         for (var sideIdx = 0; sideIdx < 4; sideIdx++)
@@ -55,7 +55,7 @@ export class Cube extends Shape
             ];
 
             
-            planes[planes.length] = new Plane(facePoints,this.Color);
+            planes[planes.length] = new Plane(facePoints,this.Color, this.Id);
 
         }
 

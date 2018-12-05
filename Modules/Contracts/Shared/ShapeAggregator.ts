@@ -2,14 +2,18 @@ import { IShape } from "../Interfaces/IShape";
 import { Plane } from "./Plane";
 import { Transformation } from "./Transformation";
 import { Point } from "./Point";
+import { GxUtils } from "./Utilities/GxUtils";
 
 export class ShapeAggregator
 {
+    Id: string;
+    Name: string;
     Transformation: Transformation;
 
     constructor(transformation: Transformation)
     {
         this.Transformation = transformation;
+        this.Id = GxUtils.NewGuid();        
     }
 
     Planes: Plane[]  = new Array();

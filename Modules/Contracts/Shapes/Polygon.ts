@@ -72,8 +72,8 @@ export class Polygon extends Shape
             bottomFacePoints[sideIdx] = pt;
         } 
 
-        planes[planes.length] = new Plane(topFacePoints, this.Color);
-        planes[planes.length] = new Plane(bottomFacePoints, this.Color);
+        planes[planes.length] = new Plane(topFacePoints, this.Color,this.Id);
+        planes[planes.length] = new Plane(bottomFacePoints, this.Color,this.Id);
 
 
         for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++)
@@ -91,7 +91,7 @@ export class Polygon extends Shape
 
             
             
-            planes[planes.length] = new Plane(facePoints,this.Color);
+            planes[planes.length] = new Plane(facePoints,this.Color,this.Id);
 
         }
 
