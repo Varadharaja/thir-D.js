@@ -125,8 +125,8 @@ function GetShapes()
             var pillar = new PolygonNS.Polygon(6,0.04,0.04,0.5, new ColorNS.Color(208,133,111));
 
             pillar.Transformation = new transformNS.Transformation(new pointNS.Point(-1.9 + pillarCnt * 0.2,-1.18,1.4));
-
-            shapeAggregator.AddPlanes(pillar.Planes());
+            pillar.SetPlanes();
+            shapeAggregator.AddPlanes(pillar.Planes);
         }
    }
    

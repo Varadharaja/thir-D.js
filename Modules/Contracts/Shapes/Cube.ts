@@ -5,22 +5,17 @@ import { Degree } from "../Shared/Degree";
 import { Plane } from "../Shared/Plane";
 import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
+import { Shape } from "./Shape";
 
 
-export class Cube implements IShape
+export class Cube extends Shape
 {
 
-    // Basic properties of the Shape
     W: number;
     L: number;
     H: number;
     
-    // IShape members
-    Transformation: Transformation;   
-
-    Color: Color;
-
-    Planes: ()=> Plane[] = function(): Plane[]
+    SetPlanes: ()=>void = function(): void
     {
         var planes: Plane[] = new Array();
        
@@ -64,15 +59,18 @@ export class Cube implements IShape
 
         }
 
-        return planes;
+        this.Planes =  planes;
     }
 
     constructor(l:number, w:number, h:number, clr: Color)
     {
+        super();
         this.L =l;
         this.W = w;
         this.H = h;         
         this.Color = clr;
+
+        this.SetPlanes();
     }
 
 

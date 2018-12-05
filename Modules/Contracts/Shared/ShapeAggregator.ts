@@ -15,7 +15,8 @@ export class ShapeAggregator
     Planes: Plane[]  = new Array();
     Add = function(shape: IShape): void {
         
-        this.Planes = this.Planes.concat(shape.Planes());
+        shape.SetPlanes();
+        this.Planes = this.Planes.concat(shape.Planes);
 
     }
 

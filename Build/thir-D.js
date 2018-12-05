@@ -109,12 +109,51 @@ define("Interfaces/IShape", ["require", "exports"], function (require, exports) 
     "use strict";
     exports.__esModule = true;
 });
-define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane"], function (require, exports, Point_1, Plane_1) {
+define("Shared/Utilities/GxUtils", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
-    var Cube = (function () {
+    var GxUtils = (function () {
+        function GxUtils() {
+        }
+        GxUtils.NewGuid = function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        };
+        return GxUtils;
+    }());
+    exports.GxUtils = GxUtils;
+});
+define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils"], function (require, exports, GxUtils_1) {
+    "use strict";
+    exports.__esModule = true;
+    var Shape = (function () {
+        function Shape() {
+            this.Clone = function () {
+                var clonedShape = JSON.parse(JSON.stringify(this));
+                return clonedShape;
+            };
+            this.Move = function () {
+            };
+            this.Rotate = function () {
+            };
+            this.Zoom = function () {
+            };
+            this.Id = GxUtils_1.GxUtils.NewGuid();
+        }
+        return Shape;
+    }());
+    exports.Shape = Shape;
+});
+define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Shapes/Shape"], function (require, exports, Point_1, Plane_1, Shape_1) {
+    "use strict";
+    exports.__esModule = true;
+    var Cube = (function (_super) {
+        __extends(Cube, _super);
         function Cube(l, w, h, clr) {
-            this.Planes = function () {
+            var _this = _super.call(this) || this;
+            _this.SetPlanes = function () {
                 var planes = new Array();
                 var topFacePoints = new Array();
                 var bottomFacePoints = new Array();
@@ -146,25 +185,29 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane"], fu
                         ];
                     planes[planes.length] = new Plane_1.Plane(facePoints, this.Color);
                 }
-                return planes;
+                this.Planes = planes;
             };
-            this.L = l;
-            this.W = w;
-            this.H = h;
-            this.Color = clr;
+            _this.L = l;
+            _this.W = w;
+            _this.H = h;
+            _this.Color = clr;
+            _this.SetPlanes();
+            return _this;
         }
         return Cube;
-    }());
+    }(Shape_1.Shape));
     exports.Cube = Cube;
 });
-define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle"], function (require, exports, Point_2, Plane_2, Angle_1) {
+define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shapes/Shape"], function (require, exports, Point_2, Plane_2, Angle_1, Shape_2) {
     "use strict";
     exports.__esModule = true;
-    var Polygon = (function () {
+    var Polygon = (function (_super) {
+        __extends(Polygon, _super);
         function Polygon(sides, a, b, h, color, tAng, bAng) {
             if (tAng === void 0) { tAng = new Angle_1.Angle(0, 0, 0); }
             if (bAng === void 0) { bAng = new Angle_1.Angle(0, 0, 0); }
-            this.Planes = function () {
+            var _this = _super.call(this) || this;
+            _this.SetPlanes = function () {
                 var planes = new Array();
                 var theta = Math.PI * (1 / 2 - 1 / this.SidesCount);
                 var R1 = this.A / 2 * 1 / Math.cos(theta);
@@ -194,18 +237,19 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                         ];
                     planes[planes.length] = new Plane_2.Plane(facePoints, this.Color);
                 }
-                return planes;
+                this.Planes = planes;
             };
-            this.SidesCount = sides;
-            this.A = a;
-            this.B = b;
-            this.H = h;
-            this.Color = color;
-            this.TopFaceInclination = tAng;
-            this.BottomFaceInclination = bAng;
+            _this.SidesCount = sides;
+            _this.A = a;
+            _this.B = b;
+            _this.H = h;
+            _this.Color = color;
+            _this.TopFaceInclination = tAng;
+            _this.BottomFaceInclination = bAng;
+            return _this;
         }
         return Polygon;
-    }());
+    }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
 define("Shared/Utilities/GraphicsErrors", ["require", "exports"], function (require, exports) {
@@ -312,7 +356,8 @@ define("Shared/ShapeAggregator", ["require", "exports", "Shared/Plane", "Shared/
         function ShapeAggregator(transformation) {
             this.Planes = new Array();
             this.Add = function (shape) {
-                this.Planes = this.Planes.concat(shape.Planes());
+                shape.SetPlanes();
+                this.Planes = this.Planes.concat(shape.Planes);
             };
             this.AddPlanes = function (planes) {
                 this.Planes = this.Planes.concat(planes);

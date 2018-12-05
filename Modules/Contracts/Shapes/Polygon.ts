@@ -5,6 +5,7 @@ import { Degree } from "../Shared/Degree";
 import { Plane } from "../Shared/Plane";
 import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
+import { Shape } from "./Shape";
 
 
 // Regular Polygon in 3D
@@ -27,7 +28,7 @@ import { Color } from "../Shared/Color";
 //      
 
 
-export class Polygon implements IShape
+export class Polygon extends Shape
 {
 
     // Basic properties of the Shape
@@ -40,12 +41,7 @@ export class Polygon implements IShape
     BottomFaceInclination: Angle;
 
     
-    // IShape members
-    Transformation: Transformation;   
-
-    Color: Color;
-
-    Planes: ()=> Plane[] = function(): Plane[]
+    SetPlanes: ()=> void = function(): void
     {
         var planes: Plane[] = new Array();
         var theta = Math.PI * (1/2 - 1/this.SidesCount);
@@ -99,11 +95,12 @@ export class Polygon implements IShape
 
         }
 
-        return planes;
+        this.Planes = planes;
     }
 
     constructor(sides:number,a: number, b: number, h: number, color: Color,tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
     {
+        super();
         this.SidesCount =sides;
 
         this.A = a;
@@ -111,7 +108,8 @@ export class Polygon implements IShape
         this.H = h;
         this.Color = color;
         this.TopFaceInclination = tAng;
-        this.BottomFaceInclination = bAng;         
+        this.BottomFaceInclination = bAng;
+        
     }
 
 
