@@ -6,6 +6,7 @@ import { Plane } from "../Shared/Plane";
 import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
 import { Shape } from "./Shape";
+import { ShapeTypes } from "./ShapeTypes";
 
 
 export class Cube extends Shape
@@ -65,6 +66,7 @@ export class Cube extends Shape
     constructor(name: string,l:number, w:number, h:number, clr: Color)
     {
         super(name);
+        this.Type = ShapeTypes.CUBE;
         this.L =l;
         this.W = w;
         this.H = h;         

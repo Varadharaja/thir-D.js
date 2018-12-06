@@ -109,6 +109,17 @@ define("Shared/Plane", ["require", "exports"], function (require, exports) {
     }());
     exports.Plane = Plane;
 });
+define("Shapes/ShapeTypes", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var ShapeTypes;
+    (function (ShapeTypes) {
+        ShapeTypes[ShapeTypes["CUBE"] = 0] = "CUBE";
+        ShapeTypes[ShapeTypes["POLYGON"] = 1] = "POLYGON";
+        ShapeTypes[ShapeTypes["SPHERE"] = 2] = "SPHERE";
+        ShapeTypes[ShapeTypes["CUSTOM"] = 3] = "CUSTOM";
+    })(ShapeTypes = exports.ShapeTypes || (exports.ShapeTypes = {}));
+});
 define("Interfaces/IShape", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
@@ -181,7 +192,7 @@ define("Infra/Studio", ["require", "exports"], function (require, exports) {
     }());
     exports.Studio = Studio;
 });
-define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils"], function (require, exports, GxUtils_2) {
+define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils", "Shapes/ShapeTypes"], function (require, exports, GxUtils_2, ShapeTypes_1) {
     "use strict";
     exports.__esModule = true;
     var Shape = (function () {
@@ -198,12 +209,13 @@ define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils"], funct
             };
             this.Id = GxUtils_2.GxUtils.NewGuid();
             this.Name = Name;
+            this.Type = ShapeTypes_1.ShapeTypes.CUSTOM;
         }
         return Shape;
     }());
     exports.Shape = Shape;
 });
-define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Shapes/Shape"], function (require, exports, Point_2, Plane_2, Shape_1) {
+define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Point_2, Plane_2, Shape_1, ShapeTypes_2) {
     "use strict";
     exports.__esModule = true;
     var Cube = (function (_super) {
@@ -244,6 +256,7 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
                 }
                 this.Planes = planes;
             };
+            _this.Type = ShapeTypes_2.ShapeTypes.CUBE;
             _this.L = l;
             _this.W = w;
             _this.H = h;
@@ -254,7 +267,7 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
     }(Shape_1.Shape));
     exports.Cube = Cube;
 });
-define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shapes/Shape"], function (require, exports, Point_3, Plane_3, Angle_1, Shape_2) {
+define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Point_3, Plane_3, Angle_1, Shape_2, ShapeTypes_3) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function (_super) {
@@ -295,6 +308,7 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                 }
                 this.Planes = planes;
             };
+            _this.Type = ShapeTypes_3.ShapeTypes.POLYGON;
             _this.SidesCount = sides;
             _this.A = a;
             _this.B = b;
@@ -307,6 +321,26 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
         return Polygon;
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
+});
+define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Shape_3, ShapeTypes_4) {
+    "use strict";
+    exports.__esModule = true;
+    var Sphere = (function (_super) {
+        __extends(Sphere, _super);
+        function Sphere(name, r, xParts, yParts, clr) {
+            var _this = _super.call(this, name) || this;
+            _this.SetPlanes = function () {
+            };
+            _this.Type = ShapeTypes_4.ShapeTypes.SPHERE;
+            _this.Radius = r;
+            _this.xPartitions = xParts;
+            _this.yPartitions = yParts;
+            _this.Color = clr;
+            return _this;
+        }
+        return Sphere;
+    }(Shape_3.Shape));
+    exports.Sphere = Sphere;
 });
 define("Shared/Utilities/GraphicsErrors", ["require", "exports"], function (require, exports) {
     "use strict";

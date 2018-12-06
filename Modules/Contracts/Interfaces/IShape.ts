@@ -2,12 +2,14 @@ import { Point } from "../Shared/Point";
 import { Transformation } from "../Shared/Transformation";
 import { Plane } from "../Shared/Plane";
 import { Color } from "../Shared/Color";
+import { ShapeTypes } from "../Shapes/ShapeTypes";
 
 
 export interface IShape
 {
     Id: string;
     Name: string;
+    Type: ShapeTypes;
 
     // Planes
     Planes:Plane[];

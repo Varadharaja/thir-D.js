@@ -6,6 +6,7 @@ import { Plane } from "../Shared/Plane";
 import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
 import { Shape } from "./Shape";
+import { ShapeTypes } from "./ShapeTypes";
 
 
 // Regular Polygon in 3D
@@ -101,6 +102,7 @@ export class Polygon extends Shape
     constructor(name: string , sides:number,a: number, b: number, h: number, color: Color,tAng : Angle = new Angle(0,0,0), bAng: Angle= new Angle(0,0,0))
     {
         super(name);
+        this.Type = ShapeTypes.POLYGON;
         this.SidesCount =sides;
 
         this.A = a;
