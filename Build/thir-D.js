@@ -322,7 +322,7 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
-define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Shape_3, ShapeTypes_4) {
+define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeTypes", "Shared/Plane", "Shared/Point"], function (require, exports, Shape_3, ShapeTypes_4, Plane_4, Point_4) {
     "use strict";
     exports.__esModule = true;
     var Sphere = (function (_super) {
@@ -330,6 +330,56 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
         function Sphere(name, r, xParts, yParts, clr) {
             var _this = _super.call(this, name) || this;
             _this.SetPlanes = function () {
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_4.Point(0, 0, 0);
+                var planes = new Array();
+                for (var yParts = 0; yParts < this.yPartitions; yParts++) {
+                    var points = new Array();
+                    for (var xParts = 0; xParts < this.xPartitions; xParts++) {
+                        var theta = 2 * Math.PI * xParts / this.xPartitions;
+                        var z = origin.z - this.Radius + (2 * this.Radius * yParts / this.yPartitions);
+                        var r = 0;
+                        r = Math.sqrt(this.Radius * this.Radius - z * z);
+                        var x = origin.x + r * Math.cos(theta);
+                        var y = origin.y + r * Math.sin(theta);
+                        var pt = new Point_4.Point(x, y, z);
+                        points[points.length] = pt;
+                    }
+                    var plane = new Plane_4.Plane(points, this.Color, this.Id);
+                    planes[planes.length] = plane;
+                }
+                this.Planes = new Array();
+                for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                    for (var ptsCnt = 0; ptsCnt < planes[plCnt].Points.length; ptsCnt++) {
+                        var pts = new Array();
+                        if (plCnt == planes.length - 1) {
+                            pts[pts.length] = planes[plCnt].Points[ptsCnt];
+                            pts[pts.length] = planes[0].Points[ptsCnt];
+                            if (ptsCnt == planes[plCnt].Points.length - 1) {
+                                pts[pts.length] = planes[0].Points[0];
+                                pts[pts.length] = planes[plCnt].Points[0];
+                            }
+                            else {
+                                pts[pts.length] = planes[0].Points[ptsCnt + 1];
+                                pts[pts.length] = planes[plCnt].Points[ptsCnt + 1];
+                            }
+                        }
+                        else {
+                            pts[pts.length] = planes[plCnt].Points[ptsCnt];
+                            pts[pts.length] = planes[plCnt + 1].Points[ptsCnt];
+                            if (ptsCnt == planes[plCnt].Points.length - 1) {
+                                pts[pts.length] = planes[plCnt + 1].Points[0];
+                                pts[pts.length] = planes[plCnt].Points[0];
+                            }
+                            else {
+                                pts[pts.length] = planes[plCnt + 1].Points[ptsCnt + 1];
+                                pts[pts.length] = planes[plCnt].Points[ptsCnt + 1];
+                            }
+                        }
+                        var pln = new Plane_4.Plane(pts, this.Color, this.Id);
+                        this.Planes[this.Planes.length] = pln;
+                    }
+                }
+                console.log(planes);
             };
             _this.Type = ShapeTypes_4.ShapeTypes.SPHERE;
             _this.Radius = r;

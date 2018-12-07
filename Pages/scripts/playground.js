@@ -6,7 +6,8 @@ required = [
     "Shared/Point",
     "Shapes/Cube",
     "Shared/ShapeAggregator",
-    "Shared/Scale"
+    "Shared/Scale",
+    "Shapes/Sphere"
 
 ];
 var doAnimate = false;
@@ -17,8 +18,9 @@ var pointNS;
 var cubeNS;
 var shapeAggregatorNS;
 var scaleNS;
+var sphereNS;
 
-requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl)
+requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph)
 {
     PolygonNS = poly;
     ColorNS = clr;
@@ -27,6 +29,7 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl)
     cubeNS = cbe;
     shapeAggregatorNS = shpAgg;
     scaleNS = scl;
+    sphereNS = sph;
     var planes = GetShapes();
     console.log(planes);
     SetWebGLParams(planes);
@@ -130,6 +133,9 @@ function GetShapes()
         }
    }
 
+   var sph1 = new sphereNS.Sphere("Test Sphere",0.5,10,10,new ColorNS.Color(255,0,0));
+
+   shapeAggregator.Add(sph1);
 
    return shapeAggregator.Planes;
    
