@@ -28,10 +28,10 @@ export class Sphere extends Shape
         var planes: Plane[] = new Array();
 
         
-        for (var yParts = 0; yParts < this.yPartitions; yParts++)
+        for (var yParts = 0; yParts <= this.yPartitions; yParts++)
         {
             var points: Point[] = new Array();
-            for (var xParts=0; xParts < this.xPartitions; xParts++)
+            for (var xParts=0; xParts <= this.xPartitions; xParts++)
             {
                 var theta: number = 2 * Math.PI * xParts/ this.xPartitions; 
                 var z: number = origin.z - this.Radius + (2 * this.Radius * yParts / this.yPartitions);

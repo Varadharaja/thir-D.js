@@ -332,9 +332,9 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
             _this.SetPlanes = function () {
                 var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_4.Point(0, 0, 0);
                 var planes = new Array();
-                for (var yParts = 0; yParts < this.yPartitions; yParts++) {
+                for (var yParts = 0; yParts <= this.yPartitions; yParts++) {
                     var points = new Array();
-                    for (var xParts = 0; xParts < this.xPartitions; xParts++) {
+                    for (var xParts = 0; xParts <= this.xPartitions; xParts++) {
                         var theta = 2 * Math.PI * xParts / this.xPartitions;
                         var z = origin.z - this.Radius + (2 * this.Radius * yParts / this.yPartitions);
                         var r = 0;

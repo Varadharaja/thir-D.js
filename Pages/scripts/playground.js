@@ -133,7 +133,7 @@ function GetShapes()
         }
    }
 
-   var sph1 = new sphereNS.Sphere("Test Sphere",0.5,10,10,new ColorNS.Color(255,0,0));
+   var sph1 = new sphereNS.Sphere("Test Sphere",0.5,20,20,new ColorNS.Color(255,0,0));
 
    shapeAggregator.Add(sph1);
 
