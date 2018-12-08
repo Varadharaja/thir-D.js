@@ -1,5 +1,5 @@
 import { Project } from "./Project";
-import { Point } from "../Shared/Point";
+import { Point } from "../Contracts/Shared/Point";
 
 export class Studio
 {

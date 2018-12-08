@@ -3,3 +3,71 @@ body
     background-image:none
 
 }
+
+.logo
+{
+    padding: 10px;
+    border-radius: 2px;
+    width: 60px;
+    text-align: center;
+    color: white;
+    background-color: #475dd2;
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: 23px;
+    height: 100%;
+    position: relative;
+    top: 20px;
+}
+
+.navbar
+{
+    height: 6vh;
+    width: 100vw;
+    background-color: #3F51B5;
+    margin-top: -10px;
+    margin-left: -8px; 
+}
+
+.title
+{
+    color: white;
+    padding: 10px;
+    background: #25306d;
+    margin: -8px;
+    position: relative;
+    top: 20px;
+    font-family: sans-serif;
+}
+
+select
+{
+    height: 40px;
+    width: 150px;
+    color: #61409a;
+    box-shadow: 5px 3px 7px -2px #9E9E9E;
+    border:0px;
+    margin-left: 20px;
+}
+
+.sidepanel {
+    background: white;
+    box-shadow: 1px 0px 7px 0px #9E9E9E;
+    height: 94vh;
+    width: 10vw;
+    margin-left: -10px;
+    padding: 15px;
+}
+.play-area
+{
+    width: 90vw;
+    height: 94vh;
+    position: absolute;
+    left: 12vw;
+    top: 6vh;
+}
+.page-content
+{
+    width: 100vw;
+    height: 94vh;
+}

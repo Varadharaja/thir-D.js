@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define("Shared/Point", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Point", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Point = (function () {
@@ -24,7 +24,7 @@ define("Shared/Point", ["require", "exports"], function (require, exports) {
     }());
     exports.Point = Point;
 });
-define("Shared/Degree", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Degree", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Degree = (function () {
@@ -38,7 +38,7 @@ define("Shared/Degree", ["require", "exports"], function (require, exports) {
     }());
     exports.Degree = Degree;
 });
-define("Shared/Angle", ["require", "exports", "Shared/Degree"], function (require, exports, Degree_1) {
+define("Contracts/Shared/Angle", ["require", "exports", "Contracts/Shared/Degree"], function (require, exports, Degree_1) {
     "use strict";
     exports.__esModule = true;
     var Angle = (function () {
@@ -51,7 +51,7 @@ define("Shared/Angle", ["require", "exports", "Shared/Degree"], function (requir
     }());
     exports.Angle = Angle;
 });
-define("Shared/Scale", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Scale", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Scale = (function () {
@@ -64,7 +64,7 @@ define("Shared/Scale", ["require", "exports"], function (require, exports) {
     }());
     exports.Scale = Scale;
 });
-define("Shared/Transformation", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Transformation", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Transformation = (function () {
@@ -78,7 +78,7 @@ define("Shared/Transformation", ["require", "exports"], function (require, expor
     }());
     exports.Transformation = Transformation;
 });
-define("Shared/Color", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Color", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Color = (function () {
@@ -93,7 +93,7 @@ define("Shared/Color", ["require", "exports"], function (require, exports) {
     }());
     exports.Color = Color;
 });
-define("Shared/Plane", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Plane", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var Plane = (function () {
@@ -109,7 +109,7 @@ define("Shared/Plane", ["require", "exports"], function (require, exports) {
     }());
     exports.Plane = Plane;
 });
-define("Shapes/ShapeTypes", ["require", "exports"], function (require, exports) {
+define("Contracts/Shapes/ShapeTypes", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var ShapeTypes;
@@ -120,11 +120,11 @@ define("Shapes/ShapeTypes", ["require", "exports"], function (require, exports) 
         ShapeTypes[ShapeTypes["CUSTOM"] = 3] = "CUSTOM";
     })(ShapeTypes = exports.ShapeTypes || (exports.ShapeTypes = {}));
 });
-define("Interfaces/IShape", ["require", "exports"], function (require, exports) {
+define("Contracts/Interfaces/IShape", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
 });
-define("Shared/Utilities/GxUtils", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Utilities/GxUtils", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var GxUtils = (function () {
@@ -140,59 +140,7 @@ define("Shared/Utilities/GxUtils", ["require", "exports"], function (require, ex
     }());
     exports.GxUtils = GxUtils;
 });
-define("Shared/ShapeAggregator", ["require", "exports", "Shared/Plane", "Shared/Point", "Shared/Utilities/GxUtils"], function (require, exports, Plane_1, Point_1, GxUtils_1) {
-    "use strict";
-    exports.__esModule = true;
-    var ShapeAggregator = (function () {
-        function ShapeAggregator(transformation) {
-            this.Planes = new Array();
-            this.Add = function (shape) {
-                shape.SetPlanes();
-                this.Planes = this.Planes.concat(shape.Planes);
-            };
-            this.AddPlanes = function (planes) {
-                this.Planes = this.Planes.concat(planes);
-            };
-            this.TransformedPlanes = function () {
-                var aggPlanes = new Array();
-                for (var plCnt = 0; plCnt < this.Planes.length; plCnt++) {
-                    var pts = new Array();
-                    for (var ptCnt = 0; ptCnt < this.Planes[plCnt].Points.length; ptCnt++) {
-                        var pt = this.Planes[plCnt].Points[ptCnt];
-                        pts.push(new Point_1.Point(pt.x * this.Transformation.Zoom.xScale, pt.y * this.Transformation.Zoom.yScale, pt.z * this.Transformation.Zoom.zScale));
-                    }
-                    aggPlanes.push(new Plane_1.Plane(pts, this.Planes[plCnt].Color));
-                }
-                return aggPlanes;
-            };
-            this.Transformation = transformation;
-            this.Id = GxUtils_1.GxUtils.NewGuid();
-        }
-        return ShapeAggregator;
-    }());
-    exports.ShapeAggregator = ShapeAggregator;
-});
-define("Infra/Project", ["require", "exports"], function (require, exports) {
-    "use strict";
-    exports.__esModule = true;
-    var Project = (function () {
-        function Project() {
-        }
-        return Project;
-    }());
-    exports.Project = Project;
-});
-define("Infra/Studio", ["require", "exports"], function (require, exports) {
-    "use strict";
-    exports.__esModule = true;
-    var Studio = (function () {
-        function Studio() {
-        }
-        return Studio;
-    }());
-    exports.Studio = Studio;
-});
-define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils", "Shapes/ShapeTypes"], function (require, exports, GxUtils_2, ShapeTypes_1) {
+define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shapes/ShapeTypes"], function (require, exports, GxUtils_1, ShapeTypes_1) {
     "use strict";
     exports.__esModule = true;
     var Shape = (function () {
@@ -207,7 +155,7 @@ define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils", "Shape
             };
             this.Zoom = function () {
             };
-            this.Id = GxUtils_2.GxUtils.NewGuid();
+            this.Id = GxUtils_1.GxUtils.NewGuid();
             this.Name = Name;
             this.Type = ShapeTypes_1.ShapeTypes.CUSTOM;
         }
@@ -215,7 +163,7 @@ define("Shapes/Shape", ["require", "exports", "Shared/Utilities/GxUtils", "Shape
     }());
     exports.Shape = Shape;
 });
-define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Point_2, Plane_2, Shape_1, ShapeTypes_2) {
+define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_1, Plane_1, Shape_1, ShapeTypes_2) {
     "use strict";
     exports.__esModule = true;
     var Cube = (function (_super) {
@@ -226,21 +174,21 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
                 var planes = new Array();
                 var topFacePoints = new Array();
                 var bottomFacePoints = new Array();
-                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_2.Point(0, 0, 0);
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_1.Point(0, 0, 0);
                 topFacePoints = [
-                    new Point_2.Point(origin.x, origin.y, origin.z),
-                    new Point_2.Point(origin.x + this.L, origin.y, origin.z),
-                    new Point_2.Point(origin.x + this.L, origin.y, origin.z + this.W),
-                    new Point_2.Point(origin.x, origin.y, origin.z + this.W)
+                    new Point_1.Point(origin.x, origin.y, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y, origin.z + this.W),
+                    new Point_1.Point(origin.x, origin.y, origin.z + this.W)
                 ];
                 bottomFacePoints = [
-                    new Point_2.Point(origin.x, origin.y + this.H, origin.z),
-                    new Point_2.Point(origin.x + this.L, origin.y + this.H, origin.z),
-                    new Point_2.Point(origin.x + this.L, origin.y + this.H, origin.z + this.W),
-                    new Point_2.Point(origin.x, origin.y + this.H, origin.z + this.W)
+                    new Point_1.Point(origin.x, origin.y + this.H, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y + this.H, origin.z),
+                    new Point_1.Point(origin.x + this.L, origin.y + this.H, origin.z + this.W),
+                    new Point_1.Point(origin.x, origin.y + this.H, origin.z + this.W)
                 ];
-                planes[planes.length] = new Plane_2.Plane(topFacePoints, this.Color, this.Id);
-                planes[planes.length] = new Plane_2.Plane(bottomFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_1.Plane(topFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_1.Plane(bottomFacePoints, this.Color, this.Id);
                 for (var sideIdx = 0; sideIdx < 4; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
@@ -252,7 +200,7 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    planes[planes.length] = new Plane_2.Plane(facePoints, this.Color, this.Id);
+                    planes[planes.length] = new Plane_1.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
             };
@@ -267,7 +215,7 @@ define("Shapes/Cube", ["require", "exports", "Shared/Point", "Shared/Plane", "Sh
     }(Shape_1.Shape));
     exports.Cube = Cube;
 });
-define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", "Shared/Angle", "Shapes/Shape", "Shapes/ShapeTypes"], function (require, exports, Point_3, Plane_3, Angle_1, Shape_2, ShapeTypes_3) {
+define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shared/Angle", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_2, Plane_2, Angle_1, Shape_2, ShapeTypes_3) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function (_super) {
@@ -284,15 +232,15 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                 var alpha = 2 * Math.PI / this.SidesCount;
                 var topFacePoints = new Array();
                 var bottomFacePoints = new Array();
-                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_3.Point(0, 0, 0);
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_2.Point(0, 0, 0);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
-                    var topPt = new Point_3.Point(origin.x + R1 * Math.cos(sideIdx * alpha), origin.y + this.H, origin.z + R1 * Math.sin(sideIdx * alpha));
-                    var pt = new Point_3.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
+                    var topPt = new Point_2.Point(origin.x + R1 * Math.cos(sideIdx * alpha), origin.y + this.H, origin.z + R1 * Math.sin(sideIdx * alpha));
+                    var pt = new Point_2.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
                     topFacePoints[sideIdx] = topPt;
                     bottomFacePoints[sideIdx] = pt;
                 }
-                planes[planes.length] = new Plane_3.Plane(topFacePoints, this.Color, this.Id);
-                planes[planes.length] = new Plane_3.Plane(bottomFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_2.Plane(topFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_2.Plane(bottomFacePoints, this.Color, this.Id);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
@@ -304,7 +252,7 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    planes[planes.length] = new Plane_3.Plane(facePoints, this.Color, this.Id);
+                    planes[planes.length] = new Plane_2.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
             };
@@ -322,7 +270,7 @@ define("Shapes/Polygon", ["require", "exports", "Shared/Point", "Shared/Plane", 
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
-define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeTypes", "Shared/Plane", "Shared/Point"], function (require, exports, Shape_3, ShapeTypes_4, Plane_4, Point_4) {
+define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Shape_3, ShapeTypes_4, Plane_3, Point_3) {
     "use strict";
     exports.__esModule = true;
     var Sphere = (function (_super) {
@@ -330,7 +278,7 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
         function Sphere(name, r, xParts, yParts, clr) {
             var _this = _super.call(this, name) || this;
             _this.SetPlanes = function () {
-                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_4.Point(0, 0, 0);
+                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_3.Point(0, 0, 0);
                 var planes = new Array();
                 for (var yParts = 0; yParts <= this.yPartitions; yParts++) {
                     var points = new Array();
@@ -341,10 +289,10 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
                         r = Math.sqrt(this.Radius * this.Radius - z * z);
                         var x = origin.x + r * Math.cos(theta);
                         var y = origin.y + r * Math.sin(theta);
-                        var pt = new Point_4.Point(x, y, z);
+                        var pt = new Point_3.Point(x, y, z);
                         points[points.length] = pt;
                     }
-                    var plane = new Plane_4.Plane(points, this.Color, this.Id);
+                    var plane = new Plane_3.Plane(points, this.Color, this.Id);
                     planes[planes.length] = plane;
                 }
                 this.Planes = new Array();
@@ -375,7 +323,7 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
                                 pts[pts.length] = planes[plCnt].Points[ptsCnt + 1];
                             }
                         }
-                        var pln = new Plane_4.Plane(pts, this.Color, this.Id);
+                        var pln = new Plane_3.Plane(pts, this.Color, this.Id);
                         this.Planes[this.Planes.length] = pln;
                     }
                 }
@@ -392,7 +340,7 @@ define("Shapes/Sphere", ["require", "exports", "Shapes/Shape", "Shapes/ShapeType
     }(Shape_3.Shape));
     exports.Sphere = Sphere;
 });
-define("Shared/Utilities/GraphicsErrors", ["require", "exports"], function (require, exports) {
+define("Contracts/Shared/Utilities/GraphicsErrors", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
     var GraphicsError = (function (_super) {
@@ -440,7 +388,7 @@ define("Shared/Utilities/GraphicsErrors", ["require", "exports"], function (requ
     }(GraphicsError));
     exports.ShaderProgramInitializationError = ShaderProgramInitializationError;
 });
-define("Shared/Graphics", ["require", "exports", "Shared/Utilities/GraphicsErrors"], function (require, exports, GraphicsErrors) {
+define("Contracts/Shared/Graphics", ["require", "exports", "Contracts/Shared/Utilities/GraphicsErrors"], function (require, exports, GraphicsErrors) {
     "use strict";
     exports.__esModule = true;
     var Graphics = (function () {
@@ -488,4 +436,58 @@ define("Shared/Graphics", ["require", "exports", "Shared/Utilities/GraphicsError
         return Graphics;
     }());
     exports.Graphics = Graphics;
+});
+define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils"], function (require, exports, Plane_4, Point_4, GxUtils_2) {
+    "use strict";
+    exports.__esModule = true;
+    var ShapeAggregator = (function () {
+        function ShapeAggregator(transformation) {
+            this.Planes = new Array();
+            this.Add = function (shape) {
+                this.ShapeIds[this.ShapeIds.length] = shape.Id;
+                shape.SetPlanes();
+                this.Planes = this.Planes.concat(shape.Planes);
+            };
+            this.AddPlanes = function (planes) {
+                this.Planes = this.Planes.concat(planes);
+            };
+            this.TransformedPlanes = function () {
+                var aggPlanes = new Array();
+                for (var plCnt = 0; plCnt < this.Planes.length; plCnt++) {
+                    var pts = new Array();
+                    for (var ptCnt = 0; ptCnt < this.Planes[plCnt].Points.length; ptCnt++) {
+                        var pt = this.Planes[plCnt].Points[ptCnt];
+                        pts.push(new Point_4.Point(pt.x * this.Transformation.Zoom.xScale, pt.y * this.Transformation.Zoom.yScale, pt.z * this.Transformation.Zoom.zScale));
+                    }
+                    aggPlanes.push(new Plane_4.Plane(pts, this.Planes[plCnt].Color));
+                }
+                return aggPlanes;
+            };
+            this.Transformation = transformation;
+            this.Id = GxUtils_2.GxUtils.NewGuid();
+            this.ShapeIds = new Array();
+        }
+        return ShapeAggregator;
+    }());
+    exports.ShapeAggregator = ShapeAggregator;
+});
+define("Infra/Project", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var Project = (function () {
+        function Project() {
+        }
+        return Project;
+    }());
+    exports.Project = Project;
+});
+define("Infra/Studio", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var Studio = (function () {
+        function Studio() {
+        }
+        return Studio;
+    }());
+    exports.Studio = Studio;
 });

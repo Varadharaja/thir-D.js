@@ -9,22 +9,26 @@ export class ShapeAggregator
     Id: string;
     Name: string;
     Transformation: Transformation;
+    ShapeIds : string[];
 
     constructor(transformation: Transformation)
     {
         this.Transformation = transformation;
-        this.Id = GxUtils.NewGuid();        
+        this.Id = GxUtils.NewGuid();    
+        this.ShapeIds = new Array();    
     }
 
     Planes: Plane[]  = new Array();
-    Add = function(shape: IShape): void {
-        
+    Add = function(shape: IShape): void 
+    {
+        this.ShapeIds[this.ShapeIds.length] = shape.Id;
         shape.SetPlanes();
         this.Planes = this.Planes.concat(shape.Planes);
 
     }
 
-    AddPlanes = function(planes:Plane[]): void {
+    AddPlanes = function(planes:Plane[]): void 
+    {
         
         this.Planes = this.Planes.concat(planes);
     }

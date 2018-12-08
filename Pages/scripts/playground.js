@@ -1,14 +1,15 @@
 var required = new Array();
 required = [
-    "Shapes/Polygon",
-    "Shared/Color",
-    "Shared/Transformation",
-    "Shared/Point",
-    "Shapes/Cube",
-    "Shared/ShapeAggregator",
-    "Shared/Scale",
-    "Shapes/Sphere"
-
+    "Contracts/Shapes/Polygon",
+    "Contracts/Shared/Color",
+    "Contracts/Shared/Transformation",
+    "Contracts/Shared/Point",
+    "Contracts/Shapes/Cube",
+    "Contracts/Shared/ShapeAggregator",
+    "Contracts/Shared/Scale",
+    "Contracts/Shapes/Sphere",
+    "Infra/Project",
+    "Contracts/Shared/Utilities/GxUtils"
 ];
 var doAnimate = false;
 var PolygonNS;
@@ -19,8 +20,9 @@ var cubeNS;
 var shapeAggregatorNS;
 var scaleNS;
 var sphereNS;
-
-requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph)
+var projectNS;
+var GxUtilsNS;
+requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil)
 {
     PolygonNS = poly;
     ColorNS = clr;
@@ -30,118 +32,205 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph)
     shapeAggregatorNS = shpAgg;
     scaleNS = scl;
     sphereNS = sph;
-    var planes = GetShapes();
+    projectNS = prj;
+    GxUtilsNS = gxUtil;
+    /* var planes = GetShapes();
     console.log(planes);
     SetWebGLParams(planes);
     animate(0);
-
-
+    */
 });
 
-function GetShapes()
+var Projects = [
+    {
+        Name: "Fort",
+        Shapes : [
+            {
+               Id: "4845c49b-a9a5-400f-a4e3-cae9b5ca4e9c",
+               Name: "ground",
+               Type: "CUBE",
+               L: 6,
+               W: 6,
+               H: 0.2,
+               Color: {
+                   red: 0,
+                   green: 255,
+                   blue: 0
+                },
+                Transformation: {
+                    Translation: 
+                    {
+                        x: -3,
+                        y: -1.5,
+                        z: -3
+                    }
+                }
+            },
+            {
+                Id: "d7f3a04f-e010-4b13-85bc-893fb6b6ea06",
+                Name: "water",
+                Type: "CUBE",
+                L: 5,
+                W: 5,
+                H: 0.3,
+                Color: {
+                    red: 0,
+                    green: 0,
+                    blue: 255
+                 },
+                 Transformation: {
+                     Translation: 
+                     {
+                         x: -2.5,
+                         y: -1.55,
+                         z: -2.5
+                     }
+                 }
+             },
+             {
+                 Id: "2eebf304-bf5f-479c-8131-04f9e70d80fd",
+                 Name: "island",
+                 Type: "CUBE",
+                 L: 4,
+                 W: 4,
+                 H: 0.3,
+                 Color: {
+                     red: 0,
+                     green: 255,
+                     blue: 0
+                  },
+                  Transformation: {
+                      Translation: 
+                      {
+                          x: -2,
+                          y: -1.495,
+                          z: -2
+                      }
+                  }
+              }
+        ],
+        Aggregators: [
+            {
+                Name: "LandAndWater",
+                ShapeIds: [
+                    "4845c49b-a9a5-400f-a4e3-cae9b5ca4e9c",
+                    "d7f3a04f-e010-4b13-85bc-893fb6b6ea06",
+                    "2eebf304-bf5f-479c-8131-04f9e70d80fd"
+                ]
+            }
+        ]
+    },
+    {
+        Name: "Human",
+        Shapes: [
+            {
+                Id: "abcd",
+                Name: "Test Sphere",
+                Type: "SPHERE",
+                Radius: 0.5,
+                xPartitions: 20,
+                yPartitions: 20,
+                Color: {
+                    red: 255,
+                    green: 224,
+                    blue: 189
+                 },
+                Transformation: {
+                    Translation: 
+                    {
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }
+                }
+            }
+        ],
+        Aggregators: [
+            {
+                Name: "Head",
+                ShapeIds: [
+                    "abcd"
+                ]
+            }
+        ]
+    }
+]; 
+
+
+LoadProject = function(ProjectName)
+{
+    var planes = new Array();
+    var aggregators = new Array();
+
+    var project = $.map(Projects, function(e,i){return e.Name == ProjectName ? e : null})[0];
+    for(var aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
+    {
+        aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
+        var shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
+
+        $.map(project.Shapes,function(e,i)
+        {
+            if (shapeIds.indexOf(e.Id) > -1)
+            {
+                var shape;
+                switch(e.Type)
+                {
+                    case "CUBE":
+                    shape = GetCube(e);
+                    break;
+                    case "SPHERE":
+                    shape = GetSphere(e);
+                    break;
+                    case "POLYGON":
+                    shape = GetPolygon(e);
+                }
+                aggregators[aggCnt].Add(shape);
+            }
+        });
+        
+        planes = planes.concat(aggregators[aggCnt].Planes);
+
+    }
+
+    SetWebGLParams(planes);
+    doAnimate = true;
+    animate(0);
+
+}
+
+function GetCube(shp)
 {
 
-   var shapeAggregator = new shapeAggregatorNS.ShapeAggregator();
+    var cube = new cubeNS.Cube(shp.Name,shp.L,shp.W,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
 
-   var ground = new cubeNS.Cube("ground",6,6,0.2,new ColorNS.Color(0,255,0));
-   ground.Transformation = new transformNS.Transformation(new pointNS.Point(-3,-1.5,-3));
+    cube.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
 
-   shapeAggregator.Add(ground);
+    return cube;
+}
 
-   var water = new cubeNS.Cube("water",5,5,0.3,new ColorNS.Color(0,0,255));
-   water.Transformation = new transformNS.Transformation(new pointNS.Point(-2.5,-1.55,-2.5));
+function GetSphere(shp)
+{
+    var sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
+    sphere.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
 
-   shapeAggregator.Add(water);
+    return sphere;
+ 
+}
 
+function GetPolygon(shp)
+{
 
-   var island = new cubeNS.Cube("island",4,4,0.3, new ColorNS.Color(0,255,0));
-
-    island.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.495,-2));
-
-    shapeAggregator.Add(island);
-
-    var brickRowCnt = 7;
-
-    for (var rowCnt=0; rowCnt <= brickRowCnt; rowCnt++)
-    {
-        for (var brickCnt=0; brickCnt< 20; brickCnt++)
-        {
-            // back wall
-            var brick = new cubeNS.Cube("back_wall_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
-            brick.Transformation = new transformNS.Transformation(new pointNS.Point((rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2,-1.18+rowCnt * 0.1,-2));
-
-            shapeAggregator.Add(brick);
-        
-            // front wall
-            if (brickCnt<= 7 ||  brickCnt>= 13 )
-            {
-                brick = new cubeNS.Cube("front_wall_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
-                brick.Transformation = new transformNS.Transformation(new pointNS.Point((rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2,-1.18+rowCnt * 0.1,1.8));
-            }
-
-            shapeAggregator.Add(brick);
-        
-        }
-    }
-
-    for (var rowCnt=0; rowCnt <= brickRowCnt; rowCnt++)
-    {
-        for (var brickCnt=0; brickCnt< 19; brickCnt++)
-        {
-            // side wall 1
-            var brick = new cubeNS.Cube("side_wall1_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
-            brick.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.18+rowCnt * 0.1,(rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2));
-
-            shapeAggregator.Add(brick);
-
-            // side wall 2
-            brick = new cubeNS.Cube("side_wall2_brick_" + rowCnt + "_" + brickCnt,0.2,0.2,0.1, new ColorNS.Color(208,133,111));
-            brick.Transformation = new transformNS.Transformation(new pointNS.Point(1.8,-1.18+rowCnt * 0.1,(rowCnt %2 ==0  ?  -2 : -1.9) + brickCnt*0.2));
-
-            shapeAggregator.Add(brick);
-        }
-    }
-    
-     
-   var frontWall = new cubeNS.Cube("frontwall",3.8,0.2,0.1, new ColorNS.Color(208,133,111));
-   frontWall.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.18,1.3));
-   shapeAggregator.Add(frontWall);
-    
-   
-   /* var frontBehindWall = new cubeNS.Cube(3.8,0.01,0.5, new ColorNS.Color(83,43,28));
-   frontBehindWall.Transformation = new transformNS.Transformation(new pointNS.Point(-2,-1.2,1.7));
-   shapeAggregator.Add(frontBehindWall);
-    
-   */
-   
-   var frontWallCeiling = new cubeNS.Cube("frontCeiling",3.8,0.2,0.1, new ColorNS.Color(210,139,119));
-   frontWallCeiling.Transformation =  new transformNS.Transformation(new pointNS.Point(-2,-0.7,1.3));
-   shapeAggregator.Add(frontWallCeiling);
-
-   for (var pillarCnt=0; pillarCnt < 19; pillarCnt++)
-   {
-
-        if (pillarCnt < 9 || pillarCnt>=11)
-        {
-
-            
-            var pillar = new PolygonNS.Polygon("pillar_"+ pillarCnt,6,0.04,0.04,0.5, new ColorNS.Color(208,133,111));
-
-            pillar.Transformation = new transformNS.Transformation(new pointNS.Point(-1.9 + pillarCnt * 0.2,-1.18,1.4));
-            pillar.SetPlanes();
-            shapeAggregator.AddPlanes(pillar.Planes);
-        }
-   }
-
-   var sph1 = new sphereNS.Sphere("Test Sphere",0.5,20,20,new ColorNS.Color(255,0,0));
-
-   shapeAggregator.Add(sph1);
-
-   return shapeAggregator.Planes;
-   
 }
 
 
+$(document).ready(function()
+{   
+     $.map(Projects, function(e,i){
+        $("#projectSelector").append("<option>" +  e.Name + "</option>");
+     
+    });
+
+});
 
 $("#glcanvas").click(function(){
     doAnimate = !doAnimate;
@@ -149,4 +238,11 @@ $("#glcanvas").click(function(){
     {
         animate(time_old);
     }
+});
+
+$("#projectSelector").change(function()
+{
+    var prj = $(this).val();
+    LoadProject(prj);
+
 });

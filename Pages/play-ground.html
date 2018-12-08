@@ -5,6 +5,7 @@
         <script src="../Pages/scripts/ext/require.min.js"></script>
         <script src="../Build/thir-D.js"></script>
         <script   src="../Pages/scripts/ext/jquery.min.js" ></script>
+        <link rel="stylesheet" href="../style/site.css" >
         <script id="3d-vertex-shader" type="x-shader/x-vertex">
             attribute vec4 a_position;
  
@@ -17,9 +18,27 @@
         </script>
     </head>
     <body>
-        <div >
-            <canvas id="glcanvas" style="width:2000px; height:  784px" width="2000" height="784"></canvas>
+        <div class="navbar">
+            <span class="logo">
+                thir-D.js
+            </span>                
+            <span class="title">
+                    Play Ground
+            </span>
         </div>
+        <div class="page-content">
+            <div class="sidepanel">
+                    <br>
+                    <select id="projectSelector"> 
+                        <option>Choose a Project</option>
+                    </select>
+            </div>
+            <div class="play-area">
+                        <canvas id="glcanvas" style="width:1500px; height:  784px" width="1500" height="784"></canvas>
+            </div>
+        </div>
+    
+      
         <script src="scripts/webgl-demo.js"></script>
         <script src="scripts/playground.js"></script>
 
