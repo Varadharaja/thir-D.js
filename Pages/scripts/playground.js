@@ -54,7 +54,7 @@ LoadProject = function(project)
     {
         aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
         var shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
-
+        var shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
         $.map(project.Shapes,function(e,i)
         {
             if (shapeIds.indexOf(e.Id) > -1)
@@ -71,7 +71,17 @@ LoadProject = function(project)
                     case "POLYGON":
                     shape = GetPolygon(e);
                 }
-                aggregators[aggCnt].Add(shape);
+
+                if (shapeRepeatHints != null)
+                {
+                    aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
+
+                }
+                else
+                {
+                    aggregators[aggCnt].AddShape(shape);
+
+                }
             }
         });
         

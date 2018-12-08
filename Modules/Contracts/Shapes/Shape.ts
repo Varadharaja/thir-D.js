@@ -14,6 +14,7 @@ export class Shape implements IShape
     Color: Color;
     SetPlanes:()=> void;
     Type: ShapeTypes;
+    Clone: ()=> IShape;
 
     constructor(Name: string)
     {
@@ -21,14 +22,6 @@ export class Shape implements IShape
         this.Id =    GxUtils.NewGuid();
         this.Name = Name;
         this.Type = ShapeTypes.CUSTOM;
-    }
-
-    Clone: ()=> IShape = function():IShape
-    {
-
-        var clonedShape: IShape = JSON.parse(JSON.stringify(this));
-
-        return clonedShape;
     }
 
     Move:()=> void = function()

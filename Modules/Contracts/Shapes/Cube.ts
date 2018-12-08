@@ -63,6 +63,12 @@ export class Cube extends Shape
         this.Planes =  planes;
     }
 
+    Clone: ()=> IShape = function():IShape
+    {
+       var cube: Cube = new Cube(this.name, this.L, this.W, this.H, this.Color);
+
+        return cube;
+    }
     constructor(name: string,l:number, w:number, h:number, clr: Color)
     {
         super(name);

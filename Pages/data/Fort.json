@@ -63,7 +63,91 @@
                       "z": -2
                   }
               }
-          }
+          },
+          {
+              "Id": "back_wall_brickId",
+              "Name": "back_wall_Brick",
+              "Type": "CUBE",
+              "L": 0.2,
+              "W": 0.2,
+              "H": 0.1,
+              "Color": {
+                  "red": 208,
+                  "green": 133,
+                  "blue": 111
+               },
+               "Transformation": {
+                   "Translation": 
+                   {
+                       "x": -2,
+                       "y": -1.18,
+                       "z": -2
+                   }
+               }
+          },
+          {
+            "Id": "back_wall_alt_brickId",
+            "Name": "back_wall_alt_Brick",
+            "Type": "CUBE",
+            "L": 0.2,
+            "W": 0.2,
+            "H": 0.1,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -1.9,
+                     "y": -1.08,
+                     "z": -2
+                 }
+             }
+          },
+          {
+            "Id": "side_wall_1_brickId",
+            "Name": "side_wall_1_Brick",
+            "Type": "CUBE",
+            "L": 0.2,
+            "W": 0.2,
+            "H": 0.1,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -2,
+                     "y": -1.18,
+                     "z": -2
+                 }
+             }
+        },
+        {
+            "Id": "side_wall_1_alt_brickId",
+            "Name": "side_wall_1_alt_Brick",
+            "Type": "CUBE",
+            "L": 0.2,
+            "W": 0.2,
+            "H": 0.1,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -2,
+                     "y": -1.08,
+                     "z": -1.9
+                 }
+             }
+        }
     ],
     "Aggregators": [
         {
@@ -72,6 +156,82 @@
                 "4845c49b-a9a5-400f-a4e3-cae9b5ca4e9c",
                 "d7f3a04f-e010-4b13-85bc-893fb6b6ea06",
                 "2eebf304-bf5f-479c-8131-04f9e70d80fd"
+            ]
+        },
+        {
+            "Name": "BackWall",
+            "ShapeIds": [
+                "back_wall_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes" : 20,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 4,
+                    "SpaceDistance": 0.2
+                }
+            ]
+        },
+        {
+            "Name": "BackWallAlt",
+            "ShapeIds": [
+                "back_wall_alt_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes" : 20,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 4,
+                    "SpaceDistance": 0.2
+                }
+            ]
+        },
+        {
+            "Name": "SideWall1",
+            "ShapeIds": [
+                "side_wall_1_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "Z",
+                    "RepeatTimes" : 20,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 4,
+                    "SpaceDistance": 0.2
+                }
+            ]
+        },
+        {
+            "Name": "SideWall1Alt",
+            "ShapeIds": [
+                "side_wall_1_alt_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "Z",
+                    "RepeatTimes" : 20,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 4,
+                    "SpaceDistance": 0.2
+                }
             ]
         }
     ]
