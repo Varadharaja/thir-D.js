@@ -1,0 +1,34 @@
+{
+    "Name": "Human",
+    "Shapes": [
+        {
+            "Id": "abcd",
+            "Name": "Test Sphere",
+            "Type": "SPHERE",
+            "Radius": 0.5,
+            "xPartitions": 20,
+            "yPartitions": 20,
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        }
+    ],
+    "Aggregators": [
+        {
+            "Name": "Head",
+            "ShapeIds": [
+                "abcd"
+            ]
+        }
+    ]
+}

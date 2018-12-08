@@ -41,128 +41,15 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil)
     */
 });
 
-var Projects = [
-    {
-        Name: "Fort",
-        Shapes : [
-            {
-               Id: "4845c49b-a9a5-400f-a4e3-cae9b5ca4e9c",
-               Name: "ground",
-               Type: "CUBE",
-               L: 6,
-               W: 6,
-               H: 0.2,
-               Color: {
-                   red: 0,
-                   green: 255,
-                   blue: 0
-                },
-                Transformation: {
-                    Translation: 
-                    {
-                        x: -3,
-                        y: -1.5,
-                        z: -3
-                    }
-                }
-            },
-            {
-                Id: "d7f3a04f-e010-4b13-85bc-893fb6b6ea06",
-                Name: "water",
-                Type: "CUBE",
-                L: 5,
-                W: 5,
-                H: 0.3,
-                Color: {
-                    red: 0,
-                    green: 0,
-                    blue: 255
-                 },
-                 Transformation: {
-                     Translation: 
-                     {
-                         x: -2.5,
-                         y: -1.55,
-                         z: -2.5
-                     }
-                 }
-             },
-             {
-                 Id: "2eebf304-bf5f-479c-8131-04f9e70d80fd",
-                 Name: "island",
-                 Type: "CUBE",
-                 L: 4,
-                 W: 4,
-                 H: 0.3,
-                 Color: {
-                     red: 0,
-                     green: 255,
-                     blue: 0
-                  },
-                  Transformation: {
-                      Translation: 
-                      {
-                          x: -2,
-                          y: -1.495,
-                          z: -2
-                      }
-                  }
-              }
-        ],
-        Aggregators: [
-            {
-                Name: "LandAndWater",
-                ShapeIds: [
-                    "4845c49b-a9a5-400f-a4e3-cae9b5ca4e9c",
-                    "d7f3a04f-e010-4b13-85bc-893fb6b6ea06",
-                    "2eebf304-bf5f-479c-8131-04f9e70d80fd"
-                ]
-            }
-        ]
-    },
-    {
-        Name: "Human",
-        Shapes: [
-            {
-                Id: "abcd",
-                Name: "Test Sphere",
-                Type: "SPHERE",
-                Radius: 0.5,
-                xPartitions: 20,
-                yPartitions: 20,
-                Color: {
-                    red: 255,
-                    green: 224,
-                    blue: 189
-                 },
-                Transformation: {
-                    Translation: 
-                    {
-                        x: 0,
-                        y: 0,
-                        z: 0
-                    }
-                }
-            }
-        ],
-        Aggregators: [
-            {
-                Name: "Head",
-                ShapeIds: [
-                    "abcd"
-                ]
-            }
-        ]
-    }
-]; 
+var Projects = new Array();
 
 
-LoadProject = function(ProjectName)
+LoadProject = function(project)
 {
     var planes = new Array();
     var aggregators = new Array();
 
-    var project = $.map(Projects, function(e,i){return e.Name == ProjectName ? e : null})[0];
+    //var project = $.map(Projects, function(e,i){return e.Name == ProjectName ? e : null})[0];
     for(var aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
     {
         aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
@@ -225,8 +112,10 @@ function GetPolygon(shp)
 
 $(document).ready(function()
 {   
-     $.map(Projects, function(e,i){
-        $("#projectSelector").append("<option>" +  e.Name + "</option>");
+    var prjs = ["Fort","Human"];
+
+     $.map(prjs, function(e,i){
+        $("#projectSelector").append("<option>" +  e + "</option>");
      
     });
 
@@ -243,6 +132,10 @@ $("#glcanvas").click(function(){
 $("#projectSelector").change(function()
 {
     var prj = $(this).val();
-    LoadProject(prj);
+    $.get("../Pages/data/"+ prj + ".json",function(data)
+    {
+        LoadProject(data);
+
+    })
 
 });
