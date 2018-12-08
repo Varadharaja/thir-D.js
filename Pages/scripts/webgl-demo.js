@@ -74,7 +74,7 @@
 
             }
 
-            var rnd =0.2;
+            var rnd =0.05;
 
             var clrIdx = colors.length-3;
             var r = colors[clrIdx] - (rnd );
