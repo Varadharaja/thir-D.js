@@ -89,8 +89,6 @@ export class Polygon extends Shape
                 bottomFacePoints[idx2],
                 bottomFacePoints[idx1]
             ];
-
-            
             
             planes[planes.length] = new Plane(facePoints,this.Color,this.Id);
 
@@ -112,6 +110,12 @@ export class Polygon extends Shape
         this.TopFaceInclination = tAng;
         this.BottomFaceInclination = bAng;
         
+    }
+
+    Clone:()=> IShape = function() : IShape
+    {
+        var cloneShape  = new Polygon(this.Name, this.SidesCount, this.A,this.B,this.H,this.Color);
+        return cloneShape;
     }
 
 

@@ -236,7 +236,7 @@
             {
                 var dt = time-time_old;
                 rotateZ(mov_matrix, dt*0.000);//time
-                rotateY(mov_matrix, dt*0.00009);
+                rotateY(mov_matrix, dt*0.00000);
                 rotateX(mov_matrix, dt*0.000);
                 time_old = time;
 

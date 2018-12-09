@@ -99,6 +99,8 @@ export class ShapeAggregator
 
     TransformedPlanes = function(): Plane[]
     {
+        var centroid = GxUtils.GetCentroid(this.Planes);
+        
         var aggPlanes: Plane[] = new Array();
         for(var plCnt=0; plCnt < this.Planes.length; plCnt++)
         {
@@ -108,9 +110,18 @@ export class ShapeAggregator
             {
                 var pt = this.Planes[plCnt].Points[ptCnt];
 
-                pts.push(new Point(pt.x * this.Transformation.Zoom.xScale,
+                if (this.Transformation.Zoom != null)
+                {
+                     pts.push(new Point(pt.x * this.Transformation.Zoom.xScale,
                                     pt.y* this.Transformation.Zoom.yScale,
                                     pt.z*this.Transformation.Zoom.zScale));
+                }
+
+                else if (this.Transformation.Rotation != null)
+                {
+                    var rotatedPt : Point = GxUtils.Rotate(pt,centroid,this.Transformation.Rotation);
+                    pts.push(rotatedPt);
+                }
 
             }
             

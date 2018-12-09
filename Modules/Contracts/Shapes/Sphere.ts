@@ -9,6 +9,8 @@ export class Sphere extends Shape
     Radius: number;
     xPartitions: number;
     yPartitions: number;
+    yPartStart: number;
+    yPartEnd: number;
 
     constructor(name: string,r:number,xParts: number, yParts: number, clr: Color)
     {
@@ -27,8 +29,10 @@ export class Sphere extends Shape
 
         var planes: Plane[] = new Array();
 
-        
-        for (var yParts = 0; yParts <= this.yPartitions; yParts++)
+        this.yPartStart = this.yPartStart ==  null ? 0 : this.yPartStart;
+        this.yPartEnd = this.yPartEnd ==  null ? this.yPartitions : this.yPartEnd;
+
+        for (var yParts = this.yPartStart; yParts <= this.yPartEnd; yParts++)
         {
             var points: Point[] = new Array();
             for (var xParts=0; xParts <= this.xPartitions; xParts++)
@@ -96,7 +100,11 @@ export class Sphere extends Shape
             }
 
         }
-        console.log(planes);
+
+        this.Planes[this.Planes.length] = planes[0];
+        this.Planes[this.Planes.length] = planes[planes.length-1];
+
+        //console.log(planes);
         //this.Planes = planes;
     }
 }

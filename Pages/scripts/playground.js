@@ -9,7 +9,8 @@ required = [
     "Contracts/Shared/Scale",
     "Contracts/Shapes/Sphere",
     "Infra/Project",
-    "Contracts/Shared/Utilities/GxUtils"
+    "Contracts/Shared/Utilities/GxUtils",
+    "Contracts/Shared/Angle"
 ];
 var doAnimate = false;
 var PolygonNS;
@@ -22,7 +23,8 @@ var scaleNS;
 var sphereNS;
 var projectNS;
 var GxUtilsNS;
-requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil)
+var angNS; 
+requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil, ang)
 {
     PolygonNS = poly;
     ColorNS = clr;
@@ -34,11 +36,7 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil)
     sphereNS = sph;
     projectNS = prj;
     GxUtilsNS = gxUtil;
-    /* var planes = GetShapes();
-    console.log(planes);
-    SetWebGLParams(planes);
-    animate(0);
-    */
+    angNS = ang;
 });
 
 var Projects = new Array();
@@ -49,10 +47,15 @@ LoadProject = function(project)
     var planes = new Array();
     var aggregators = new Array();
 
-    //var project = $.map(Projects, function(e,i){return e.Name == ProjectName ? e : null})[0];
     for(var aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
     {
         aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
+
+        if (project.Aggregators[aggCnt].Transformation != null)
+        {
+            aggregators[aggCnt].Transformation = GetTransformation(project.Aggregators[aggCnt].Transformation);
+        }
+
         var shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
         var shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
         $.map(project.Shapes,function(e,i)
@@ -84,8 +87,17 @@ LoadProject = function(project)
                 }
             }
         });
+
+        if (aggregators[aggCnt].Transformation != null)
+        {
+            planes = planes.concat(aggregators[aggCnt].TransformedPlanes());
+        }   
+        else
+        {
+            planes = planes.concat(aggregators[aggCnt].Planes);
+
+        }
         
-        planes = planes.concat(aggregators[aggCnt].Planes);
 
     }
 
@@ -93,6 +105,17 @@ LoadProject = function(project)
     doAnimate = true;
     animate(0);
 
+}
+
+function GetTransformation(txm)
+{
+    var angle;
+    
+    if (txm.Rotation != null)
+    {
+        angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
+    }
+    return new transformNS.Transformation(null, angle,null,null)
 }
 
 function GetCube(shp)
@@ -109,14 +132,18 @@ function GetSphere(shp)
 {
     var sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
     sphere.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
-
+    sphere.yPartStart = shp.yPartStart;
+    sphere.yPartEnd = shp.yPartEnd;
     return sphere;
  
 }
 
 function GetPolygon(shp)
 {
+    var poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
 
+    poly.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
+    return poly;
 }
 
 

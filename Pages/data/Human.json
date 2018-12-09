@@ -2,12 +2,14 @@
     "Name": "Human",
     "Shapes": [
         {
-            "Id": "abcd",
-            "Name": "Test Sphere",
+            "Id": "CraniumId",
+            "Name": "Cranium",
             "Type": "SPHERE",
             "Radius": 0.5,
             "xPartitions": 20,
             "yPartitions": 20,
+            "yPartStart": 2,
+            "yPartEnd": 18,            
             "Color": {
                 "red": 255,
                 "green": 224,
@@ -21,14 +23,52 @@
                     "z": 0
                 }
             }
+        },
+        {
+            "Id": "ChinId",
+            "Name": "Chin",
+            "Type": "POLYGON",
+            "SidesCount": 6,
+            "A": 0.51,
+            "B": 0.3,
+            "H": 0.6,
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": -0.7,
+                    "z": 0
+                }
+            }
+
         }
     ],
     "Aggregators": [
         {
             "Name": "Head",
             "ShapeIds": [
-                "abcd"
-            ]
+                "CraniumId",
+                "ChinId"
+            ],
+            "Transformation": 
+            {
+                "Translation" : {
+                    "x": 0,
+                    "y": 0,
+                    "z" : 0
+                },
+                "Rotation": {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+
+            }
         }
     ]
 }
