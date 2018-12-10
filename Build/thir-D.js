@@ -124,7 +124,7 @@ define("Contracts/Interfaces/IShape", ["require", "exports"], function (require,
     "use strict";
     exports.__esModule = true;
 });
-define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Point"], function (require, exports, Point_1) {
+define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Plane_1, Point_1) {
     "use strict";
     exports.__esModule = true;
     var GxUtils = (function () {
@@ -193,6 +193,25 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             y2 = Math.round((ynew + y0) * 1000) / 1000;
             return [x2, y2];
         };
+        GxUtils.TransformPlanes = function (planes, transformation) {
+            var centroid = GxUtils.GetCentroid(planes);
+            var txedPlanes = new Array();
+            for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                var pts = new Array();
+                for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
+                    var pt = planes[plCnt].Points[ptCnt];
+                    if (transformation.Zoom != null) {
+                        pts.push(new Point_1.Point(pt.x * transformation.Zoom.xScale, pt.y * transformation.Zoom.yScale, pt.z * transformation.Zoom.zScale));
+                    }
+                    else if (transformation.Rotation != null) {
+                        var rotatedPt = GxUtils.Rotate(pt, centroid, transformation.Rotation);
+                        pts.push(rotatedPt);
+                    }
+                }
+                txedPlanes.push(new Plane_1.Plane(pts, planes[plCnt].Color));
+            }
+            return txedPlanes;
+        };
         return GxUtils;
     }());
     exports.GxUtils = GxUtils;
@@ -208,6 +227,9 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
             };
             this.Zoom = function () {
             };
+            this.TransformedPlanes = function () {
+                return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+            };
             this.Id = GxUtils_1.GxUtils.NewGuid();
             this.Name = Name;
             this.Type = ShapeTypes_1.ShapeTypes.CUSTOM;
@@ -216,7 +238,7 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
     }());
     exports.Shape = Shape;
 });
-define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_2, Plane_1, Shape_1, ShapeTypes_2) {
+define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_2, Plane_2, Shape_1, ShapeTypes_2) {
     "use strict";
     exports.__esModule = true;
     var Cube = (function (_super) {
@@ -240,8 +262,8 @@ define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point",
                     new Point_2.Point(origin.x + this.L, origin.y + this.H, origin.z + this.W),
                     new Point_2.Point(origin.x, origin.y + this.H, origin.z + this.W)
                 ];
-                planes[planes.length] = new Plane_1.Plane(topFacePoints, this.Color, this.Id);
-                planes[planes.length] = new Plane_1.Plane(bottomFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_2.Plane(topFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_2.Plane(bottomFacePoints, this.Color, this.Id);
                 for (var sideIdx = 0; sideIdx < 4; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
@@ -253,7 +275,7 @@ define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point",
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    planes[planes.length] = new Plane_1.Plane(facePoints, this.Color, this.Id);
+                    planes[planes.length] = new Plane_2.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
             };
@@ -272,7 +294,7 @@ define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point",
     }(Shape_1.Shape));
     exports.Cube = Cube;
 });
-define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shared/Angle", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_3, Plane_2, Angle_1, Shape_2, ShapeTypes_3) {
+define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shared/Angle", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_3, Plane_3, Angle_1, Shape_2, ShapeTypes_3) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function (_super) {
@@ -296,8 +318,8 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
                     topFacePoints[sideIdx] = topPt;
                     bottomFacePoints[sideIdx] = pt;
                 }
-                planes[planes.length] = new Plane_2.Plane(topFacePoints, this.Color, this.Id);
-                planes[planes.length] = new Plane_2.Plane(bottomFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_3.Plane(topFacePoints, this.Color, this.Id);
+                planes[planes.length] = new Plane_3.Plane(bottomFacePoints, this.Color, this.Id);
                 for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++) {
                     var facePoints = new Array();
                     var idx1 = sideIdx;
@@ -309,7 +331,7 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
                             bottomFacePoints[idx2],
                             bottomFacePoints[idx1]
                         ];
-                    planes[planes.length] = new Plane_2.Plane(facePoints, this.Color, this.Id);
+                    planes[planes.length] = new Plane_3.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
             };
@@ -331,7 +353,7 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
-define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Shape_3, ShapeTypes_4, Plane_3, Point_4) {
+define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Shape_3, ShapeTypes_4, Plane_4, Point_4) {
     "use strict";
     exports.__esModule = true;
     var Sphere = (function (_super) {
@@ -355,7 +377,7 @@ define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape
                         var pt = new Point_4.Point(x, y, z);
                         points[points.length] = pt;
                     }
-                    var plane = new Plane_3.Plane(points, this.Color, this.Id);
+                    var plane = new Plane_4.Plane(points, this.Color, this.Id);
                     planes[planes.length] = plane;
                 }
                 this.Planes = new Array();
@@ -386,7 +408,7 @@ define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape
                                 pts[pts.length] = planes[plCnt].Points[ptsCnt + 1];
                             }
                         }
-                        var pln = new Plane_3.Plane(pts, this.Color, this.Id);
+                        var pln = new Plane_4.Plane(pts, this.Color, this.Id);
                         this.Planes[this.Planes.length] = pln;
                     }
                 }
@@ -513,7 +535,7 @@ define("Contracts/Shared/RepeatHint", ["require", "exports"], function (require,
     }());
     exports.RepeatHint = RepeatHint;
 });
-define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Plane_4, Transformation_1, Point_5, GxUtils_2, RepeatHint_1) {
+define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Transformation_1, Point_5, GxUtils_2, RepeatHint_1) {
     "use strict";
     exports.__esModule = true;
     var ShapeAggregator = (function () {
@@ -527,7 +549,12 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 else {
                     this.ShapeIds[this.ShapeIds.length] = shape.Id;
                     shape.SetPlanes();
-                    this.Planes = this.Planes.concat(shape.Planes);
+                    if (shape.Transformation != null && shape.Transformation.Rotation != null) {
+                        this.Planes = this.Planes.concat(shape.TransformedPlanes());
+                    }
+                    else {
+                        this.Planes = this.Planes.concat(shape.Planes);
+                    }
                 }
             };
             this.AddShapeWithRepeatHints = function (shape, repeatHints) {
@@ -570,23 +597,7 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 this.Planes = this.Planes.concat(planes);
             };
             this.TransformedPlanes = function () {
-                var centroid = GxUtils_2.GxUtils.GetCentroid(this.Planes);
-                var aggPlanes = new Array();
-                for (var plCnt = 0; plCnt < this.Planes.length; plCnt++) {
-                    var pts = new Array();
-                    for (var ptCnt = 0; ptCnt < this.Planes[plCnt].Points.length; ptCnt++) {
-                        var pt = this.Planes[plCnt].Points[ptCnt];
-                        if (this.Transformation.Zoom != null) {
-                            pts.push(new Point_5.Point(pt.x * this.Transformation.Zoom.xScale, pt.y * this.Transformation.Zoom.yScale, pt.z * this.Transformation.Zoom.zScale));
-                        }
-                        else if (this.Transformation.Rotation != null) {
-                            var rotatedPt = GxUtils_2.GxUtils.Rotate(pt, centroid, this.Transformation.Rotation);
-                            pts.push(rotatedPt);
-                        }
-                    }
-                    aggPlanes.push(new Plane_4.Plane(pts, this.Planes[plCnt].Color));
-                }
-                return aggPlanes;
+                return GxUtils_2.GxUtils.TransformPlanes(this.Planes, this.Transformation);
             };
             this.Transformation = transformation;
             this.Id = GxUtils_2.GxUtils.NewGuid();

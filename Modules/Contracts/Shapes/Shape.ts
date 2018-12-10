@@ -16,6 +16,8 @@ export class Shape implements IShape
     Type: ShapeTypes;
     Clone: ()=> IShape;
 
+
+
     constructor(Name: string)
     {
 
@@ -39,5 +41,11 @@ export class Shape implements IShape
     {
         
     }
+    TransformedPlanes = function(): Plane[]
+    {
+        return GxUtils.TransformPlanes(this.Planes, this.Transformation);
+
+    }
+
 
 }

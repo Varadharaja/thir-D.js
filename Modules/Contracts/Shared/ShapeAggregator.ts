@@ -31,7 +31,17 @@ export class ShapeAggregator
         {
             this.ShapeIds[this.ShapeIds.length] = shape.Id;
             shape.SetPlanes();
-            this.Planes = this.Planes.concat(shape.Planes);
+
+            if (shape.Transformation != null && shape.Transformation.Rotation != null)
+            {
+                this.Planes = this.Planes.concat(shape.TransformedPlanes());
+
+            }
+            else
+            {
+                this.Planes = this.Planes.concat(shape.Planes);
+
+            }
         }
 
     };
@@ -99,35 +109,7 @@ export class ShapeAggregator
 
     TransformedPlanes = function(): Plane[]
     {
-        var centroid = GxUtils.GetCentroid(this.Planes);
-        
-        var aggPlanes: Plane[] = new Array();
-        for(var plCnt=0; plCnt < this.Planes.length; plCnt++)
-        {
-            var pts: Point[] = new Array();
-
-            for (var ptCnt=0; ptCnt < this.Planes[plCnt].Points.length; ptCnt ++)
-            {
-                var pt = this.Planes[plCnt].Points[ptCnt];
-
-                if (this.Transformation.Zoom != null)
-                {
-                     pts.push(new Point(pt.x * this.Transformation.Zoom.xScale,
-                                    pt.y* this.Transformation.Zoom.yScale,
-                                    pt.z*this.Transformation.Zoom.zScale));
-                }
-
-                else if (this.Transformation.Rotation != null)
-                {
-                    var rotatedPt : Point = GxUtils.Rotate(pt,centroid,this.Transformation.Rotation);
-                    pts.push(rotatedPt);
-                }
-
-            }
-            
-            aggPlanes.push(new Plane(pts,this.Planes[plCnt].Color));
-        }
-        return aggPlanes;
+        return GxUtils.TransformPlanes(this.Planes, this.Transformation);
 
     }
 }

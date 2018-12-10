@@ -29,4 +29,7 @@ export interface IShape
     // Generate Planes & Apply Transforms (if any)
     SetPlanes:() => void; 
 
+    // Get Transformed planes
+    TransformedPlanes:()=> Plane[];
+
 }

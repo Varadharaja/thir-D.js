@@ -110,12 +110,19 @@ LoadProject = function(project)
 function GetTransformation(txm)
 {
     var angle;
-    
+    var pt;
     if (txm.Rotation != null)
     {
         angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
     }
-    return new transformNS.Transformation(null, angle,null,null)
+
+    if (txm.Translation != null)
+    {
+        pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z)
+
+    }
+    
+    return new transformNS.Transformation(pt, angle,null,null)
 }
 
 function GetCube(shp)
@@ -123,7 +130,7 @@ function GetCube(shp)
 
     var cube = new cubeNS.Cube(shp.Name,shp.L,shp.W,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
 
-    cube.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
+    cube.Transformation = GetTransformation(shp.Transformation);
 
     return cube;
 }
@@ -131,7 +138,7 @@ function GetCube(shp)
 function GetSphere(shp)
 {
     var sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
-    sphere.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
+    sphere.Transformation = GetTransformation(shp.Transformation);
     sphere.yPartStart = shp.yPartStart;
     sphere.yPartEnd = shp.yPartEnd;
     return sphere;
@@ -141,8 +148,7 @@ function GetSphere(shp)
 function GetPolygon(shp)
 {
     var poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
-
-    poly.Transformation = new transformNS.Transformation(new pointNS.Point(shp.Transformation.Translation.x,shp.Transformation.Translation.y,shp.Transformation.Translation.z));
+    poly.Transformation = GetTransformation(shp.Transformation);
     return poly;
 }
 

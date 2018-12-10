@@ -1,6 +1,7 @@
 import { Plane } from "../Plane";
 import { Point } from "../Point";
 import { Angle } from "../Angle";
+import { Transformation } from "../Transformation";
 
 export class GxUtils
 {
@@ -105,5 +106,37 @@ export class GxUtils
 
         
         return [x2,y2];
+    }
+
+    static TransformPlanes:(planes: Plane[], transformation: Transformation )=> Plane[] = function(planes: Plane[], transformation: Transformation ): Plane[] 
+    {
+        var centroid = GxUtils.GetCentroid(planes);
+        
+        var txedPlanes: Plane[] = new Array();
+        for(var plCnt=0; plCnt < planes.length; plCnt++)
+        {
+            var pts: Point[] = new Array();
+
+            for (var ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt ++)
+            {
+                var pt = planes[plCnt].Points[ptCnt];
+
+                if (transformation.Zoom != null)
+                {
+                     pts.push(new Point(pt.x * transformation.Zoom.xScale,
+                                    pt.y* transformation.Zoom.yScale,
+                                    pt.z*transformation.Zoom.zScale));
+                }
+                else if (transformation.Rotation != null)
+                {
+                    var rotatedPt : Point = GxUtils.Rotate(pt,centroid,transformation.Rotation);
+                    pts.push(rotatedPt);
+                }
+
+            }
+            
+            txedPlanes.push(new Plane(pts,planes[plCnt].Color));
+        }
+        return txedPlanes;
     }
 }
