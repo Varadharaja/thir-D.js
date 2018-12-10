@@ -424,6 +424,10 @@ define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape
                 this.Planes[this.Planes.length] = planes[0];
                 this.Planes[this.Planes.length] = planes[planes.length - 1];
             };
+            _this.Clone = function () {
+                var cloneShape = new Sphere(this.Name, this.Radius, this.xPartitions, this.yPartitions, this.Color);
+                return cloneShape;
+            };
             _this.Type = ShapeTypes_4.ShapeTypes.SPHERE;
             _this.Radius = r;
             _this.xPartitions = xParts;

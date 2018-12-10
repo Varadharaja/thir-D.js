@@ -29,8 +29,8 @@
             "Name": "Chin",
             "Type": "POLYGON",
             "SidesCount": 6,
-            "A": 0.51,
-            "B": 0.3,
+            "A": 0.53,
+            "B": 0.35,
             "H": 0.6,
             "Color": {
                 "red": 255,
@@ -50,10 +50,10 @@
             "Id": "EyeId",
             "Name": "Eye",
             "Type": "POLYGON",
-            "SidesCount": 6,
-            "A": 0.1,
-            "B": 0.1,
-            "H": 0.1,
+            "SidesCount": 8,
+            "A": 0.08,
+            "B": 0.08,
+            "H": 0.01,
             "Color": {
                 "red": 255,
                 "green": 255,
@@ -62,8 +62,8 @@
             "Transformation": {
                 "Translation": 
                 {
-                    "x": 0,
-                    "y": 0,
+                    "x": -0.15,
+                    "y": -0.1,
                     "z": 0.5
                 },
                 "Rotation": 
@@ -77,6 +77,62 @@
                     "xScale": 1,
                     "yScale": 0.5,
                     "zScale": 1
+                }
+            }
+        },
+        {
+            "Id": "Eyeballid",
+            "Name": "Eyeball",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.02,
+            "B": 0.02,
+            "H": 0.01,
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": -0.15,
+                    "y": -0.1,
+                    "z": 0.51
+                },
+                "Rotation": 
+                {
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "Eyeballid1",
+            "Name": "Eyeball",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.02,
+            "B": 0.02,
+            "H": 0.01,
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0.17,
+                    "y": -0.1,
+                    "z": 0.51
+                },
+                "Rotation": 
+                {
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
                 }
             }
         }
@@ -107,6 +163,41 @@
             "Name": "Eyes",
             "ShapeIds":[
                 "EyeId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes" : 2,
+                    "SpaceDistance": 0.32
+                }
+            ],
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": -0.15,
+                    "y": -0.1,
+                    "z": 0.5
+                },
+                "Rotation": 
+                {
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 1,
+                    "yScale": 0.5,
+                    "zScale": 1
+                }
+            }
+        },
+        {
+            "Name": "Eyeballs",
+            "ShapeIds":[
+                "Eyeballid",
+                "Eyeballid1"
             ]
         }
     ]

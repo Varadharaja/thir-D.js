@@ -3,6 +3,7 @@ import { Color } from "../Shared/Color";
 import { ShapeTypes } from "./ShapeTypes";
 import { Plane } from "../Shared/Plane";
 import { Point } from "../Shared/Point";
+import { IShape } from "../Interfaces/IShape";
 
 export class Sphere extends Shape
 {
@@ -106,5 +107,11 @@ export class Sphere extends Shape
 
         //console.log(planes);
         //this.Planes = planes;
+    }
+
+    Clone:()=> IShape = function() : IShape
+    {
+        var cloneShape  = new Sphere(this.Name,this.Radius,this.xPartitions,this.yPartitions, this.Color);
+        return cloneShape;
     }
 }
