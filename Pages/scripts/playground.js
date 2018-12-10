@@ -24,6 +24,7 @@ var sphereNS;
 var projectNS;
 var GxUtilsNS;
 var angNS; 
+
 requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil, ang)
 {
     PolygonNS = poly;
@@ -111,6 +112,7 @@ function GetTransformation(txm)
 {
     var angle;
     var pt;
+    var zoom;
     if (txm.Rotation != null)
     {
         angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
@@ -118,11 +120,16 @@ function GetTransformation(txm)
 
     if (txm.Translation != null)
     {
-        pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z)
+        pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z);
 
     }
+
+    if (txm.Zoom != null)
+    {
+        zoom = new scaleNS.Scale(txm.Zoom.xScale,txm.Zoom.yScale,txm.Zoom.zScale);
+    }
     
-    return new transformNS.Transformation(pt, angle,null,null)
+    return new transformNS.Transformation(pt, angle,null,zoom);
 }
 
 function GetCube(shp)

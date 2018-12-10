@@ -64,13 +64,19 @@
                 {
                     "x": 0,
                     "y": 0,
-                    "z": 1
+                    "z": 0.5
                 },
                 "Rotation": 
                 {
                     "alpha": 90,
                     "beta": 0,
                     "gamma": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 1,
+                    "yScale": 0.5,
+                    "zScale": 1
                 }
             }
         }

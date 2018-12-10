@@ -120,18 +120,32 @@ export class GxUtils
             for (var ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt ++)
             {
                 var pt = planes[plCnt].Points[ptCnt];
+                var newPt: Point;
+              
+                if (transformation.Rotation != null)
+                {
+                    newPt  = GxUtils.Rotate(pt,centroid,transformation.Rotation);
+                }
 
-                if (transformation.Zoom != null)
+
+                if (transformation.Zoom != null && transformation.Translation != null)
                 {
-                     pts.push(new Point(pt.x * transformation.Zoom.xScale,
-                                    pt.y* transformation.Zoom.yScale,
-                                    pt.z*transformation.Zoom.zScale));
+                    newPt.x -= transformation.Translation.x;
+                    newPt.y -= transformation.Translation.y;
+                    newPt.z -= transformation.Translation.z;
+
+                    newPt.x *= transformation.Zoom.xScale;
+                    newPt.y *= transformation.Zoom.yScale;
+                    newPt.z *= transformation.Zoom.zScale;
+                    
+                    newPt.x += transformation.Translation.x;
+                    newPt.y += transformation.Translation.y;
+                    newPt.z += transformation.Translation.z;
+                
                 }
-                else if (transformation.Rotation != null)
-                {
-                    var rotatedPt : Point = GxUtils.Rotate(pt,centroid,transformation.Rotation);
-                    pts.push(rotatedPt);
-                }
+
+
+                pts.push(newPt);
 
             }
             

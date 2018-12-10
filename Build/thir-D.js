@@ -200,13 +200,22 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                 var pts = new Array();
                 for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
                     var pt = planes[plCnt].Points[ptCnt];
-                    if (transformation.Zoom != null) {
-                        pts.push(new Point_1.Point(pt.x * transformation.Zoom.xScale, pt.y * transformation.Zoom.yScale, pt.z * transformation.Zoom.zScale));
+                    var newPt;
+                    if (transformation.Rotation != null) {
+                        newPt = GxUtils.Rotate(pt, centroid, transformation.Rotation);
                     }
-                    else if (transformation.Rotation != null) {
-                        var rotatedPt = GxUtils.Rotate(pt, centroid, transformation.Rotation);
-                        pts.push(rotatedPt);
+                    if (transformation.Zoom != null && transformation.Translation != null) {
+                        newPt.x -= transformation.Translation.x;
+                        newPt.y -= transformation.Translation.y;
+                        newPt.z -= transformation.Translation.z;
+                        newPt.x *= transformation.Zoom.xScale;
+                        newPt.y *= transformation.Zoom.yScale;
+                        newPt.z *= transformation.Zoom.zScale;
+                        newPt.x += transformation.Translation.x;
+                        newPt.y += transformation.Translation.y;
+                        newPt.z += transformation.Translation.z;
                     }
+                    pts.push(newPt);
                 }
                 txedPlanes.push(new Plane_1.Plane(pts, planes[plCnt].Color));
             }
