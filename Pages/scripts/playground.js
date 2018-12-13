@@ -108,6 +108,35 @@ LoadProject = function(project)
 
 }
 
+function LoadShapes(project)
+    {
+        $("#shapes").html("");
+
+        for (let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
+        {
+            let shapeMenuHtml = '<hr/><div  class="shape-menu">';
+            shapeMenuHtml += "<span>" + project.Aggregators[aggCnt].Name + "</span>";
+            shapeMenuHtml += "<br/>";
+            let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
+
+            $.map(project.Shapes,function(e,i)
+            {
+                if (shapeIds.indexOf(e.Id) > -1)
+                {
+                    shapeMenuHtml += '<div class="shape-menu">' + '<a href="#">' +  e.Name+ '</a></div>';
+
+                }
+            });
+            
+
+            shapeMenuHtml += "</div>";
+            $("#shapes").append(shapeMenuHtml);
+        }
+
+
+}
+
+
 function GetTransformation(txm)
 {
     let angle;
@@ -185,6 +214,7 @@ $("#projectSelector").change(function()
     $.get("../Pages/data/"+ prj + ".json",function(data)
     {
         LoadProject(data);
+        LoadShapes(data);
 
     })
 
