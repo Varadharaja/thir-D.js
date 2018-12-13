@@ -148,8 +148,9 @@ export class GxUtils
                 pts.push(newPt);
 
             }
-            
-            txedPlanes.push(new Plane(pts,planes[plCnt].Color));
+            var newPl = new Plane(pts,planes[plCnt].Color);
+            newPl.ShapeId = planes[plCnt].ShapeId;
+            txedPlanes.push(newPl);
         }
         return txedPlanes;
     }

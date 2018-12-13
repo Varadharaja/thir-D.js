@@ -42,73 +42,85 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil,
 
 let Projects = new Array();
 let Project = null;
-
-LoadProject = function(project, selectShapeId = "")
+let Planes = new Array();
+let shapeMaps = new Array();
+let selectedShapeId = "";
+LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 {
     Project = project;
-    let planes = new Array();
-    let aggregators = new Array();
+    selectedShapeId = selectShapeId;
 
-    for(let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
+    if (!reusePlanes)
     {
-        aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
 
-        if (project.Aggregators[aggCnt].Transformation != null)
-        {
-            aggregators[aggCnt].Transformation = GetTransformation(project.Aggregators[aggCnt].Transformation);
-        }
+        let planes = new Array();
+        let aggregators = new Array();
 
-        let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
-        let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
-        $.map(project.Shapes,function(e,i)
+        shapeMaps = new Array();
+
+        for(let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
         {
-            if (shapeIds.indexOf(e.Id) > -1)
+            aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
+
+            if (project.Aggregators[aggCnt].Transformation != null)
             {
-                let shape;
-                switch(e.Type)
-                {
-                    case "CUBE":
-                    shape = GetCube(e);
-                    break;
-                    case "SPHERE":
-                    shape = GetSphere(e);
-                    break;
-                    case "POLYGON":
-                    shape = GetPolygon(e);
-                }
-
-                if (e.Id == selectShapeId)
-                {
-                    shape.Color = new ColorNS.Color(255,0,0);
-                }
-                if (shapeRepeatHints != null)
-                {
-
-                    aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
-
-                }
-                else
-                {
-                    aggregators[aggCnt].AddShape(shape);
-
-                }
+                aggregators[aggCnt].Transformation = GetTransformation(project.Aggregators[aggCnt].Transformation);
             }
-        });
 
-        if (aggregators[aggCnt].Transformation != null)
-        {
-            planes = planes.concat(aggregators[aggCnt].TransformedPlanes());
-        }   
-        else
-        {
-            planes = planes.concat(aggregators[aggCnt].Planes);
+            let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
+            let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
+            $.map(project.Shapes,function(e,i)
+            {
+                if (shapeIds.indexOf(e.Id) > -1)
+                {
+                    let shape;
+                    switch(e.Type)
+                    {
+                        case "CUBE":
+                        shape = GetCube(e);
+                        break;
+                        case "SPHERE":
+                        shape = GetSphere(e);
+                        break;
+                        case "POLYGON":
+                        shape = GetPolygon(e);
+                    }
+
+                    if (e.Id == selectShapeId)
+                    {
+                        shape.Color = new ColorNS.Color(255,0,0);
+                    }
+                    if (shapeRepeatHints != null)
+                    {
+
+                        aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
+
+                    }
+                    else
+                    {
+                        aggregators[aggCnt].AddShape(shape);
+
+                    }
+
+                    shapeMaps.push({OldId: e.Id, NewId: shape.Id});
+                }
+            });
+
+            if (aggregators[aggCnt].Transformation != null)
+            {
+                planes = planes.concat(aggregators[aggCnt].TransformedPlanes());
+            }   
+            else
+            {
+                planes = planes.concat(aggregators[aggCnt].Planes);
+
+            }
+            
 
         }
-        
-
+        Planes = planes;
     }
-
-    SetWebGLParams(planes);
+    SetWebGLParams(Planes.filter(function(pl){return !pl.ShouldHide}));
     doAnimate = true;
     animate(0);
     doAnimate = false;
@@ -121,7 +133,7 @@ function LoadShapes(project)
         for (let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
         {
             let shapeMenuHtml = '<hr/><div  class="shape-menu">';
-            shapeMenuHtml += "<span>" + project.Aggregators[aggCnt].Name + "</span>";
+            shapeMenuHtml += "<span><input type='checkbox'/>" + project.Aggregators[aggCnt].Name + "</span>";
             shapeMenuHtml += "<br/>";
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
 
@@ -129,7 +141,7 @@ function LoadShapes(project)
             {
                 if (shapeIds.indexOf(e.Id) > -1)
                 {
-                    shapeMenuHtml += '<div class="shape-menu">' + '<a href="#" shape-id="'+ e.Id +'">' +  e.Name+ '</a></div>';
+                    shapeMenuHtml += '<br/><div class="shape-menu"><input type="checkbox"/>' + '<a href="#" shape-id="'+ e.Id +'">' +  e.Name+ '</a></div>';
                 }
             });
             
@@ -228,4 +240,76 @@ $("#projectSelector").change(function()
 $(document).on("click","a[shape-id]",function(e)
 {
     LoadProject(Project, $(this).attr("shape-id"));
+
+    LoadShapeProperties( $(this).attr("shape-id"), $(this).html().trim())
+
 });
+
+
+
+function LoadShapeProperties(shapeId, shapeName)
+{
+    $("span[for='shape-name']").html(shapeName);
+
+    let newShapeId = shapeMaps.filter(function(e){return e["OldId"] == shapeId})[0].NewId;
+
+    let shapePlanes = Planes.filter(function(e){ return e["ShapeId"] == newShapeId});
+    let planesCnt = shapePlanes.length;
+    let MaxColumnCnt = 5;
+    let MaxRowCount = 10;
+    let pageNum = 0;
+
+    $("#planes-removal-tbl").html("");
+
+    let plIdx =  pageNum * MaxColumnCnt * MaxRowCount + 1;
+    for (let rowCnt = 0; rowCnt < MaxRowCount; rowCnt++)
+    {
+        let htmlContent = "<tr>";
+
+        for (let colCnt = 0; colCnt < MaxColumnCnt; colCnt++)
+        {
+            if (plIdx<= planesCnt)
+            {
+                htmlContent += "<td> <input type='checkbox' pl-idx='"+ plIdx +"' checked/><a href='#'>"+ plIdx++ +"</a></td>";
+            }
+
+        }
+        
+        htmlContent += "</tr>";
+        $("#planes-removal-tbl").append(htmlContent);
+    }
+
+    /* for (var rowCnt=0; rowCnt < 10; rowCnt++)
+    {
+
+    }
+    $("#planes-removal-tbl").html(""); */
+}
+
+
+
+$(document).on("change","input[pl-idx]",function(e)
+{
+    let currentPlIdx = Number($(this).attr("pl-idx"));
+
+    let newShapeId = shapeMaps.filter(function(e){return e["OldId"] == selectedShapeId})[0].NewId;
+
+    var plIdx = 0;
+    Planes.forEach(function(e,i){ 
+        if (e["ShapeId"] == newShapeId)
+            {
+                plIdx++;
+
+                if (plIdx == currentPlIdx)
+                {
+                    Planes[i].ShouldHide = !Planes[i].ShouldHide;
+                }
+
+            }
+        });
+
+    LoadProject(Project, selectedShapeId, true);
+
+
+});
+

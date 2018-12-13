@@ -60,7 +60,7 @@ select
 }
 .play-area
 {
-    width: 90vw;
+    width: 80vw;
     height: 94vh;
     position: absolute;
     left: 12vw;
@@ -82,4 +82,33 @@ a[shape-id]:focus
 {
     color: white;
     background: #61409a;
+}
+
+.rightpanel
+{
+    background: white;
+    box-shadow: 1px 0px 7px 0px #9E9E9E;
+    height: 94vh;
+    width: 15vw;
+    position: absolute;
+    top:6vh;
+    right: 0px;
+    padding: 15px;
+}
+
+span[for="shape-name"]
+{
+    font-weight: bold;
+}
+
+
+#planes-removal-tbl tr td
+{
+    padding: 10px;
+}
+
+#planes-removal-tbl tr td input[type="checkbox"]
+{
+    height: 20px;
+    width: 20px;
 }

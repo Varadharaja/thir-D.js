@@ -99,6 +99,7 @@ define("Contracts/Shared/Plane", ["require", "exports"], function (require, expo
     var Plane = (function () {
         function Plane(pts, color, shapeId) {
             if (shapeId === void 0) { shapeId = ""; }
+            this.ShouldHide = false;
             this.Points = pts;
             this.Color = color;
             if (shapeId != "") {
@@ -217,7 +218,9 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                     }
                     pts.push(newPt);
                 }
-                txedPlanes.push(new Plane_1.Plane(pts, planes[plCnt].Color));
+                var newPl = new Plane_1.Plane(pts, planes[plCnt].Color);
+                newPl.ShapeId = planes[plCnt].ShapeId;
+                txedPlanes.push(newPl);
             }
             return txedPlanes;
         };

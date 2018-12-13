@@ -7,6 +7,7 @@ export class Plane
     Points: Point[];
     Color: Color;
     ShapeId: string;
+    ShouldHide: boolean = false;
 
     constructor(pts: Point[], color: Color, shapeId: string = "")
     {
