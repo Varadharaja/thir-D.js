@@ -18,11 +18,11 @@ export class Cube extends Shape
     
     SetPlanes: ()=>void = function(): void
     {
-        var planes: Plane[] = new Array();
+        let planes: Plane[] = new Array();
        
-        var topFacePoints:Point[] = new Array();
-        var bottomFacePoints: Point[] = new Array();
-        var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
+        let topFacePoints:Point[] = new Array();
+        let bottomFacePoints: Point[] = new Array();
+        let origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
 
         topFacePoints =  [
             new Point(origin.x , origin.y,origin.z),
@@ -42,11 +42,11 @@ export class Cube extends Shape
         planes[planes.length] = new Plane(bottomFacePoints, this.Color,this.Id);
 
 
-        for (var sideIdx = 0; sideIdx < 4; sideIdx++)
+        for (let sideIdx = 0; sideIdx < 4; sideIdx++)
         {
-            var facePoints:Point[] = new Array();
-            var idx1 = sideIdx;
-            var idx2 = ((sideIdx+1) == 4) ? 0 : sideIdx+1;
+            let facePoints:Point[] = new Array();
+            let idx1 = sideIdx;
+            let idx2 = ((sideIdx+1) == 4) ? 0 : sideIdx+1;
             facePoints = 
             [
                 topFacePoints[idx1],
@@ -65,7 +65,7 @@ export class Cube extends Shape
 
     Clone: ()=> IShape = function():IShape
     {
-       var cube: Cube = new Cube(this.name, this.L, this.W, this.H, this.Color);
+       let cube: Cube = new Cube(this.name, this.L, this.W, this.H, this.Color);
 
         return cube;
     }

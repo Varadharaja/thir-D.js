@@ -200,7 +200,7 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                 var pts = new Array();
                 for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
                     var pt = planes[plCnt].Points[ptCnt];
-                    var newPt;
+                    var newPt = void 0;
                     if (transformation.Rotation != null) {
                         newPt = GxUtils.Rotate(pt, centroid, transformation.Rotation);
                     }
@@ -575,29 +575,29 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
                 }
                 else {
-                    var xRepeatHint = new RepeatHint_1.RepeatHint();
-                    var yRepeatHint = new RepeatHint_1.RepeatHint();
-                    var zRepeatHint = new RepeatHint_1.RepeatHint();
+                    var xRepeatHint_1 = new RepeatHint_1.RepeatHint();
+                    var yRepeatHint_1 = new RepeatHint_1.RepeatHint();
+                    var zRepeatHint_1 = new RepeatHint_1.RepeatHint();
                     repeatHints.forEach(function (hint) {
                         switch (hint.Axis) {
                             case "X":
-                                xRepeatHint = hint;
+                                xRepeatHint_1 = hint;
                                 break;
                             case "Y":
-                                yRepeatHint = hint;
+                                yRepeatHint_1 = hint;
                                 break;
                             case "Z":
-                                zRepeatHint = hint;
+                                zRepeatHint_1 = hint;
                                 break;
                         }
                     });
-                    for (var xRepeater = 0; xRepeater < xRepeatHint.RepeatTimes; xRepeater++) {
-                        for (var yRepeater = 0; yRepeater < yRepeatHint.RepeatTimes; yRepeater++) {
-                            for (var zRepeater = 0; zRepeater < zRepeatHint.RepeatTimes; zRepeater++) {
+                    for (var xRepeater = 0; xRepeater < xRepeatHint_1.RepeatTimes; xRepeater++) {
+                        for (var yRepeater = 0; yRepeater < yRepeatHint_1.RepeatTimes; yRepeater++) {
+                            for (var zRepeater = 0; zRepeater < zRepeatHint_1.RepeatTimes; zRepeater++) {
                                 var repeatShape = shape.Clone();
-                                var x = shape.Transformation.Translation.x + (xRepeater * xRepeatHint.SpaceDistance);
-                                var y = shape.Transformation.Translation.y + (yRepeater * yRepeatHint.SpaceDistance);
-                                var z = shape.Transformation.Translation.z + (zRepeater * zRepeatHint.SpaceDistance);
+                                var x = shape.Transformation.Translation.x + (xRepeater * xRepeatHint_1.SpaceDistance);
+                                var y = shape.Transformation.Translation.y + (yRepeater * yRepeatHint_1.SpaceDistance);
+                                var z = shape.Transformation.Translation.z + (zRepeater * zRepeatHint_1.SpaceDistance);
                                 repeatShape.Transformation = new Transformation_1.Transformation(new Point_5.Point(x, y, z), null, null, null);
                                 repeatShape.SetPlanes();
                                 this.Planes = this.Planes.concat(repeatShape.Planes);

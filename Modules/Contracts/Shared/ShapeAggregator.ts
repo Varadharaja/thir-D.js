@@ -55,9 +55,9 @@ export class ShapeAggregator
         } 
         else
         {
-            var xRepeatHint: RepeatHint = new RepeatHint();
-            var yRepeatHint: RepeatHint = new RepeatHint();
-            var zRepeatHint: RepeatHint = new RepeatHint();
+            let xRepeatHint: RepeatHint = new RepeatHint();
+            let yRepeatHint: RepeatHint = new RepeatHint();
+            let zRepeatHint: RepeatHint = new RepeatHint();
             
             repeatHints.forEach(function (hint) {
 
@@ -77,17 +77,17 @@ export class ShapeAggregator
 
               });
 
-              for (var xRepeater=0; xRepeater < xRepeatHint.RepeatTimes; xRepeater++)
+              for (let xRepeater=0; xRepeater < xRepeatHint.RepeatTimes; xRepeater++)
               {
-                for (var yRepeater=0; yRepeater < yRepeatHint.RepeatTimes; yRepeater++)
+                for (let yRepeater=0; yRepeater < yRepeatHint.RepeatTimes; yRepeater++)
                 {
-                    for (var zRepeater=0; zRepeater < zRepeatHint.RepeatTimes; zRepeater++)
+                    for (let zRepeater=0; zRepeater < zRepeatHint.RepeatTimes; zRepeater++)
                     {
-                        var repeatShape :IShape = shape.Clone();
+                        let repeatShape :IShape = shape.Clone();
 
-                        var x = shape.Transformation.Translation.x +  (xRepeater * xRepeatHint.SpaceDistance);
-                        var y = shape.Transformation.Translation.y +  (yRepeater * yRepeatHint.SpaceDistance);
-                        var z = shape.Transformation.Translation.z +  (zRepeater * zRepeatHint.SpaceDistance);
+                        let x = shape.Transformation.Translation.x +  (xRepeater * xRepeatHint.SpaceDistance);
+                        let y = shape.Transformation.Translation.y +  (yRepeater * yRepeatHint.SpaceDistance);
+                        let z = shape.Transformation.Translation.z +  (zRepeater * zRepeatHint.SpaceDistance);
                         repeatShape.Transformation = new Transformation(new Point(x,y,z),null,null,null);
 
                         repeatShape.SetPlanes();

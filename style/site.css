@@ -71,3 +71,9 @@ select
     width: 100vw;
     height: 94vh;
 }
+
+.shape-menu
+{
+    padding-left: 20px;
+    width: 100%;    
+}

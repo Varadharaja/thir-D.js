@@ -1,4 +1,4 @@
-var required = new Array();
+let required = new Array();
 required = [
     "Contracts/Shapes/Polygon",
     "Contracts/Shared/Color",
@@ -12,18 +12,18 @@ required = [
     "Contracts/Shared/Utilities/GxUtils",
     "Contracts/Shared/Angle"
 ];
-var doAnimate = false;
-var PolygonNS;
-var ColorNS;
-var transformNS;
-var pointNS;
-var cubeNS;
-var shapeAggregatorNS;
-var scaleNS;
-var sphereNS;
-var projectNS;
-var GxUtilsNS;
-var angNS; 
+let doAnimate = false;
+let PolygonNS;
+let ColorNS;
+let transformNS;
+let pointNS;
+let cubeNS;
+let shapeAggregatorNS;
+let scaleNS;
+let sphereNS;
+let projectNS;
+let GxUtilsNS;
+let angNS; 
 
 requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil, ang)
 {
@@ -40,15 +40,15 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil,
     angNS = ang;
 });
 
-var Projects = new Array();
+let Projects = new Array();
 
 
 LoadProject = function(project)
 {
-    var planes = new Array();
-    var aggregators = new Array();
+    let planes = new Array();
+    let aggregators = new Array();
 
-    for(var aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
+    for(let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
     {
         aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
 
@@ -57,13 +57,13 @@ LoadProject = function(project)
             aggregators[aggCnt].Transformation = GetTransformation(project.Aggregators[aggCnt].Transformation);
         }
 
-        var shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
-        var shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
+        let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
+        let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
         $.map(project.Shapes,function(e,i)
         {
             if (shapeIds.indexOf(e.Id) > -1)
             {
-                var shape;
+                let shape;
                 switch(e.Type)
                 {
                     case "CUBE":
@@ -110,9 +110,9 @@ LoadProject = function(project)
 
 function GetTransformation(txm)
 {
-    var angle;
-    var pt;
-    var zoom;
+    let angle;
+    let pt;
+    let zoom;
     if (txm.Rotation != null)
     {
         angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
@@ -135,7 +135,7 @@ function GetTransformation(txm)
 function GetCube(shp)
 {
 
-    var cube = new cubeNS.Cube(shp.Name,shp.L,shp.W,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
+    let cube = new cubeNS.Cube(shp.Name,shp.L,shp.W,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
 
     cube.Transformation = GetTransformation(shp.Transformation);
 
@@ -144,7 +144,7 @@ function GetCube(shp)
 
 function GetSphere(shp)
 {
-    var sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
+    let sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
     sphere.Transformation = GetTransformation(shp.Transformation);
     sphere.yPartStart = shp.yPartStart;
     sphere.yPartEnd = shp.yPartEnd;
@@ -154,7 +154,7 @@ function GetSphere(shp)
 
 function GetPolygon(shp)
 {
-    var poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
+    let poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
     poly.Transformation = GetTransformation(shp.Transformation);
     return poly;
 }
@@ -162,7 +162,7 @@ function GetPolygon(shp)
 
 $(document).ready(function()
 {   
-    var prjs = ["Fort","Human"];
+    let prjs = ["Fort","Human"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
@@ -181,7 +181,7 @@ $("#glcanvas").click(function(){
 
 $("#projectSelector").change(function()
 {
-    var prj = $(this).val();
+    let prj = $(this).val();
     $.get("../Pages/data/"+ prj + ".json",function(data)
     {
         LoadProject(data);

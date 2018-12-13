@@ -26,44 +26,44 @@ export class Sphere extends Shape
 
     SetPlanes:()=> void = function():void
     {
-        var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
+        let origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
 
-        var planes: Plane[] = new Array();
+        let planes: Plane[] = new Array();
 
         this.yPartStart = this.yPartStart ==  null ? 0 : this.yPartStart;
         this.yPartEnd = this.yPartEnd ==  null ? this.yPartitions : this.yPartEnd;
 
-        for (var yParts = this.yPartStart; yParts <= this.yPartEnd; yParts++)
+        for (let yParts = this.yPartStart; yParts <= this.yPartEnd; yParts++)
         {
-            var points: Point[] = new Array();
-            for (var xParts=0; xParts <= this.xPartitions; xParts++)
+            let points: Point[] = new Array();
+            for (let xParts=0; xParts <= this.xPartitions; xParts++)
             {
-                var theta: number = 2 * Math.PI * xParts/ this.xPartitions; 
-                var z: number = origin.z - this.Radius + (2 * this.Radius * yParts / this.yPartitions);
-                var r: number = 0;
+                let theta: number = 2 * Math.PI * xParts/ this.xPartitions; 
+                let z: number = origin.z - this.Radius + (2 * this.Radius * yParts / this.yPartitions);
+                let r: number = 0;
                 r = Math.sqrt(this.Radius * this.Radius - z * z);
                 
-                var x: number = origin.x + r * Math.cos(theta); 
-                var y: number = origin.y + r * Math.sin(theta); 
+                let x: number = origin.x + r * Math.cos(theta); 
+                let y: number = origin.y + r * Math.sin(theta); 
                 
-                var pt : Point = new Point(x,y,z);
+                let pt : Point = new Point(x,y,z);
 
                 points[points.length] = pt;
             }
 
-            var plane: Plane = new Plane(points, this.Color, this.Id);
+            let plane: Plane = new Plane(points, this.Color, this.Id);
 
             planes[planes.length] = plane;
 
         }
         this.Planes = new Array();
-        for (var plCnt=0; plCnt < planes.length; plCnt++)
+        for (let plCnt=0; plCnt < planes.length; plCnt++)
         {
 
             
-            for (var ptsCnt=0; ptsCnt < planes[plCnt].Points.length; ptsCnt++)
+            for (let ptsCnt=0; ptsCnt < planes[plCnt].Points.length; ptsCnt++)
             {
-                var pts: Point[] = new Array();
+                let pts: Point[] = new Array();
                  if (plCnt == planes.length-1)
                 {
                     pts[pts.length] = planes[plCnt].Points[ptsCnt];
@@ -96,7 +96,7 @@ export class Sphere extends Shape
                     }
 
                 }
-                var pln: Plane = new Plane(pts, this.Color, this.Id);
+                let pln: Plane = new Plane(pts, this.Color, this.Id);
                 this.Planes[this.Planes.length] = pln;
             }
 
@@ -111,7 +111,7 @@ export class Sphere extends Shape
 
     Clone:()=> IShape = function() : IShape
     {
-        var cloneShape  = new Sphere(this.Name,this.Radius,this.xPartitions,this.yPartitions, this.Color);
+        let cloneShape  = new Sphere(this.Name,this.Radius,this.xPartitions,this.yPartitions, this.Color);
         return cloneShape;
     }
 }

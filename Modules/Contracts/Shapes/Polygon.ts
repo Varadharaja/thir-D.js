@@ -44,26 +44,26 @@ export class Polygon extends Shape
     
     SetPlanes: ()=> void = function(): void
     {
-        var planes: Plane[] = new Array();
-        var theta = Math.PI * (1/2 - 1/this.SidesCount);
+        let planes: Plane[] = new Array();
+        let theta = Math.PI * (1/2 - 1/this.SidesCount);
 
-        var R1 = this.A/2 * 1/Math.cos(theta);
-        var R2 = this.B/2 * 1/Math.cos(theta);
+        let R1 = this.A/2 * 1/Math.cos(theta);
+        let R2 = this.B/2 * 1/Math.cos(theta);
 
-        var alpha = 2* Math.PI/this.SidesCount;
-        var topFacePoints:Point[] = new Array();
-        var bottomFacePoints: Point[] = new Array();
-        var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
+        let alpha = 2* Math.PI/this.SidesCount;
+        let topFacePoints:Point[] = new Array();
+        let bottomFacePoints: Point[] = new Array();
+        let origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
 
-        for (var sideIdx=0;sideIdx < this.SidesCount; sideIdx++)
+        for (let sideIdx=0;sideIdx < this.SidesCount; sideIdx++)
         {
-            var topPt =     new Point(
+            let topPt =     new Point(
                 origin.x + R1 * Math.cos(sideIdx * alpha),
                 origin.y + this.H,
                 origin.z + R1 * Math.sin(sideIdx * alpha)
            );
 
-           var pt =     new Point(
+           let pt =     new Point(
                 origin.x + R2 * Math.cos(sideIdx * alpha),
                 origin.y,
                 origin.z + R2 * Math.sin(sideIdx * alpha)
@@ -77,11 +77,11 @@ export class Polygon extends Shape
         planes[planes.length] = new Plane(bottomFacePoints, this.Color,this.Id);
 
 
-        for (var sideIdx = 0; sideIdx < this.SidesCount; sideIdx++)
+        for (let sideIdx = 0; sideIdx < this.SidesCount; sideIdx++)
         {
-            var facePoints:Point[] = new Array();
-            var idx1 = sideIdx;
-            var idx2 = ((sideIdx+1) == this.SidesCount) ? 0 : sideIdx+1;
+            let facePoints:Point[] = new Array();
+            let idx1 = sideIdx;
+            let idx2 = ((sideIdx+1) == this.SidesCount) ? 0 : sideIdx+1;
             facePoints = 
             [
                 topFacePoints[idx1],
@@ -114,7 +114,7 @@ export class Polygon extends Shape
 
     Clone:()=> IShape = function() : IShape
     {
-        var cloneShape  = new Polygon(this.Name, this.SidesCount, this.A,this.B,this.H,this.Color);
+        let cloneShape  = new Polygon(this.Name, this.SidesCount, this.A,this.B,this.H,this.Color);
         return cloneShape;
     }
 

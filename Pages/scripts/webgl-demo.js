@@ -1,8 +1,8 @@
 
         /*============= Creating a canvas =================*/
-        var canvas = document.getElementById('glcanvas');
+        let canvas = document.getElementById('glcanvas');
         gl = canvas.getContext('webgl');
-        var proj_matrix,mov_matrixm , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices;
+        let proj_matrix,mov_matrixm , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices;
 
 
         function SetWebGLParams(planes)
@@ -10,7 +10,7 @@
 
             
          
-        var vertices = [
+        let vertices = [
            -1,-1,-1, 1,-1,-1, 1, 1,-1, -1, 1,-1 ,
             -1,-1, 1, 1,-1, 1, 1, 1, 1, -1, 1, 1,
            -1,-1,-1, -1, 1,-1, -1, 1, 1, -1,-1, 1,
@@ -19,7 +19,7 @@
            -1, 1,-1, -1, 1, 1, 1, 1, 1, 1, 1,-1, 
         ];
 
-        var colors = [
+        let colors = [
            5,3,7, 5,3,7, 5,3,7, 5,3,7,
            1,1,3, 1,1,3, 1,1,3, 1,1,3,
            0,0,1, 0,0,1, 0,0,1, 0,0,1,
@@ -34,21 +34,21 @@
            16,17,18, 16,18,19, 20,21,22, 20,22,23 
         ];
 
-        var vxs = [];
-        var idxs = [];
-        var vxLen = 0;
+        let vxs = [];
+        let idxs = [];
+        let vxLen = 0;
         colors = [];
-        for (var plCnt= 0; plCnt<  planes.length; plCnt++)
+        for (let plCnt= 0; plCnt<  planes.length; plCnt++)
         {
-            var centroid = [0,0,0];
-            var idx = vxs.length;
+            let centroid = [0,0,0];
+            let idx = vxs.length;
 
             vxs.push(centroid[0], centroid[1], centroid[2]);
             vxLen++;
-            var centroidVxIdx =vxLen-1;
-            for (var ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++ )
+            let centroidVxIdx =vxLen-1;
+            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++ )
             {
-                var pt = planes[plCnt].Points[ptCnt];
+                let pt = planes[plCnt].Points[ptCnt];
                 centroid[0] +=pt.x;
                 centroid[1] +=pt.y;
                 centroid[2] +=pt.z;               
@@ -66,20 +66,20 @@
 
                 }
                 
-                var clr = planes[plCnt].Color;
-                var r = clr.red;
-                var g = clr.green;
-                var b = clr.blue;
+                let clr = planes[plCnt].Color;
+                let r = clr.red;
+                let g = clr.green;
+                let b = clr.blue;
                 colors.push(r, g,b);
 
             }
 
-            var rnd =0.05;
+            let rnd =0.05;
 
-            var clrIdx = colors.length-3;
-            var r = colors[clrIdx] - (rnd );
-            var g =  colors[clrIdx+1] - rnd;
-            var b =  colors[clrIdx+2] - rnd;
+            let clrIdx = colors.length-3;
+            let r = colors[clrIdx] - (rnd );
+            let g =  colors[clrIdx+1] - rnd;
+            let b =  colors[clrIdx+2] - rnd;
             colors.push(r, g,b);
 
             vxs[idx]    = centroid[0] / planes[plCnt].Points.length;
@@ -96,12 +96,12 @@
 
 
         // Create and store data into vertex buffer
-        var vertex_buffer = gl.createBuffer ();
+        let vertex_buffer = gl.createBuffer ();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
         // Create and store data into color buffer
-        var color_buffer = gl.createBuffer ();
+        let color_buffer = gl.createBuffer ();
         gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
@@ -112,7 +112,7 @@
 
         /*=================== Shaders =========================*/
 
-        var vertCode = 'attribute vec3 position;'+
+        let vertCode = 'attribute vec3 position;'+
            'uniform mat4 Pmatrix;'+
            'uniform mat4 Vmatrix;'+
            'uniform mat4 Mmatrix;'+
@@ -124,21 +124,21 @@
               'vColor = color;'+
            '}';
 
-        var fragCode = 'precision mediump float;'+
+        let fragCode = 'precision mediump float;'+
            'varying vec3 vColor;'+
            'void main(void) {'+
               'gl_FragColor = vec4(vColor, 1.);'+
            '}';
 
-        var vertShader = gl.createShader(gl.VERTEX_SHADER);
+        let vertShader = gl.createShader(gl.VERTEX_SHADER);
         gl.shaderSource(vertShader, vertCode);
         gl.compileShader(vertShader);
 
-        var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+        let fragShader = gl.createShader(gl.FRAGMENT_SHADER);
         gl.shaderSource(fragShader, fragCode);
         gl.compileShader(fragShader);
 
-        var shaderProgram = gl.createProgram();
+        let shaderProgram = gl.createProgram();
         gl.attachShader(shaderProgram, vertShader);
         gl.attachShader(shaderProgram, fragShader);
         gl.linkProgram(shaderProgram);
@@ -149,13 +149,13 @@
          Mmatrix = gl.getUniformLocation(shaderProgram, "Mmatrix");
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-        var position = gl.getAttribLocation(shaderProgram, "position");
+        let position = gl.getAttribLocation(shaderProgram, "position");
         gl.vertexAttribPointer(position, 3, gl.FLOAT, false,0,0) ;
 
         // Position
         gl.enableVertexAttribArray(position);
         gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-        var color = gl.getAttribLocation(shaderProgram, "color");
+        let color = gl.getAttribLocation(shaderProgram, "color");
         gl.vertexAttribPointer(color, 3, gl.FLOAT, false,0,0) ;
 
         // Color
@@ -174,7 +174,7 @@
         /*==================== MATRIX =====================*/
 
         function get_projection(angle, a, zMin, zMax) {
-           var ang = Math.tan((angle*.5)*Math.PI/180);//angle*.5
+           let ang = Math.tan((angle*.5)*Math.PI/180);//angle*.5
            return [
               0.5/ang, 0 , 0, 0,
               0, 0.5*a/ang, 0, 0,
@@ -187,9 +187,9 @@
         /*==================== Rotation ====================*/
 
         function rotateZ(m, angle) {
-           var c = Math.cos(angle);
-           var s = Math.sin(angle);
-           var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+           let c = Math.cos(angle);
+           let s = Math.sin(angle);
+           let mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
            m[0] = c*m[0]-s*m[1];
            m[4] = c*m[4]-s*m[5];
@@ -201,9 +201,9 @@
         }
 
         function rotateX(m, angle) {
-           var c = Math.cos(angle);
-           var s = Math.sin(angle);
-           var mv1 = m[1], mv5 = m[5], mv9 = m[9];
+           let c = Math.cos(angle);
+           let s = Math.sin(angle);
+           let mv1 = m[1], mv5 = m[5], mv9 = m[9];
 
            m[1] = m[1]*c-m[2]*s;
            m[5] = m[5]*c-m[6]*s;
@@ -215,9 +215,9 @@
         }
 
         function rotateY(m, angle) {
-           var c = Math.cos(angle);
-           var s = Math.sin(angle);
-           var mv0 = m[0], mv4 = m[4], mv8 = m[8];
+           let c = Math.cos(angle);
+           let s = Math.sin(angle);
+           let mv0 = m[0], mv4 = m[4], mv8 = m[8];
 
            m[0] = c*m[0]+s*m[2];
            m[4] = c*m[4]+s*m[6];
@@ -229,12 +229,12 @@
         }
 
         /*================= Drawing ===========================*/
-        var time_old = 0;
+        let time_old = 0;
 
-        var animate = function(time) {
+        let animate = function(time) {
             if (doAnimate)
             {
-                var dt = time-time_old;
+                let dt = time-time_old;
                 rotateZ(mov_matrix, dt*0.000);//time
                 rotateY(mov_matrix, dt*0.00009);
                 rotateX(mov_matrix, dt*0.000);
