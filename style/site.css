@@ -77,3 +77,9 @@ select
     padding-left: 20px;
     width: 100%;    
 }
+
+a[shape-id]:focus
+{
+    color: white;
+    background: #61409a;
+}

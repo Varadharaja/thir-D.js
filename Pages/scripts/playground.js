@@ -41,10 +41,11 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil,
 });
 
 let Projects = new Array();
+let Project = null;
 
-
-LoadProject = function(project)
+LoadProject = function(project, selectShapeId = "")
 {
+    Project = project;
     let planes = new Array();
     let aggregators = new Array();
 
@@ -76,8 +77,13 @@ LoadProject = function(project)
                     shape = GetPolygon(e);
                 }
 
+                if (e.Id == selectShapeId)
+                {
+                    shape.Color = new ColorNS.Color(255,0,0);
+                }
                 if (shapeRepeatHints != null)
                 {
+
                     aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
 
                 }
@@ -123,8 +129,7 @@ function LoadShapes(project)
             {
                 if (shapeIds.indexOf(e.Id) > -1)
                 {
-                    shapeMenuHtml += '<div class="shape-menu">' + '<a href="#">' +  e.Name+ '</a></div>';
-
+                    shapeMenuHtml += '<div class="shape-menu">' + '<a href="#" shape-id="'+ e.Id +'">' +  e.Name+ '</a></div>';
                 }
             });
             
@@ -218,4 +223,9 @@ $("#projectSelector").change(function()
 
     })
 
+});
+
+$(document).on("click","a[shape-id]",function(e)
+{
+    LoadProject(Project, $(this).attr("shape-id"));
 });
