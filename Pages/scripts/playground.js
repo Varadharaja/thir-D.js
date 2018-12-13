@@ -111,7 +111,7 @@ LoadProject = function(project, selectShapeId = "")
     SetWebGLParams(planes);
     doAnimate = true;
     animate(0);
-
+    doAnimate = false;
 }
 
 function LoadShapes(project)
