@@ -32,4 +32,8 @@ export interface IShape
     // Get Transformed planes
     TransformedPlanes:()=> Plane[];
 
+
+    ShouldHide: boolean;
+
+
 }

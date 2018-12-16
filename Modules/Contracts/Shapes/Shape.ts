@@ -15,7 +15,7 @@ export class Shape implements IShape
     SetPlanes:()=> void;
     Type: ShapeTypes;
     Clone: ()=> IShape;
-
+    ShouldHide: boolean = false;
 
 
     constructor(Name: string)

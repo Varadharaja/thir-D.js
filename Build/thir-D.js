@@ -233,6 +233,7 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
     exports.__esModule = true;
     var Shape = (function () {
         function Shape(Name) {
+            this.ShouldHide = false;
             this.Move = function () {
             };
             this.Rotate = function () {

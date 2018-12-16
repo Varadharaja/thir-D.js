@@ -49,7 +49,6 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 {
     Project = project;
     selectedShapeId = selectShapeId;
-
     if (!reusePlanes)
     {
 
@@ -71,7 +70,8 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
             let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
             $.map(project.Shapes,function(e,i)
             {
-                if (shapeIds.indexOf(e.Id) > -1)
+
+                if (shapeIds.indexOf(e.Id) > -1 && (e.ShouldHide == null || (e.ShouldHide != null && e.ShouldHide != true)))
                 {
                     let shape;
                     switch(e.Type)
@@ -133,7 +133,7 @@ function LoadShapes(project)
         for (let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
         {
             let shapeMenuHtml = '<hr/><div  class="shape-menu">';
-            shapeMenuHtml += "<span><input type='checkbox'/>" + project.Aggregators[aggCnt].Name + "</span>";
+            shapeMenuHtml += "<span>" + project.Aggregators[aggCnt].Name + "</span>";
             shapeMenuHtml += "<br/>";
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
 
@@ -141,7 +141,7 @@ function LoadShapes(project)
             {
                 if (shapeIds.indexOf(e.Id) > -1)
                 {
-                    shapeMenuHtml += '<br/><div class="shape-menu"><input type="checkbox"/>' + '<a href="#" shape-id="'+ e.Id +'">' +  e.Name+ '</a></div>';
+                    shapeMenuHtml += '<br/><div class="shape-menu"><input type="checkbox" checked shp-idx="'+ e.Id +'"/>' + '<a href="#" shape-id="'+ e.Id +'">' +  e.Name+ '</a></div>';
                 }
             });
             
@@ -309,6 +309,25 @@ $(document).on("change","input[pl-idx]",function(e)
         });
 
     LoadProject(Project, selectedShapeId, true);
+
+
+});
+
+
+$(document).on("change","input[shp-idx]",function(e)
+{
+    let currentShpIdx = ($(this).attr("shp-idx"));
+
+    Project.Shapes.forEach(function(e,i)
+    {
+        if (e.Id == currentShpIdx)
+        {
+            
+            e.ShouldHide = !e.ShouldHide ;
+        }
+    })
+    
+    LoadProject(Project, selectedShapeId, false);
 
 
 });
