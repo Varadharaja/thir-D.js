@@ -242,7 +242,7 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
             this.Zoom = function () {
             };
             this.TransformedPlanes = function () {
-                return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation, this.HiddenPlanes);
+                return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation);
             };
             this.Id = GxUtils_1.GxUtils.NewGuid();
             this.Name = Name;

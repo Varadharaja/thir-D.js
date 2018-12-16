@@ -44,7 +44,7 @@ export class Shape implements IShape
     }
     TransformedPlanes = function(): Plane[]
     {
-        return GxUtils.TransformPlanes(this.Planes, this.Transformation, this.HiddenPlanes);
+        return GxUtils.TransformPlanes(this.Planes, this.Transformation);
 
     }
 
