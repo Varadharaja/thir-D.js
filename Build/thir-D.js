@@ -220,6 +220,7 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                 }
                 var newPl = new Plane_1.Plane(pts, planes[plCnt].Color);
                 newPl.ShapeId = planes[plCnt].ShapeId;
+                newPl.ShouldHide = planes[plCnt].ShouldHide;
                 txedPlanes.push(newPl);
             }
             return txedPlanes;
@@ -241,7 +242,7 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
             this.Zoom = function () {
             };
             this.TransformedPlanes = function () {
-                return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+                return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation, this.HiddenPlanes);
             };
             this.Id = GxUtils_1.GxUtils.NewGuid();
             this.Name = Name;
@@ -566,6 +567,12 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 else {
                     this.ShapeIds[this.ShapeIds.length] = shape.Id;
                     shape.SetPlanes();
+                    var hiddenPlanes = shape.HiddenPlanes;
+                    shape.Planes.forEach(function (pl, idx) {
+                        if (hiddenPlanes != null && hiddenPlanes.length > 0 && hiddenPlanes.indexOf(idx) > -1) {
+                            pl.ShouldHide = true;
+                        }
+                    });
                     if (shape.Transformation != null && shape.Transformation.Rotation != null) {
                         this.Planes = this.Planes.concat(shape.TransformedPlanes());
                     }

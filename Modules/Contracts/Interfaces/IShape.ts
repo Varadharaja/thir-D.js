@@ -35,5 +35,6 @@ export interface IShape
 
     ShouldHide: boolean;
 
+    HiddenPlanes: number[];
 
 }

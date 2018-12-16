@@ -16,6 +16,7 @@ export class Shape implements IShape
     Type: ShapeTypes;
     Clone: ()=> IShape;
     ShouldHide: boolean = false;
+    HiddenPlanes: number[];
 
 
     constructor(Name: string)
@@ -43,7 +44,7 @@ export class Shape implements IShape
     }
     TransformedPlanes = function(): Plane[]
     {
-        return GxUtils.TransformPlanes(this.Planes, this.Transformation);
+        return GxUtils.TransformPlanes(this.Planes, this.Transformation, this.HiddenPlanes);
 
     }
 

@@ -112,3 +112,9 @@ span[for="shape-name"]
     height: 20px;
     width: 20px;
 }
+
+.planes-modal-div
+{
+    height: 80vh;
+    overflow-y: auto;
+}

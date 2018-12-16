@@ -108,13 +108,15 @@ export class GxUtils
         return [x2,y2];
     }
 
-    static TransformPlanes:(planes: Plane[], transformation: Transformation )=> Plane[] = function(planes: Plane[], transformation: Transformation ): Plane[] 
+    static TransformPlanes:(planes: Plane[], transformation: Transformation)=> Plane[] = function(planes: Plane[], transformation: Transformation): Plane[] 
     {
         let centroid = GxUtils.GetCentroid(planes);
         
         let txedPlanes: Plane[] = new Array();
         for(let plCnt=0; plCnt < planes.length; plCnt++)
         {
+            
+
             let pts: Point[] = new Array();
 
             for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt ++)
@@ -150,6 +152,8 @@ export class GxUtils
             }
             var newPl = new Plane(pts,planes[plCnt].Color);
             newPl.ShapeId = planes[plCnt].ShapeId;
+            newPl.ShouldHide = planes[plCnt].ShouldHide;
+      
             txedPlanes.push(newPl);
         }
         return txedPlanes;

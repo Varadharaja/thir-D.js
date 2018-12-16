@@ -31,7 +31,16 @@ export class ShapeAggregator
         {
             this.ShapeIds[this.ShapeIds.length] = shape.Id;
             shape.SetPlanes();
+            var hiddenPlanes = shape.HiddenPlanes;
 
+            shape.Planes.forEach(function(pl,idx)
+            {
+
+                if (hiddenPlanes != null && hiddenPlanes.length > 0 && hiddenPlanes.indexOf(idx) > -1)
+                {
+                    pl.ShouldHide = true;
+                }
+            });
             if (shape.Transformation != null && shape.Transformation.Rotation != null)
             {
                 this.Planes = this.Planes.concat(shape.TransformedPlanes());

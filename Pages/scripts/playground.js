@@ -121,6 +121,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
         Planes = planes;
     }
     SetWebGLParams(Planes.filter(function(pl){return !pl.ShouldHide}));
+    //SetWebGLParams(Planes);
     doAnimate = true;
     animate(0);
     doAnimate = false;
@@ -185,6 +186,8 @@ function GetCube(shp)
 
     cube.Transformation = GetTransformation(shp.Transformation);
 
+    cube.HiddenPlanes = shp.HiddenPlanes;
+
     return cube;
 }
 
@@ -194,6 +197,8 @@ function GetSphere(shp)
     sphere.Transformation = GetTransformation(shp.Transformation);
     sphere.yPartStart = shp.yPartStart;
     sphere.yPartEnd = shp.yPartEnd;
+    sphere.HiddenPlanes = shp.HiddenPlanes;
+
     return sphere;
  
 }
@@ -202,6 +207,8 @@ function GetPolygon(shp)
 {
     let poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
     poly.Transformation = GetTransformation(shp.Transformation);
+    poly.HiddenPlanes = shp.HiddenPlanes;
+
     return poly;
 }
 
@@ -256,12 +263,12 @@ function LoadShapeProperties(shapeId, shapeName)
     let shapePlanes = Planes.filter(function(e){ return e["ShapeId"] == newShapeId});
     let planesCnt = shapePlanes.length;
     let MaxColumnCnt = 5;
-    let MaxRowCount = 10;
+    let MaxRowCount = planesCnt/MaxColumnCnt;
     let pageNum = 0;
 
     $("#planes-removal-tbl").html("");
 
-    let plIdx =  pageNum * MaxColumnCnt * MaxRowCount + 1;
+    let plIdx =  pageNum * MaxColumnCnt * MaxRowCount;
     for (let rowCnt = 0; rowCnt < MaxRowCount; rowCnt++)
     {
         let htmlContent = "<tr>";
@@ -270,7 +277,18 @@ function LoadShapeProperties(shapeId, shapeName)
         {
             if (plIdx<= planesCnt)
             {
-                htmlContent += "<td> <input type='checkbox' pl-idx='"+ plIdx +"' checked/><a href='#'>"+ plIdx++ +"</a></td>";
+                if (Planes[plIdx].ShouldHide)
+                {
+                    htmlContent += "<td> <input type='checkbox' pl-idx='"+ plIdx +"'/><a href='#'>"+ plIdx +"</a></td>";
+
+                }
+                else
+                {
+                    htmlContent += "<td> <input type='checkbox' pl-idx='"+ plIdx +"' checked/><a href='#'>"+ plIdx +"</a></td>";
+
+                }
+
+                plIdx++;
             }
 
         }
@@ -303,7 +321,9 @@ $(document).on("change","input[pl-idx]",function(e)
                 if (plIdx == currentPlIdx)
                 {
                     Planes[i].ShouldHide = !Planes[i].ShouldHide;
+                    Planes[i].Color =  Planes[i].ShouldHide ? new ColorNS.Color(255,255,0) : new ColorNS.Color(255,0,0) ;
                 }
+                
 
             }
         });

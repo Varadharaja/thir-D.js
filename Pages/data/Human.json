@@ -5,11 +5,11 @@
             "Id": "CraniumId",
             "Name": "Cranium",
             "Type": "SPHERE",
-            "Radius": 0.5,
-            "xPartitions": 20,
-            "yPartitions": 20,
-            "yPartStart": 2,
-            "yPartEnd": 18,            
+            "Radius": 0.6,
+            "xPartitions": 10,
+            "yPartitions": 12,
+            "yPartStart": 1,
+            "yPartEnd": 11,            
             "Color": {
                 "red": 255,
                 "green": 224,
@@ -22,7 +22,8 @@
                     "y": 0,
                     "z": 0
                 }
-            }
+            },
+            "HiddenPlanes" : [5, 16, 27, 38, 49, 60, 71, 82, 93, 104]
         },
         {
             "Id": "ChinId",
