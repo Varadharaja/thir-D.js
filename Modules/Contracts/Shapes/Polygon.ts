@@ -7,6 +7,7 @@ import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
 import { Shape } from "./Shape";
 import { ShapeTypes } from "./ShapeTypes";
+import { GxUtils } from "../Shared/Utilities/GxUtils";
 
 
 // Regular Polygon in 3D
@@ -53,6 +54,7 @@ export class Polygon extends Shape
         let alpha = 2* Math.PI/this.SidesCount;
         let topFacePoints:Point[] = new Array();
         let bottomFacePoints: Point[] = new Array();
+
         let origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
 
         for (let sideIdx=0;sideIdx < this.SidesCount; sideIdx++)
@@ -71,7 +73,25 @@ export class Polygon extends Shape
 
             topFacePoints[sideIdx] = topPt;
             bottomFacePoints[sideIdx] = pt;
-        } 
+        }
+
+        if (this.TopFaceInclination != null)
+        {
+            topFacePoints = GxUtils.TransformPlanes(
+                [new Plane(topFacePoints,null)],
+                 new Transformation(null,this.TopFaceInclination,null,null)
+            )[0].Points;
+        }
+
+        if (this.BottomFaceInclination != null)
+        {
+            bottomFacePoints = GxUtils.TransformPlanes(
+                [new Plane(bottomFacePoints,null)],
+                 new Transformation(null,this.BottomFaceInclination,null,null)
+            )[0].Points;
+        }
+
+        
 
         planes[planes.length] = new Plane(topFacePoints, this.Color,this.Id);
         planes[planes.length] = new Plane(bottomFacePoints, this.Color,this.Id);

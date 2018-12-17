@@ -209,6 +209,16 @@ function GetPolygon(shp)
     poly.Transformation = GetTransformation(shp.Transformation);
     poly.HiddenPlanes = shp.HiddenPlanes;
 
+    if (shp.TopFaceInclination != null)
+    {
+        poly.TopFaceInclination = new angNS.Angle(shp.TopFaceInclination.alpha, shp.TopFaceInclination.beta, shp.TopFaceInclination.gamma);
+    }
+
+    if (shp.BottomFaceInclination != null)
+    {
+        poly.BottomFaceInclination = new angNS.Angle(shp.BottomFaceInclination.alpha, shp.BottomFaceInclination.beta, shp.BottomFaceInclination.gamma);
+    }
+
     return poly;
 }
 

@@ -308,7 +308,7 @@ define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point",
     }(Shape_1.Shape));
     exports.Cube = Cube;
 });
-define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Plane", "Contracts/Shared/Angle", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes"], function (require, exports, Point_3, Plane_3, Angle_1, Shape_2, ShapeTypes_3) {
+define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Point", "Contracts/Shared/Transformation", "Contracts/Shared/Plane", "Contracts/Shared/Angle", "Contracts/Shapes/Shape", "Contracts/Shapes/ShapeTypes", "Contracts/Shared/Utilities/GxUtils"], function (require, exports, Point_3, Transformation_1, Plane_3, Angle_1, Shape_2, ShapeTypes_3, GxUtils_2) {
     "use strict";
     exports.__esModule = true;
     var Polygon = (function (_super) {
@@ -331,6 +331,12 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
                     var pt = new Point_3.Point(origin.x + R2 * Math.cos(sideIdx * alpha), origin.y, origin.z + R2 * Math.sin(sideIdx * alpha));
                     topFacePoints[sideIdx] = topPt;
                     bottomFacePoints[sideIdx] = pt;
+                }
+                if (this.TopFaceInclination != null) {
+                    topFacePoints = GxUtils_2.GxUtils.TransformPlanes([new Plane_3.Plane(topFacePoints, null)], new Transformation_1.Transformation(null, this.TopFaceInclination, null, null))[0].Points;
+                }
+                if (this.BottomFaceInclination != null) {
+                    bottomFacePoints = GxUtils_2.GxUtils.TransformPlanes([new Plane_3.Plane(bottomFacePoints, null)], new Transformation_1.Transformation(null, this.BottomFaceInclination, null, null))[0].Points;
                 }
                 planes[planes.length] = new Plane_3.Plane(topFacePoints, this.Color, this.Id);
                 planes[planes.length] = new Plane_3.Plane(bottomFacePoints, this.Color, this.Id);
@@ -553,7 +559,7 @@ define("Contracts/Shared/RepeatHint", ["require", "exports"], function (require,
     }());
     exports.RepeatHint = RepeatHint;
 });
-define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Transformation_1, Point_5, GxUtils_2, RepeatHint_1) {
+define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Transformation_2, Point_5, GxUtils_3, RepeatHint_1) {
     "use strict";
     exports.__esModule = true;
     var ShapeAggregator = (function () {
@@ -609,7 +615,7 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                                 var x = shape.Transformation.Translation.x + (xRepeater * xRepeatHint_1.SpaceDistance);
                                 var y = shape.Transformation.Translation.y + (yRepeater * yRepeatHint_1.SpaceDistance);
                                 var z = shape.Transformation.Translation.z + (zRepeater * zRepeatHint_1.SpaceDistance);
-                                repeatShape.Transformation = new Transformation_1.Transformation(new Point_5.Point(x, y, z), null, null, null);
+                                repeatShape.Transformation = new Transformation_2.Transformation(new Point_5.Point(x, y, z), null, null, null);
                                 repeatShape.SetPlanes();
                                 this.Planes = this.Planes.concat(repeatShape.Planes);
                             }
@@ -621,10 +627,10 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 this.Planes = this.Planes.concat(planes);
             };
             this.TransformedPlanes = function () {
-                return GxUtils_2.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+                return GxUtils_3.GxUtils.TransformPlanes(this.Planes, this.Transformation);
             };
             this.Transformation = transformation;
-            this.Id = GxUtils_2.GxUtils.NewGuid();
+            this.Id = GxUtils_3.GxUtils.NewGuid();
         }
         ;
         return ShapeAggregator;

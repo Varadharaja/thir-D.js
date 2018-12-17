@@ -44,7 +44,7 @@
                 {
                     "x": 0.1,
                     "y": -0.50,
-                    "z": 0.49  
+                    "z": 0.42  
                 },
                 "Rotation": 
                 {
@@ -56,13 +56,77 @@
          
         },
         {
+            "Id": "NoseId",
+            "Name": "Nose",
+            "Type": "POLYGON",
+            "SidesCount": 6,
+            "A": 0.04,
+            "B": 0.1,
+            "H":0.6,  
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": -0.45,
+                    "z": 0.5
+                }
+            }
+        },
+        {
+            "Id": "LipsId",
+            "Name": "Lips",
+            "Type": "POLYGON",
+            "SidesCount": 6,
+            "A": 0.1,
+            "B": 0.1,
+            "H":0.15,  
+            "Color": {
+                "red": 240,
+                "green": 186,
+                "blue": 205
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": -0.70,
+                    "z": 0.4
+                },
+                "Rotation":{
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom":{
+                    "xScale": 1,
+                    "yScale": 0.75,
+                    "zScale": 1
+                }
+            }
+        },
+        {
             "Id": "ChinId",
             "Name": "Chin",
             "Type": "POLYGON",
-            "SidesCount": 6,
-            "A": 0.53,
-            "B": 0.35,
-            "H": 0.6,
+            "SidesCount": 8,
+            "A": 0.42,
+            "B": 0.31,
+            "H":0.7,
+            "TopFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 20
+            },
+            "BottomFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 20
+            },
             "Color": {
                 "red": 255,
                 "green": 224,
@@ -265,6 +329,18 @@
                 "Eyeballid1",
                 "EyebrowId",
                 "EyeGrooveId"
+            ]
+        },
+        {
+            "Name": "Nose",
+            "ShapeIds": [
+                "NoseId"
+            ]
+        },
+        {
+            "Name": "Mouth",
+            "ShapeIds":[
+                "LipsId"
             ]
         }
     ]
