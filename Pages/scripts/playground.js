@@ -120,6 +120,8 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
         }
         Planes = planes;
     }
+    //AssignLightIntensity();
+
     SetWebGLParams(Planes.filter(function(pl){return !pl.ShouldHide}));
     //SetWebGLParams(Planes);
     doAnimate = true;
@@ -249,6 +251,7 @@ $("#projectSelector").change(function()
     {
         LoadProject(data);
         LoadShapes(data);
+        //AssignLightIntensity();
 
     })
 
@@ -361,4 +364,48 @@ $(document).on("change","input[shp-idx]",function(e)
 
 
 });
+
+let distanceArray = new Array();
+
+
+
+AssignLightIntensity = function()
+{
+    let lightSource = new pointNS.Point(0,0,0);
+
+   /* Planes.forEach(function(pl,i)
+    {
+        let centroid = GxUtilsNS.GxUtils.GetCentroid([pl]); 
+
+        
+        let distance = GxUtilsNS.GxUtils.ComputeDistance(lightSource, centroid);
+
+        distanceArray.push(distance);
+              
+    });
+
+    var sortedArray = distanceArray.sort();
+    */
+
+    Planes.forEach(function(pl,i)
+    {
+        let centroid = GxUtilsNS.GxUtils.GetCentroid([pl]); 
+
+        
+        let distance = GxUtilsNS.GxUtils.ComputeDistance(lightSource, centroid);
+        //let rnk = sortedArray.indexOf(distance);
+        //let lightIntensity  = rnk/sortedArray.length;
+       let lightIntensity = 1/Math.pow(distance,1);
+        //console.log(lightIntensity);
+        
+        pl.Color.red =  ( 1 -   lightIntensity);
+         pl.Color.green =  ( 1 -     lightIntensity);
+         pl.Color.blue = (1 -     lightIntensity);
+
+        //pl.Color = new ColorNS.Color(r,g,b);
+                 
+    });
+
+
+}
 

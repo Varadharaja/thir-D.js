@@ -225,6 +225,9 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             }
             return txedPlanes;
         };
+        GxUtils.ComputeDistance = function (pointA, pointB) {
+            return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2) + Math.pow(pointA.z - pointB.z, 2));
+        };
         return GxUtils;
     }());
     exports.GxUtils = GxUtils;

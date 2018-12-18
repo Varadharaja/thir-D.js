@@ -80,7 +80,8 @@
             let r = colors[clrIdx] - (rnd );
             let g =  colors[clrIdx+1] - rnd;
             let b =  colors[clrIdx+2] - rnd;
-            colors.push(r, g,b);
+             colors.push(r, g,b);
+           // colors.push(colors);
 
             vxs[idx]    = centroid[0] / planes[plCnt].Points.length;
             vxs[idx+1]  = centroid[1] / planes[plCnt].Points.length;
@@ -88,8 +89,8 @@
         }
         vertices = vxs;
         indices = idxs;
-        console.log(vxs);
-        console.log(idxs);
+        //console.log(vxs);
+        //console.log(idxs);
         
 
         /*============ Defining and storing the geometry =========*/
