@@ -60,11 +60,12 @@ select
 }
 .play-area
 {
-    width: 80vw;
-    height: 94vh;
+    width: 60vw;
+    height: 80vh;
     position: absolute;
     left: 12vw;
     top: 6vh;
+    overflow-x: auto;
 }
 .page-content
 {

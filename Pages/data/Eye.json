@@ -1,0 +1,136 @@
+{
+    "Name": "Eye",
+    "Shapes":[
+        {
+            "Id": "BallId",
+            "Name": "Ball",
+            "Type": "SPHERE",
+            "Radius": 0.15,
+            "xPartitions": 20,
+            "yPartitions": 70,        
+            "Color": {
+                "red": 245,
+                "green": 245,
+                "blue": 245
+             },
+
+             "Transformation":{
+                "Translation":{
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                 "Rotation":{
+                     "alpha": 0,
+                     "beta": 180,
+                     "gamma": 0
+                 }
+             },
+            "PlaneColors":
+            [
+                {
+                    "Color": {
+                        "red": 0,
+                        "blue": 0,
+                        "green": 0
+                    },
+                    "Range":{
+                        "from": 0,
+                        "to": 20
+                    }
+                },
+                {
+                    "Color": {
+                        "red": 69,
+                        "blue": 125,
+                        "green": 160
+                    },
+                    "Range":{
+                        "from": 20,
+                        "to": 61
+                    }
+                }
+            ]
+        },
+        { 
+            "Id": "CoverId",
+            "Name": "Cover",
+            "Type": "SPHERE",
+            "Radius": 0.2,
+            "xPartitions": 20,
+            "yPartitions": 20,
+            "HiddenPlanes" : [9,10,11, 30,31,32, 51,52,53, 72,73,74, 93,94,95, 114,115,116, 135,136,137,  156,157,158,  177,178,179, 198,199,200, 219,220,221, 240,241,242, 261,262, 263, 282,283,284, 303,304,305, 324,325,326, 345,346,347],
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },             
+             "Transformation":{
+                "Translation":{
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "Rotation":
+                {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+             }
+            
+        },
+        {
+            "Id": "BrowId",
+            "Name": "Brow",
+            "Type": "SPHERE",
+            "Radius": 0.3,
+            "xPartitions": 8,
+            "yPartitions": 20,
+           "VisibleRanges":
+           [
+            {   "from": 49,
+                "to": 52
+            },
+            {   "from": 60,
+                "to": 62
+            }
+           ],
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },             
+             "Transformation":{
+                "Translation":{
+                    "x": -0.02,
+                    "y": 0,
+                    "z": 0
+                },
+                "Rotation":
+                {
+                    "alpha": 90,
+                    "beta": 180,
+                    "gamma": 180
+                },
+                "Zoom":{
+                    "xScale": 1.2,
+                    "yScale": 1,
+                    "zScale": 1
+                }
+             }
+        }
+    ],
+    "Aggregators":[
+        {
+            "Name": "Eye",
+            "ShapeIds": [
+                "BallId",
+                "CoverId" ,
+                "BrowId"
+            
+            ]
+        }
+    ]
+
+}

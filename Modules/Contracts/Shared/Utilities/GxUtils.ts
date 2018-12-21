@@ -153,7 +153,7 @@ export class GxUtils
             var newPl = new Plane(pts,planes[plCnt].Color);
             newPl.ShapeId = planes[plCnt].ShapeId;
             newPl.ShouldHide = planes[plCnt].ShouldHide;
-      
+            newPl.Color = planes[plCnt].Color;
             txedPlanes.push(newPl);
         }
         return txedPlanes;

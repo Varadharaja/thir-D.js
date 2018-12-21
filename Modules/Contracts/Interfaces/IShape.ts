@@ -3,6 +3,7 @@ import { Transformation } from "../Shared/Transformation";
 import { Plane } from "../Shared/Plane";
 import { Color } from "../Shared/Color";
 import { ShapeTypes } from "../Shapes/ShapeTypes";
+import { NumRange } from "../Shared/Range";
 
 
 export interface IShape
@@ -35,6 +36,24 @@ export interface IShape
 
     ShouldHide: boolean;
 
-    HiddenPlanes: number[];
+    HiddenPlanes: number[];    
+    
+
+    PlaneColors: PlaneColor[];
+
+    HiddenRanges: NumRange[];
+
+    VisibleRanges: NumRange[];
+
 
 }
+
+export class PlaneColor
+{
+    Color: Color;
+    
+    Planes: number[];
+
+    Range: NumRange;
+}
+

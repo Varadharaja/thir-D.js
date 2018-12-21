@@ -10,7 +10,9 @@ required = [
     "Contracts/Shapes/Sphere",
     "Infra/Project",
     "Contracts/Shared/Utilities/GxUtils",
-    "Contracts/Shared/Angle"
+    "Contracts/Shared/Angle",
+    "Contracts/Interfaces/IShape",
+    "Contracts/Shared/Range"
 ];
 let doAnimate = false;
 let PolygonNS;
@@ -24,8 +26,10 @@ let sphereNS;
 let projectNS;
 let GxUtilsNS;
 let angNS; 
+let numRangeNS;
+let iShapeNS;
 
-requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil, ang)
+requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil, ang, iShp, numRng)
 {
     PolygonNS = poly;
     ColorNS = clr;
@@ -37,7 +41,9 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil,
     sphereNS = sph;
     projectNS = prj;
     GxUtilsNS = gxUtil;
+    iShapeNS = iShp;
     angNS = ang;
+    numRangeNS = numRng; 
 });
 
 let Projects = new Array();
@@ -159,26 +165,33 @@ function LoadShapes(project)
 
 function GetTransformation(txm)
 {
-    let angle;
-    let pt;
-    let zoom;
-    if (txm.Rotation != null)
+    if (txm != null)
     {
-        angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
-    }
+        let angle;
+        let pt;
+        let zoom;
+        if (txm.Rotation != null)
+        {
+            angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
+        }
 
-    if (txm.Translation != null)
+        if (txm.Translation != null)
+        {
+            pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z);
+
+        }
+
+        if (txm.Zoom != null)
+        {
+            zoom = new scaleNS.Scale(txm.Zoom.xScale,txm.Zoom.yScale,txm.Zoom.zScale);
+        }
+        
+        return new transformNS.Transformation(pt, angle,null,zoom);
+    }
+    else
     {
-        pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z);
-
+        return null;
     }
-
-    if (txm.Zoom != null)
-    {
-        zoom = new scaleNS.Scale(txm.Zoom.xScale,txm.Zoom.yScale,txm.Zoom.zScale);
-    }
-    
-    return new transformNS.Transformation(pt, angle,null,zoom);
 }
 
 function GetCube(shp)
@@ -189,7 +202,8 @@ function GetCube(shp)
     cube.Transformation = GetTransformation(shp.Transformation);
 
     cube.HiddenPlanes = shp.HiddenPlanes;
-
+    cube.PlaneColors = GetPlaneColors(shp.PlaneColors);
+    
     return cube;
 }
 
@@ -200,9 +214,61 @@ function GetSphere(shp)
     sphere.yPartStart = shp.yPartStart;
     sphere.yPartEnd = shp.yPartEnd;
     sphere.HiddenPlanes = shp.HiddenPlanes;
-
+    sphere.PlaneColors = GetPlaneColors(shp.PlaneColors);
+    sphere.HiddenRanges = GetRanges(shp.HiddenRanges);
+    sphere.VisibleRanges = GetRange(shp.VisibleRanges);
     return sphere;
  
+}
+
+function GetPlaneColors(plColors)
+{
+    var outputColors = new Array();
+    if (plColors != null && plColors.length > 0)
+    {
+        plColors.forEach(function(e,i){
+            let plColor = new iShapeNS.PlaneColor();
+            plColor.Color = new ColorNS.Color(e.Color.red,e.Color.green, e.Color.blue);
+            plColor.Planes = e.Planes;
+
+            if (e.Range != null)
+            {
+                plColor.Range = GetRange(e.Range);
+            }
+            outputColors.push(plColor);
+        })
+    }
+
+    return outputColors;
+}
+
+
+function GetRange(rng)
+{
+    var opRng = new numRangeNS.NumRange();
+    if (rng != null)
+    {
+        opRng.from = rng.from;
+        opRng.to = rng.to;
+    
+    }
+    return rng;
+}
+
+
+function GetRanges(rngs)
+{
+    var outputRngs = new Array();
+
+    if (rngs != null)
+    {
+        rngs.forEach(function(rng)
+        {
+            outputRngs.push(GetRange(rng));
+        }
+        );
+    }
+    return outputRngs;
 }
 
 function GetPolygon(shp)
@@ -210,6 +276,7 @@ function GetPolygon(shp)
     let poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
     poly.Transformation = GetTransformation(shp.Transformation);
     poly.HiddenPlanes = shp.HiddenPlanes;
+    poly.PlaneColors = GetPlaneColors(shp.PlaneColors);
 
     if (shp.TopFaceInclination != null)
     {
@@ -227,7 +294,7 @@ function GetPolygon(shp)
 
 $(document).ready(function()
 {   
-    let prjs = ["Fort","Human"];
+    let prjs = ["Fort","Human","Eye"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");

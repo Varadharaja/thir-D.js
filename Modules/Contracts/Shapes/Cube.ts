@@ -61,6 +61,8 @@ export class Cube extends Shape
         }
 
         this.Planes =  planes;
+
+        this.ApplyPlaneColors();
     }
 
     Clone: ()=> IShape = function():IShape

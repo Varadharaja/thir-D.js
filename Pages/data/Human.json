@@ -5,11 +5,10 @@
             "Id": "CraniumId",
             "Name": "Cranium",
             "Type": "SPHERE",
-            "Radius": 0.6,
+            "Radius": 0.55,
             "xPartitions": 20,
             "yPartitions": 20,
-            "yPartStart": 2,
-            "yPartEnd": 18,            
+                   
             "Color": {
                 "red": 255,
                 "green": 224,
@@ -242,40 +241,6 @@
             }
         },
         {
-            "Id": "EyebrowId",
-            "Name": "eyebrow",
-            "Type": "POLYGON",
-            "SidesCount": 6,
-            "A": 0.08,
-            "B": 0.08,
-            "H": 0.02,
-            "Color": {
-                "red": 0,
-                "green": 0,
-                "blue": 0
-             },
-            "Transformation": {
-                "Translation": 
-                {
-                    "x": -0.14,
-                    "y": -0.07,
-                    "z": 0.49
-                },
-                "Rotation": 
-                {
-                    "alpha": 90,
-                    "beta": 0,
-                    "gamma": 0
-                },
-                "Zoom":
-                {
-                    "xScale": 1.3,
-                    "yScale": 0.5,
-                    "zScale": 1
-                }
-            }
-        },
-        {
             "Id": "EyebrowId1",
             "Name": "eyebrow1",
             "Type": "POLYGON",
@@ -291,9 +256,9 @@
             "Transformation": {
                 "Translation": 
                 {
-                    "x": 0.15,
-                    "y": -0.07,
-                    "z": 0.49
+                    "x": -0.15,
+                    "y": -0.02,
+                    "z": 0.56
                 },
                 "Rotation": 
                 {
@@ -303,69 +268,301 @@
                 },
                 "Zoom":
                 {
-                    "xScale": 1.3,
-                    "yScale": 0.5,
+                    "xScale": 1.5,
+                    "yScale": 0.2,
+                    "zScale": 1
+                }
+            }
+        },
+        {
+            "Id": "EyebrowId2",
+            "Name": "eyebrow2",
+            "Type": "POLYGON",
+            "SidesCount": 6,
+            "A": 0.08,
+            "B": 0.08,
+            "H": 0.02,
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0.15,
+                    "y": -0.02,
+                    "z": 0.56
+                },
+                "Rotation": 
+                {
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 1.5,
+                    "yScale": 0.2,
                     "zScale": 1
                 }
             }
         },
         {
             "Id": "Eyeballid",
-            "Name": "Eyeball",
-            "Type": "POLYGON",
-            "SidesCount": 8,
-            "A": 0.02,
-            "B": 0.02,
-            "H": 0.01,
+            "Name": "Ball",
+            "Type": "SPHERE",
+            "Radius": 0.15,
+            "xPartitions": 20,
+            "yPartitions": 70,        
             "Color": {
-                "red": 0,
-                "green": 0,
-                "blue": 0
+                "red": 245,
+                "green": 245,
+                "blue": 245
+             },
+             "Transformation":{                
+                 "Translation": 
+                 {
+                     "x": -0.05,
+                     "y": -0.04,
+                     "z": 0.13
+                 },
+                 "Rotation":{
+                     "alpha": 0,
+                     "beta": 180,
+                     "gamma": 0
+                 },
+                 "Zoom":{
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "zScale": 0.75
+                 }        
+             },
+            "PlaneColors":
+            [
+               {
+                    "Color": {
+                        "red": 0,
+                        "blue": 0,
+                        "green": 0
+                    },
+                    "Range":{
+                        "from": 0,
+                        "to": 20
+                    }
+                },
+                {
+                    "Color": {
+                        "red": 69,
+                        "blue": 125,
+                        "green": 160
+                    },
+                    "Range":{
+                        "from": 20,
+                        "to": 61
+                    }
+                },
+                {
+                    "Color":{
+                        "red": 255,
+                        "green": 224,
+                        "blue": 189
+                     },
+                     "Range":{
+                         "from": 300,
+                         "to": 1489
+                     }
+                }
+            ]
+        },
+        { 
+            "Id": "CoverId",
+            "Name": "Cover",
+            "Type": "SPHERE",
+            "Radius": 0.2,
+            "xPartitions": 20,
+            "yPartitions": 20,
+            "HiddenPlanes" : [9,10,11, 30,31,32, 51,52,53, 72,73,74, 93,94,95, 114,115,116, 135,136,137,  156,157,158,  177,178,179, 198,199,200, 219,220,221, 240,241,242, 261,262, 263, 282,283,284, 303,304,305, 324,325,326, 345,346,347],
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },             
+             "Transformation":{
+                "Translation":
+                    {
+                        "x": -0.05,
+                        "y": -0.04,
+                        "z": 0.13
+                    },
+                "Rotation":
+                {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                },
+                
+                "Zoom":{
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "zScale": 0.75
+                 } 
+             }
+            
+        },  
+        {
+            "Id": "Eyeballid1",
+            "Name": "Ball1",
+            "Type": "SPHERE",
+            "Radius": 0.15,
+            "xPartitions": 20,
+            "yPartitions": 70,        
+            "Color": {
+                "red": 245,
+                "green": 245,
+                "blue": 245
+             },
+             "Transformation":{                
+                 "Translation": 
+                 {
+                     "x": 0.05,
+                     "y": -0.04,
+                     "z": 0.13
+                 },
+                 "Rotation":{
+                     "alpha": 0,
+                     "beta": 180,
+                     "gamma": 0
+                 },
+                 "Zoom":{
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "zScale": 0.75
+                 }        
+             },
+            "PlaneColors":
+            [
+                {
+                    "Color": {
+                        "red": 0,
+                        "blue": 0,
+                        "green": 0
+                    },
+                    "Range":{
+                        "from": 0,
+                        "to": 20
+                    }
+                },
+                {
+                    "Color": {
+                        "red": 69,
+                        "blue": 125,
+                        "green": 160
+                    },
+                    "Range":{
+                        "from": 20,
+                        "to": 61
+                    }
+                },
+                {
+                    "Color":{
+                        "red": 255,
+                        "green": 224,
+                        "blue": 189
+                     },
+                     "Range":{
+                         "from": 300,
+                         "to": 1489
+                     }
+                }
+            ]
+        },
+        { 
+            "Id": "CoverId1",
+            "Name": "Cover1",
+            "Type": "SPHERE",
+            "Radius": 0.2,
+            "xPartitions": 20,
+            "yPartitions": 20,
+            "HiddenPlanes" : [9,10,11, 30,31,32, 51,52,53, 72,73,74, 93,94,95, 114,115,116, 135,136,137,  156,157,158,  177,178,179, 198,199,200, 219,220,221, 240,241,242, 261,262, 263, 282,283,284, 303,304,305, 324,325,326, 345,346,347],
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },             
+             "Transformation":{
+                "Translation":
+                    {
+                        "x": 0.05,
+                        "y": -0.04,
+                        "z": 0.13
+                    },
+                "Rotation":
+                {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                },
+                
+                "Zoom":{
+                    "xScale": 0.75,
+                    "yScale": 0.75,
+                    "zScale": 0.75
+                 } 
+             }
+            
+        }, 
+        {
+            "Id": "CrownId",
+            "Name": "Crown",
+            "Type": "POLYGON",
+            "SidesCount": 20,
+            "A": 0.17,
+            "B": 0.10,
+            "H": 0.5,
+            "Color": {
+                "red": 255,
+                "green": 193,
+                "blue": 7
              },
             "Transformation": {
                 "Translation": 
                 {
-                    "x": -0.15,
-                    "y": -0.1,
-                    "z": 0.51
-                },
-                "Rotation": 
-                {
-                    "alpha": 90,
-                    "beta": 0,
-                    "gamma": 0
+                    "x": 0,
+                    "y": 0.2,
+                    "z": 0
                 }
             }
         },
         {
-            "Id": "Eyeballid1",
-            "Name": "Eyeball",
-            "Type": "POLYGON",
-            "SidesCount": 8,
-            "A": 0.02,
-            "B": 0.02,
-            "H": 0.01,
+            "Id": "NoseballId",
+            "Name": "Noseball",
+            "Type": "SPHERE",
+            "Radius": 0.1,
+            "xPartitions": 20,
+            "yPartitions": 20,
             "Color": {
-                "red": 0,
-                "green": 0,
-                "blue": 0
+                "red": 255,
+                "green": 224,
+                "blue": 189
              },
-            "Transformation": {
+             "Transformation": {
                 "Translation": 
                 {
-                    "x": 0.17,
+                    "x": 0,
                     "y": -0.1,
-                    "z": 0.51
+                    "z": 0.12
                 },
-                "Rotation": 
-                {
-                    "alpha": 90,
-                    "beta": 0,
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 180,
                     "gamma": 0
                 }
             }
+
         }
     ],
+
     "Aggregators": [
         {
             "Name": "Head",
@@ -389,57 +586,20 @@
             }
         },
         {
-            "Name": "Eyes",
-            "ShapeIds":[
-                "EyeId"
-            ],
-            "ShapeRepeatHints":
-            [
-                {
-                    "Axis": "X",
-                    "RepeatTimes" : 2,
-                    "SpaceDistance": 0.32
-                }
-            ],
-            "Transformation": {
-                "Translation": 
-                {
-                    "x": -0.15,
-                    "y": -0.1,
-                    "z": 0.5
-                },
-                "Rotation": 
-                {
-                    "alpha": 90,
-                    "beta": 0,
-                    "gamma": 0
-                },
-                "Zoom":
-                {
-                    "xScale": 1,
-                    "yScale": 0.3,
-                    "zScale": 1
-                }
-            }
-        },
-        {
-            "Name": "Eyeballs",
+            "Name": "Eye, Ear, Mouth & Ears",
             "ShapeIds":[
                 "Eyeballid",
-                "Eyeballid1",
-                "EyebrowId",
+                "Eyeballid11",
+                
                 "EyebrowId1",
-                "EyeGrooveId"
-            ]
-        },
-        {
-            "Name": "Ear, Mouth & Ears",
-            "ShapeIds": [
+                "EyebrowId2",
+                "CoverId",
+                "CoverId1",                
                 "NoseId",
                 "LipsId",
                 "LeftEarId",
-                "RightEarId"
-
+                "RightEarId",
+                "NoseballId"
             ]
         }
     ]

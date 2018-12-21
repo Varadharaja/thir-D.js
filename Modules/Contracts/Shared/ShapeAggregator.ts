@@ -32,10 +32,11 @@ export class ShapeAggregator
             this.ShapeIds[this.ShapeIds.length] = shape.Id;
             shape.SetPlanes();
             var hiddenPlanes = shape.HiddenPlanes;
+            var planes = this.Planes;
 
             shape.Planes.forEach(function(pl,idx)
             {
-
+                
                 if (hiddenPlanes != null && hiddenPlanes.length > 0 && hiddenPlanes.indexOf(idx) > -1)
                 {
                     pl.ShouldHide = true;

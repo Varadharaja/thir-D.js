@@ -26,7 +26,7 @@ export class Sphere extends Shape
 
     SetPlanes:()=> void = function():void
     {
-        let origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation :  new Point(0,0,0);
+        let origin = new Point(0,0,0);
 
         let planes: Plane[] = new Array();
 
@@ -104,6 +104,24 @@ export class Sphere extends Shape
 
         this.Planes[this.Planes.length] = planes[0];
         this.Planes[this.Planes.length] = planes[planes.length-1];
+
+        var txl = this.Transformation.Translation;
+
+        if (txl != null )
+        {
+            this.Planes.forEach(function(element:Plane) 
+            {
+                element.Points.forEach(function(pt: Point)
+                {
+                    pt.x += txl.x;
+                    pt.y += txl.y;
+                    pt.z += txl.z;
+
+                })
+                
+            });
+        }
+        this.ApplyPlaneColors();
 
         //console.log(planes);
         //this.Planes = planes;

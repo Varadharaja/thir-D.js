@@ -121,9 +121,25 @@ define("Contracts/Shapes/ShapeTypes", ["require", "exports"], function (require,
         ShapeTypes[ShapeTypes["CUSTOM"] = 3] = "CUSTOM";
     })(ShapeTypes = exports.ShapeTypes || (exports.ShapeTypes = {}));
 });
+define("Contracts/Shared/Range", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var NumRange = (function () {
+        function NumRange() {
+        }
+        return NumRange;
+    }());
+    exports.NumRange = NumRange;
+});
 define("Contracts/Interfaces/IShape", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
+    var PlaneColor = (function () {
+        function PlaneColor() {
+        }
+        return PlaneColor;
+    }());
+    exports.PlaneColor = PlaneColor;
 });
 define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Plane_1, Point_1) {
     "use strict";
@@ -221,6 +237,7 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                 var newPl = new Plane_1.Plane(pts, planes[plCnt].Color);
                 newPl.ShapeId = planes[plCnt].ShapeId;
                 newPl.ShouldHide = planes[plCnt].ShouldHide;
+                newPl.Color = planes[plCnt].Color;
                 txedPlanes.push(newPl);
             }
             return txedPlanes;
@@ -246,6 +263,42 @@ define("Contracts/Shapes/Shape", ["require", "exports", "Contracts/Shared/Utilit
             };
             this.TransformedPlanes = function () {
                 return GxUtils_1.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+            };
+            this.ApplyPlaneColors = function () {
+                if (this.PlaneColors != null && this.PlaneColors.length > 0) {
+                    var planes_1 = this.Planes;
+                    this.PlaneColors.forEach(function (plColor, i) {
+                        var pColor = plColor.Color;
+                        if (plColor.Range != null) {
+                            for (var cnt = plColor.Range.from; cnt <= plColor.Range.to; cnt++) {
+                                planes_1[cnt].Color = pColor;
+                            }
+                        }
+                        else {
+                            plColor.Planes.forEach(function (plIdx) {
+                                planes_1[plIdx].Color = pColor;
+                            });
+                        }
+                    });
+                }
+                var planes = this.Planes;
+                if (this.HiddenRanges != null) {
+                    this.HiddenRanges.forEach(function (range) {
+                        for (var cnt = range.from; cnt <= range.to; cnt++) {
+                            planes[cnt].ShouldHide = true;
+                        }
+                    });
+                }
+                if (this.VisibleRanges != null) {
+                    for (var cnt = 0; cnt < planes.length; cnt++) {
+                        planes[cnt].ShouldHide = true;
+                    }
+                    this.VisibleRanges.forEach(function (range) {
+                        for (var cnt = range.from; cnt <= range.to; cnt++) {
+                            planes[cnt].ShouldHide = false;
+                        }
+                    });
+                }
             };
             this.Id = GxUtils_1.GxUtils.NewGuid();
             this.Name = Name;
@@ -295,6 +348,7 @@ define("Contracts/Shapes/Cube", ["require", "exports", "Contracts/Shared/Point",
                     planes[planes.length] = new Plane_2.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
+                this.ApplyPlaneColors();
             };
             _this.Clone = function () {
                 var cube = new Cube(this.name, this.L, this.W, this.H, this.Color);
@@ -357,6 +411,7 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
                     planes[planes.length] = new Plane_3.Plane(facePoints, this.Color, this.Id);
                 }
                 this.Planes = planes;
+                this.ApplyPlaneColors();
             };
             _this.Clone = function () {
                 var cloneShape = new Polygon(this.Name, this.SidesCount, this.A, this.B, this.H, this.Color);
@@ -384,7 +439,7 @@ define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape
         function Sphere(name, r, xParts, yParts, clr) {
             var _this = _super.call(this, name) || this;
             _this.SetPlanes = function () {
-                var origin = this.Transformation != null && this.Transformation.Translation != null ? this.Transformation.Translation : new Point_4.Point(0, 0, 0);
+                var origin = new Point_4.Point(0, 0, 0);
                 var planes = new Array();
                 this.yPartStart = this.yPartStart == null ? 0 : this.yPartStart;
                 this.yPartEnd = this.yPartEnd == null ? this.yPartitions : this.yPartEnd;
@@ -437,6 +492,17 @@ define("Contracts/Shapes/Sphere", ["require", "exports", "Contracts/Shapes/Shape
                 }
                 this.Planes[this.Planes.length] = planes[0];
                 this.Planes[this.Planes.length] = planes[planes.length - 1];
+                var txl = this.Transformation.Translation;
+                if (txl != null) {
+                    this.Planes.forEach(function (element) {
+                        element.Points.forEach(function (pt) {
+                            pt.x += txl.x;
+                            pt.y += txl.y;
+                            pt.z += txl.z;
+                        });
+                    });
+                }
+                this.ApplyPlaneColors();
             };
             _this.Clone = function () {
                 var cloneShape = new Sphere(this.Name, this.Radius, this.xPartitions, this.yPartitions, this.Color);
@@ -577,6 +643,7 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     this.ShapeIds[this.ShapeIds.length] = shape.Id;
                     shape.SetPlanes();
                     var hiddenPlanes = shape.HiddenPlanes;
+                    var planes = this.Planes;
                     shape.Planes.forEach(function (pl, idx) {
                         if (hiddenPlanes != null && hiddenPlanes.length > 0 && hiddenPlanes.indexOf(idx) > -1) {
                             pl.ShouldHide = true;
