@@ -25,11 +25,11 @@
             },
             "VisibleRanges": [
                 {
-                    "from": 8,
-                    "to": 13    
+                    "from": 11,
+                    "to": 14   
                 },
                 {
-                    "from": 29,
+                    "from": 30,
                     "to": 34
                 },
                 {
@@ -89,16 +89,12 @@
                     "to": 325
                 },                                               
                 {
-                    "from": 344,
+                    "from": 345,
                     "to": 346
                 },
                 {
-                    "from": 365,
+                    "from": 367,
                     "to": 371
-                },
-                {
-                    "from": 386,
-                    "to": 392
                 }
                           
             ],
@@ -236,10 +232,11 @@
         {
             "Id": "LipsId",
             "Name": "Lips",
-            "Type": "SPHERE",
-            "Radius": 0.1,
-            "xPartitions": 20,
-            "yPartitions": 20,
+            "Type":"POLYGON",
+            "SidesCount": 6,
+            "A": 0.1,
+            "B": 0.1,
+            "H":0.15,  
             "Color": {
                 "red": 240,
                 "green": 186,
@@ -248,9 +245,9 @@
             "Transformation": {
                 "Translation": 
                 {
-                    "x": 0.005,
-                    "y": -0.20,
-                    "z": 0.08
+                    "x": 0,
+                    "y": -0.70,
+                    "z": 0.48
                 },
                 "Rotation":{
                     "alpha": 90,
@@ -263,6 +260,7 @@
                     "zScale": 1
                 }
             }
+
         },
         {
             "Id": "CheekId",
@@ -730,7 +728,7 @@
                  },
                  {
                     "from": 9,
-                    "to": 14
+                    "to": 15
                 },
                 {
                    "from": 20,
@@ -784,15 +782,17 @@
             "Id": "HairId2",
             "Name": "Hair 2",
             "Type": "POLYGON",
-            "SidesCount": 10,
-            "A": 0.4,
-            "B": 0.25,
-            "H":0.2,
-            "VisibleRanges": [{
-                "from": 8,
-                "to": 11
-            }],
-            "TopFaceInclination" :{
+            "SidesCount": 8,
+            "A": 0.35,
+            "B": 0.5,
+            "H":0.9,         
+            "VisibleRanges": [
+                {
+                    "from": 2,
+                    "to": 5
+                }
+            ]  ,
+            "BottomFaceInclination" :{
                 "alpha": 0,
                 "beta": 0,
                 "gamma": 0
@@ -805,8 +805,8 @@
              "Transformation": {
                 "Translation": 
                 {
-                    "x": -0.05,
-                    "y": 0.01,
+                    "x": 0.04,
+                    "y": -0.9,
                     "z": 0
                 },
                 "Rotation":
@@ -814,6 +814,38 @@
                     "alpha": 0,
                     "beta": 90,
                     "gamma": 0
+                }
+            }
+        },
+        {
+            "Id":"BeardId",
+            "Name":"Beard",
+            "Type":"POLYGON",   
+            "SidesCount": 8,
+            "A": 0.15,
+            "B": 0.35,
+            "H": 0.7,
+            "TopFaceInclination":{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },  
+            "BottomFaceInclination":{
+                "alpha": 20,
+                "beta": 0,
+                "gamma": 0
+            },           
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": -0.8,
+                    "z": 0.2
                 }
             }
         }
@@ -828,8 +860,8 @@
                 "CheekId",
                 "ChinId",
                 "NeckId",
-                "HairId1"
-
+                "HairId1",
+                "HairId2"
             ],
             "Transformation": 
             {
@@ -861,6 +893,12 @@
                 "LeftEarId",
                 "RightEarId",
                 "NoseballId"
+            ]
+        },
+        {
+            "Name": "Beards",
+            "ShapeIds": [
+                "BeardId"
             ]
         }
     ]
