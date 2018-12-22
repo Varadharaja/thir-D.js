@@ -23,8 +23,88 @@
                     "z": 0
                 }
             },
-            "HiddenPlanes" : [ 31,32,33,34,35, 52,53,54,55,56, 73,74,75,76,77, 94,95,96,97,98,99, 115,116,117,118, 136,137,138,139,140,  157,158,159,160,  178,179,180, 199,200,201,202, 220,221,222,223, 241,242,243, 262, 263,264, 265, 283,284,285,286]
+            "VisibleRanges": [
+                {
+                    "from": 8,
+                    "to": 13    
+                },
+                {
+                    "from": 29,
+                    "to": 34
+                },
+                {
+                    "from": 50,
+                    "to": 53
+                },
+                {
+                    "from": 71,
+                    "to": 74
+                },
+                {
+                    "from": 92,
+                    "to": 93
+                },
+                {
+                    "from": 113,
+                    "to": 114   
+                },
+                {
+                    "from": 134,
+                    "to": 135
+                },
+                {
+                    "from": 155,
+                    "to": 156
+                },
+                {
+                    "from": 176,
+                    "to": 177
+                },
+                {
+                    "from": 197,
+                    "to": 198
+                },
+                {
+                    "from": 218,
+                    "to": 219
+                },
+                {
+                    "from": 239,
+                    "to": 240
+                },
+                {
+                    "from": 260,
+                    "to": 261
+                },
+                {
+                    "from": 281,
+                    "to": 282
+                },                
+                {
+                    "from": 302,
+                    "to": 304
+                },                                
+                {
+                    "from": 323,
+                    "to": 325
+                },                                               
+                {
+                    "from": 344,
+                    "to": 346
+                },
+                {
+                    "from": 365,
+                    "to": 371
+                },
+                {
+                    "from": 386,
+                    "to": 392
+                }
+                          
+            ],
+            "HiddenPlanes1" : [ 31,32,33,34,35, 52,53,54,55,56, 73,74,75,76,77, 94,95,96,97,98,99, 115,116,117,118, 136,137,138,139,140,  157,158,159,160,  178,179,180, 199,200,201,202, 220,221,222,223, 241,242,243, 262, 263,264, 265, 283,284,285,286]
         },
+        
         {
             "Id": "EyeGrooveId",
             "Name": "EyeGroove",
@@ -185,13 +265,13 @@
             }
         },
         {
-            "Id": "ChinId",
-            "Name": "Chin",
+            "Id": "CheekId",
+            "Name": "Cheek",
             "Type": "POLYGON",
             "SidesCount": 8,
             "A": 0.40,
             "B": 0.31,
-            "H":0.7,
+            "H":0.6,
             "TopFaceInclination" :{
                 "alpha": 0,
                 "beta": 0,
@@ -570,15 +650,186 @@
                 }
             }
 
+        },
+        {
+            "Id": "ChinId",
+            "Name": "Chin",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.31,
+            "B": 0.15,
+            "H":0.2,
+            "TopFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 20
+            },
+            "BottomFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },
+             "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": -0.9,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "NeckId",
+            "Name": "Neck",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.25,
+            "B": 0.25,
+            "H":0.7,           
+            "BottomFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 255,
+                "green": 224,
+                "blue": 189
+             },
+             "Transformation": {
+                "Translation": 
+                {
+                    "x": 0.1,
+                    "y": -1,
+                    "z": 0
+                },
+                "Rotation":
+                {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+            }
+        }, 
+        {
+            "Id": "HairId1",
+            "Name": "Hair 1",
+            "Type": "SPHERE",
+            "Radius": 0.55,
+            "xPartitions": 10,
+            "yPartitions": 10,
+             "VisibleRanges":[
+                 {
+                     "from": 0,
+                     "to": 8
+                 },
+                 {
+                    "from": 9,
+                    "to": 14
+                },
+                {
+                   "from": 20,
+                   "to": 25
+                },
+                {
+                    "from": 31,
+                    "to": 36
+                },
+                {
+                    "from": 42,
+                    "to": 47
+                },
+                {
+                    "from": 53,
+                    "to": 58
+                },
+                {
+                    "from": 64,
+                    "to": 69
+                },
+                {
+                    "from": 75,
+                    "to": 80
+                },
+                {
+                    "from": 86,
+                    "to": 91
+                },
+                {
+                    "from": 97,
+                    "to": 108
+                }
+                
+             ],      
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+            "Transformation": {
+                "Translation": 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "HairId2",
+            "Name": "Hair 2",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.4,
+            "B": 0.25,
+            "H":0.2,
+            "VisibleRanges": [{
+                "from": 8,
+                "to": 11
+            }],
+            "TopFaceInclination" :{
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+             },
+             "Transformation": {
+                "Translation": 
+                {
+                    "x": -0.05,
+                    "y": 0.01,
+                    "z": 0
+                },
+                "Rotation":
+                {
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+            }
         }
+        
     ],
 
     "Aggregators": [
         {
-            "Name": "Head",
+            "Name": "Head & Neck",
             "ShapeIds": [
                 "CraniumId",
-                "ChinId"
+                "CheekId",
+                "ChinId",
+                "NeckId",
+                "HairId1"
+
             ],
             "Transformation": 
             {

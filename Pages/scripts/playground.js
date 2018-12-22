@@ -287,6 +287,8 @@ function GetPolygon(shp)
     {
         poly.BottomFaceInclination = new angNS.Angle(shp.BottomFaceInclination.alpha, shp.BottomFaceInclination.beta, shp.BottomFaceInclination.gamma);
     }
+    poly.VisibleRanges = GetRange(shp.VisibleRanges);
+
 
     return poly;
 }
