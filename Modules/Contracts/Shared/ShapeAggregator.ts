@@ -98,10 +98,21 @@ export class ShapeAggregator
                         let x = shape.Transformation.Translation.x +  (xRepeater * xRepeatHint.SpaceDistance);
                         let y = shape.Transformation.Translation.y +  (yRepeater * yRepeatHint.SpaceDistance);
                         let z = shape.Transformation.Translation.z +  (zRepeater * zRepeatHint.SpaceDistance);
-                        repeatShape.Transformation = new Transformation(new Point(x,y,z),null,null,null);
+
+                        repeatShape.Transformation = new Transformation(new Point(x,y,z),shape.Transformation.Rotation,shape.Transformation.Skewness,shape.Transformation.Zoom);
 
                         repeatShape.SetPlanes();
-                        this.Planes = this.Planes.concat(repeatShape.Planes);    
+
+                        if (repeatShape.Transformation != null && repeatShape.Transformation.Rotation != null)
+                        {
+                            this.Planes = this.Planes.concat(repeatShape.TransformedPlanes());
+
+                        }
+                        else
+                        {
+                            this.Planes = this.Planes.concat(repeatShape.Planes);    
+
+                        }
 
                     }
                 }    

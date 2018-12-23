@@ -1,0 +1,358 @@
+{
+    "Name": "New Fort",
+    "Shapes":[
+        {
+            "Id": "GroundId",
+            "Name": "Ground",
+            "Type": "CUBE",
+            "L": 4,
+            "W": 4,
+            "H": 0.1,
+            "Color": 
+            {
+                "red": 0,
+                "blue": 0,
+                "green": 255
+            },
+            "Transformation":
+            {
+                "Translation":{
+                    "x": -2,
+                    "y": -1.5,
+                    "z": -3
+                }
+            }
+        },
+        {
+            "Id": "L1GroundId",
+            "Name": "Level 1 - Ground",
+            "Type": "CUBE",
+            "L": 3,
+            "W": 3,
+            "H": 0.7,
+            "Color": 
+            {
+                "red": 34,
+                "green": 177,
+                "blue": 76
+            },
+            "Transformation":
+            {
+                "Translation":{
+                    "x": -1.5,
+                    "y": -1.5,
+                    "z": -3.15
+                }
+            }
+        },
+        
+        {
+            "Id": "L1TowerId",
+            "Name": "Level 1 Tower",
+            "Type":"POLYGON",
+            "SidesCount": 4,            
+            "A": 0.15,
+            "B": 0.2,
+            "H": 0.7, 
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{
+               
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 45,
+                    "gamma": 0
+                },
+                "Translation":{
+                    "x": -1.5,
+                    "y": -1.5,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "L1TowerSlabId",
+            "Name": "Level 1 Tower Slab",
+            "Type":"CUBE",
+            "L": 0.2,
+            "W": 0.3,
+            "H": 0.05,
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -1.6,
+                    "y": -0.8,
+                    "z": -0.15
+                }
+            }
+        },
+        {
+            "Id": "L1TowerTopSlateId",
+            "Name": "Level 1 Tower Top Slate",
+            "Type":"POLYGON",
+            "SidesCount": 4,            
+            "A": 0.12,
+            "B": 0.15,
+            "H": 0.05, 
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{
+               
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 45,
+                    "gamma": 0
+                },
+                "Translation":{
+                    "x": -1.5,
+                    "y": -0.75,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "L1TowerBridgeId",
+            "Name": "Level 1 Tower Bridge",
+            "Type":"CUBE",
+            "L": 3,
+            "W": 0.25,
+            "H": 0.1,
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -1.6,
+                    "y": -0.9,
+                    "z": -0.15
+                }
+            }
+        },
+        {
+            "Id": "L1TowerFloor",
+            "Name": "Level 1 Floor",
+            "Type":"CUBE",
+            "L": 3,
+            "W": 0.25,
+            "H": 0.1,
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -1.6,
+                    "y": -1.4,
+                    "z": -0.15
+                }
+            }
+        },
+        {
+            "Id": "L1TowerFloor1",
+            "Name": "Level 1 Floor 1",
+            "Type":"CUBE",
+            "L": 3,
+            "W": 0.25,
+            "H": 0.05,
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -1.6,
+                    "y": -1.15,
+                    "z": -0.15
+                }
+            }
+        },
+        {
+            "Id": "L1TowerPillar",
+            "Name": "Level 1 Pillar",
+            "Type":"CUBE",
+            "L": 0.05,
+            "W": 0.05,
+            "H": 0.5,
+            "Color": {
+                "red": 228,
+                "green": 182,
+                "blue": 146
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -1.6,
+                    "y": -1.4,
+                    "z": -0.15
+                }
+            }
+        },
+        {
+            "Id": "L02L1StairCase",
+            "Name": "L0 to L1 Stair Case",
+            "Type":"CUBE",
+            "L": 0.7,
+            "W": 1,
+            "H": 0.05,
+            "Color": {
+                "red": 151,
+                "green": 106,
+                "blue": 75
+             },
+            "Transformation":{              
+                "Translation":{
+                    "x": -0.35,
+                    "y": -1.2,
+                    "z": -0.15
+                },
+                "Rotation":{
+                    "alpha": 30,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "side_wall_1_brickId",
+            "Name": "side_wall_1_Brick",
+            "Type": "CUBE",
+            "L": 0.2,
+            "W": 0.2,
+            "H": 0.1,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -1.8,
+                     "y": -1.4,
+                     "z": -2.9
+                 }
+             }
+        },
+        {
+            "Id": "side_wall_1_alt_brickId",
+            "Name": "side_wall_1_alt_Brick",
+            "Type": "CUBE",
+            "L": 0.2,
+            "W": 0.2,
+            "H": 0.1,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -1.8,
+                     "y": -1.3,
+                     "z": -3
+                 }
+             }
+        }
+    ],
+    "Aggregators":
+    [
+        {
+            "Name": "Ground",
+            "ShapeIds":[
+                "GroundId",
+                "L1GroundId"
+            ] 
+        },
+        {
+            "Name": "Level 1 Towers",
+            "ShapeIds":[
+                "L1TowerId",
+                "L1TowerSlabId",
+                "L1TowerTopSlateId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes" : 2,
+                    "SpaceDistance": 3
+                }
+            ]
+        },
+        {
+            "Name": "L1 Tower Pillars",
+            "ShapeIds":[
+                "L1TowerPillar"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes" : 30,
+                    "SpaceDistance": 0.1
+                }
+            ]
+        },
+        {
+            "Name": "Misc",
+            "ShapeIds":[
+                "L1TowerBridgeId",
+                "L1TowerFloor",
+                "L1TowerFloor1",
+                "L02L1StairCase"
+            ]
+        },
+        {
+            "Name": "SideWall1",
+            "ShapeIds": [
+                "side_wall_1_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "Z",
+                    "RepeatTimes" : 15,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 3,
+                    "SpaceDistance": 0.2
+                }
+            ]
+        },
+        {
+            "Name": "SideWall1Alt",
+            "ShapeIds": [
+                "side_wall_1_alt_brickId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "Z",
+                    "RepeatTimes" : 15,
+                    "SpaceDistance": 0.2
+                },
+                {
+                    "Axis": "Y",
+                    "RepeatTimes" : 3,
+                    "SpaceDistance": 0.2
+                }
+            ]
+        }
+    ]
+}

@@ -119,3 +119,9 @@ span[for="shape-name"]
     height: 80vh;
     overflow-y: auto;
 }
+
+#shapes
+{
+    height: 80vh;
+    overflow-y: auto;
+}

@@ -237,7 +237,7 @@
             {
                 let dt = time-time_old;
                 rotateZ(mov_matrix, dt*0.000);//time
-                rotateY(mov_matrix, dt*0.0009);
+                rotateY(mov_matrix, dt*0.00009);
                 rotateX(mov_matrix, dt*0.000);
                 time_old = time;
 

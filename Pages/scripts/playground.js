@@ -296,7 +296,7 @@ function GetPolygon(shp)
 
 $(document).ready(function()
 {   
-    let prjs = ["Fort","Human","Eye"];
+    let prjs = ["Fort","Human","Eye","NewFort"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
