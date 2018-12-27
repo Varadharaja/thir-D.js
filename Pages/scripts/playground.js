@@ -74,6 +74,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
             let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
+            let shapeRepeatTransformationHint = project.Aggregators[aggCnt].ShapeRepeatTransformationHint;
             $.map(project.Shapes,function(e,i)
             {
 
@@ -100,6 +101,11 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                     {
 
                         aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
+
+                    }
+                    else if (shapeRepeatTransformationHint != null)
+                    {
+                        aggregators[aggCnt].AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
 
                     }
                     else

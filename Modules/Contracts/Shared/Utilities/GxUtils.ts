@@ -129,17 +129,16 @@ export class GxUtils
 
             let pts: Point[] = new Array();
 
-            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt ++)
+            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++)
             {
                 let pt = planes[plCnt].Points[ptCnt];
-                let newPt: Point;
+                let newPt: Point =pt;
               
                 if (transformation.Rotation != null)
                 {
                     newPt  = GxUtils.Rotate(pt,centroid,transformation.Rotation);
                 }
-
-
+                
                 if (transformation.Zoom != null && transformation.Translation != null)
                 {
                     newPt.x -= transformation.Translation.x;
@@ -153,10 +152,41 @@ export class GxUtils
                     newPt.x += transformation.Translation.x;
                     newPt.y += transformation.Translation.y;
                     newPt.z += transformation.Translation.z;
-                
                 }
+                
+                pts.push(newPt);
 
+            }
+            var newPl = new Plane(pts,planes[plCnt].Color);
+            newPl.ShapeId = planes[plCnt].ShapeId;
+            newPl.ShouldHide = planes[plCnt].ShouldHide;
+            newPl.Color = planes[plCnt].Color;
+            txedPlanes.push(newPl);
+        }
+        return txedPlanes;
+    }
 
+    static ApplyTransform:(planes: Plane[], transformation: Transformation)=> Plane[] = function(planes: Plane[], transformation: Transformation): Plane[] 
+    {
+        
+        let txedPlanes: Plane[] = new Array();
+        for(let plCnt=0; plCnt < planes.length; plCnt++)
+        {
+            let pts: Point[] = new Array();
+
+            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++)
+            {
+                let pt = planes[plCnt].Points[ptCnt];
+                let newPt: Point = pt;
+              
+              
+                if (transformation.Translation != null)
+                {
+                    newPt.x += transformation.Translation.x;
+                    newPt.y += transformation.Translation.y;
+                    newPt.z += transformation.Translation.z;
+
+                }
                 pts.push(newPt);
 
             }

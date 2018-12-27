@@ -13,6 +13,7 @@ export class ShapeAggregator
     ShapeIds : string[]  = new Array();  ;
     ShapeRepeatHints: RepeatHint[];
     AggregateRepeatHints: RepeatHint[];
+    ShapeRepeatTransformationHint: RepeatHint;
 
     constructor(transformation: Transformation)
     {
@@ -55,6 +56,42 @@ export class ShapeAggregator
         }
 
     };
+
+    AddShapeWithRepeatTransformationHint = function(shape: IShape, repeatHint: RepeatHint): void
+    {
+        if (this.ShapeIds.length > 0)
+        {
+            throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+        
+        } 
+        else
+        {
+            shape.SetPlanes();
+            let planes: Plane[] = new Array();  
+
+            if (shape.Transformation != null)
+            {
+                planes = shape.TransformedPlanes();
+            }
+            else
+            {
+                planes = shape.Planes;    
+            }
+
+            this.Planes = this.Planes.concat(planes);
+
+            for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes; repeatCnt++)
+            {
+
+                let txedPlanes: Plane[] = JSON.parse(JSON.stringify(GxUtils.ApplyTransform(planes, repeatHint.Transformation)));
+
+                this.Planes = this.Planes.concat(txedPlanes);
+
+                planes = txedPlanes;
+
+            }
+        }
+    }
 
     AddShapeWithRepeatHints = function(shape: IShape, repeatHints: RepeatHint[]): void 
     {

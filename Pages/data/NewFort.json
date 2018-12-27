@@ -266,6 +266,27 @@
                      "z": -3
                  }
              }
+        },
+        {
+            "Id": "StepId",
+            "Name": "Step",
+            "Type": "CUBE",
+            "L": 0.5,
+            "W": 0.2,
+            "H": 0.05,
+            "Color": {
+                "red": 208,
+                "green": 133,
+                "blue": 111
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                    "x": -0.35,
+                    "y": -0.8,
+                    "z": -0.6
+                 }
+             }
         }
     ],
     "Aggregators":
@@ -312,9 +333,8 @@
             "ShapeIds":[
                 "L1TowerBridgeId",
                 "L1TowerFloor",
-                "L1TowerFloor1",
-                "L02L1StairCase"
-            ]
+                "L1TowerFloor1"
+                ]
         },
         {
             "Name": "SideWall1",
@@ -353,6 +373,24 @@
                     "SpaceDistance": 0.2
                 }
             ]
+        },
+        {
+            "Name": "Steps",
+            "ShapeIds": [
+                "StepId"
+            ],
+            "ShapeRepeatTransformationHint":
+                {
+                    "RepeatTimes" : 10,
+                    "Transformation": {
+                        "Translation":{
+                            "x": 0,
+                            "y": -0.05,
+                            "z": 0.1
+                        }
+                    }
+                }
+            
         }
     ]
 }

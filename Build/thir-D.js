@@ -468,7 +468,7 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                 var pts = new Array();
                 for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
                     var pt = planes[plCnt].Points[ptCnt];
-                    var newPt = void 0;
+                    var newPt = pt;
                     if (transformation.Rotation != null) {
                         newPt = GxUtils.Rotate(pt, centroid, transformation.Rotation);
                     }
@@ -479,6 +479,28 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                         newPt.x *= transformation.Zoom.xScale;
                         newPt.y *= transformation.Zoom.yScale;
                         newPt.z *= transformation.Zoom.zScale;
+                        newPt.x += transformation.Translation.x;
+                        newPt.y += transformation.Translation.y;
+                        newPt.z += transformation.Translation.z;
+                    }
+                    pts.push(newPt);
+                }
+                var newPl = new Plane_3.Plane(pts, planes[plCnt].Color);
+                newPl.ShapeId = planes[plCnt].ShapeId;
+                newPl.ShouldHide = planes[plCnt].ShouldHide;
+                newPl.Color = planes[plCnt].Color;
+                txedPlanes.push(newPl);
+            }
+            return txedPlanes;
+        };
+        GxUtils.ApplyTransform = function (planes, transformation) {
+            var txedPlanes = new Array();
+            for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                var pts = new Array();
+                for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
+                    var pt = planes[plCnt].Points[ptCnt];
+                    var newPt = pt;
+                    if (transformation.Translation != null) {
                         newPt.x += transformation.Translation.x;
                         newPt.y += transformation.Translation.y;
                         newPt.z += transformation.Translation.z;
@@ -758,6 +780,27 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     }
                     else {
                         this.Planes = this.Planes.concat(shape.Planes);
+                    }
+                }
+            };
+            this.AddShapeWithRepeatTransformationHint = function (shape, repeatHint) {
+                if (this.ShapeIds.length > 0) {
+                    throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+                }
+                else {
+                    shape.SetPlanes();
+                    var planes = new Array();
+                    if (shape.Transformation != null) {
+                        planes = shape.TransformedPlanes();
+                    }
+                    else {
+                        planes = shape.Planes;
+                    }
+                    this.Planes = this.Planes.concat(planes);
+                    for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes; repeatCnt++) {
+                        var txedPlanes = JSON.parse(JSON.stringify(GxUtils_3.GxUtils.ApplyTransform(planes, repeatHint.Transformation)));
+                        this.Planes = this.Planes.concat(txedPlanes);
+                        planes = txedPlanes;
                     }
                 }
             };
