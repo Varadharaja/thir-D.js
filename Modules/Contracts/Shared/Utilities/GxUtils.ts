@@ -2,6 +2,16 @@ import { Plane } from "../Plane";
 import { Point } from "../Point";
 import { Angle } from "../Angle";
 import { Transformation } from "../Transformation";
+import { Scale } from "../Scale";
+import { Color } from "../Color";
+import { NumRange } from "../Range";
+
+import { Shape } from "../../Shapes/Shape";
+//import { PlaneColor } from "../../Interfaces/IShape";
+import { Cube } from "../../Shapes/Cube";
+import { Sphere } from "../../Shapes/Sphere";
+import { Polygon } from "../../Shapes/Polygon";
+import { IShape } from "../../Interfaces/IShape";
 
 export class GxUtils
 {
@@ -164,4 +174,5 @@ export class GxUtils
 
         return Math.sqrt(Math.pow(pointA.x -pointB.x,2) + Math.pow(pointA.y -pointB.y,2) + Math.pow(pointA.z -pointB.z,2));
     }
+
 }

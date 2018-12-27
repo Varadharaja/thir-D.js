@@ -12,4 +12,10 @@ export class Color
         this.blue = b/255;
         this.alpha = a;        
     }
+
+    static Import(clr: any): Color
+    {
+        let color = new Color(clr.red,clr.green,clr.blue);
+        return color;
+    }
 }

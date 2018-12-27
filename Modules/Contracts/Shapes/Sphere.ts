@@ -4,6 +4,9 @@ import { ShapeTypes } from "./ShapeTypes";
 import { Plane } from "../Shared/Plane";
 import { Point } from "../Shared/Point";
 import { IShape } from "../Interfaces/IShape";
+import { Transformation } from "../Shared/Transformation";
+import { PlaneColors } from "../Shared/PlaneColor";
+import { NumRanges } from "../Shared/Range";
 
 export class Sphere extends Shape
 {
@@ -122,14 +125,25 @@ export class Sphere extends Shape
             });
         }
         this.ApplyPlaneColors();
-
-        //console.log(planes);
-        //this.Planes = planes;
-    }
+  }
 
     Clone:()=> IShape = function() : IShape
     {
         let cloneShape  = new Sphere(this.Name,this.Radius,this.xPartitions,this.yPartitions, this.Color);
         return cloneShape;
+    }
+
+    static Import(shp:any): Sphere
+    {
+        let sphere = new Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,Color.Import(shp.Color));
+        sphere.Transformation = Transformation.Import(shp.Transformation);
+        sphere.yPartStart = shp.yPartStart;
+        sphere.yPartEnd = shp.yPartEnd;
+        sphere.HiddenPlanes = shp.HiddenPlanes;
+        sphere.PlaneColors = PlaneColors.Import(shp.PlaneColors);
+        sphere.HiddenRanges = NumRanges.Import(shp.HiddenRanges);
+        sphere.VisibleRanges = NumRanges.Import(shp.VisibleRanges);
+        return sphere;
+    
     }
 }

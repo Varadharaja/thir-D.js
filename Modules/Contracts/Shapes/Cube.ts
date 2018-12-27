@@ -7,6 +7,7 @@ import { Angle } from "../Shared/Angle";
 import { Color } from "../Shared/Color";
 import { Shape } from "./Shape";
 import { ShapeTypes } from "./ShapeTypes";
+import { PlaneColors } from "../Shared/PlaneColor";
 
 
 export class Cube extends Shape
@@ -80,6 +81,16 @@ export class Cube extends Shape
         this.H = h;         
         this.Color = clr;
 
+    }
+
+    static Import(shp:any ): Cube
+    {
+        
+        let cube = new Cube(shp.Name,shp.L,shp.W,shp.H, Color.Import(shp.Color));
+        cube.Transformation = Transformation.Import(shp.Transformation);
+        cube.HiddenPlanes = shp.HiddenPlanes;
+        cube.PlaneColors = PlaneColors.Import(shp.PlaneColors);
+        return cube;
     }
 
 

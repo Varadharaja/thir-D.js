@@ -4,6 +4,7 @@ import { Plane } from "../Shared/Plane";
 import { Color } from "../Shared/Color";
 import { ShapeTypes } from "../Shapes/ShapeTypes";
 import { NumRange } from "../Shared/Range";
+import { PlaneColor } from "../Shared/PlaneColor";
 
 
 export interface IShape
@@ -48,12 +49,4 @@ export interface IShape
 
 }
 
-export class PlaneColor
-{
-    Color: Color;
-    
-    Planes: number[];
-
-    Range: NumRange;
-}
 

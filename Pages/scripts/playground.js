@@ -69,7 +69,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 
             if (project.Aggregators[aggCnt].Transformation != null)
             {
-                aggregators[aggCnt].Transformation = GetTransformation(project.Aggregators[aggCnt].Transformation);
+                aggregators[aggCnt].Transformation = transformNS.Transformation.Import(project.Aggregators[aggCnt].Transformation);
             }
 
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
@@ -83,13 +83,13 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                     switch(e.Type)
                     {
                         case "CUBE":
-                        shape = GetCube(e);
+                        shape = cubeNS.Cube.Import(e);
                         break;
                         case "SPHERE":
-                        shape = GetSphere(e);
+                        shape = sphereNS.Sphere.Import(e);
                         break;
                         case "POLYGON":
-                        shape = GetPolygon(e);
+                        shape = PolygonNS.Polygon.Import(e);
                     }
 
                     if (e.Id == selectShapeId)
@@ -160,137 +160,6 @@ function LoadShapes(project)
         }
 
 
-}
-
-
-function GetTransformation(txm)
-{
-    if (txm != null)
-    {
-        let angle;
-        let pt;
-        let zoom;
-        if (txm.Rotation != null)
-        {
-            angle = new angNS.Angle(txm.Rotation.alpha, txm.Rotation.beta,txm.Rotation.gamma);
-        }
-
-        if (txm.Translation != null)
-        {
-            pt = new pointNS.Point(txm.Translation.x,txm.Translation.y,txm.Translation.z);
-
-        }
-
-        if (txm.Zoom != null)
-        {
-            zoom = new scaleNS.Scale(txm.Zoom.xScale,txm.Zoom.yScale,txm.Zoom.zScale);
-        }
-        
-        return new transformNS.Transformation(pt, angle,null,zoom);
-    }
-    else
-    {
-        return null;
-    }
-}
-
-function GetCube(shp)
-{
-
-    let cube = new cubeNS.Cube(shp.Name,shp.L,shp.W,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
-
-    cube.Transformation = GetTransformation(shp.Transformation);
-
-    cube.HiddenPlanes = shp.HiddenPlanes;
-    cube.PlaneColors = GetPlaneColors(shp.PlaneColors);
-    
-    return cube;
-}
-
-function GetSphere(shp)
-{
-    let sphere = new sphereNS.Sphere(shp.Name,shp.Radius,shp.xPartitions,shp.yPartitions,new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
-    sphere.Transformation = GetTransformation(shp.Transformation);
-    sphere.yPartStart = shp.yPartStart;
-    sphere.yPartEnd = shp.yPartEnd;
-    sphere.HiddenPlanes = shp.HiddenPlanes;
-    sphere.PlaneColors = GetPlaneColors(shp.PlaneColors);
-    sphere.HiddenRanges = GetRanges(shp.HiddenRanges);
-    sphere.VisibleRanges = GetRange(shp.VisibleRanges);
-    return sphere;
- 
-}
-
-function GetPlaneColors(plColors)
-{
-    var outputColors = new Array();
-    if (plColors != null && plColors.length > 0)
-    {
-        plColors.forEach(function(e,i){
-            let plColor = new iShapeNS.PlaneColor();
-            plColor.Color = new ColorNS.Color(e.Color.red,e.Color.green, e.Color.blue);
-            plColor.Planes = e.Planes;
-
-            if (e.Range != null)
-            {
-                plColor.Range = GetRange(e.Range);
-            }
-            outputColors.push(plColor);
-        })
-    }
-
-    return outputColors;
-}
-
-
-function GetRange(rng)
-{
-    var opRng = new numRangeNS.NumRange();
-    if (rng != null)
-    {
-        opRng.from = rng.from;
-        opRng.to = rng.to;
-    
-    }
-    return rng;
-}
-
-
-function GetRanges(rngs)
-{
-    var outputRngs = new Array();
-
-    if (rngs != null)
-    {
-        rngs.forEach(function(rng)
-        {
-            outputRngs.push(GetRange(rng));
-        }
-        );
-    }
-    return outputRngs;
-}
-
-function GetPolygon(shp)
-{
-    let poly = new PolygonNS.Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, new ColorNS.Color(shp.Color.red,shp.Color.green,shp.Color.blue));
-    poly.Transformation = GetTransformation(shp.Transformation);
-    poly.HiddenPlanes = shp.HiddenPlanes;
-    poly.PlaneColors = GetPlaneColors(shp.PlaneColors);
-
-    if (shp.TopFaceInclination != null)
-    {
-        poly.TopFaceInclination = new angNS.Angle(shp.TopFaceInclination.alpha, shp.TopFaceInclination.beta, shp.TopFaceInclination.gamma);
-    }
-
-    if (shp.BottomFaceInclination != null)
-    {
-        poly.BottomFaceInclination = new angNS.Angle(shp.BottomFaceInclination.alpha, shp.BottomFaceInclination.beta, shp.BottomFaceInclination.gamma);
-    }
-    poly.VisibleRanges = GetRange(shp.VisibleRanges);
-
-
-    return poly;
 }
 
 

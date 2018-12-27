@@ -8,6 +8,8 @@ import { Color } from "../Shared/Color";
 import { Shape } from "./Shape";
 import { ShapeTypes } from "./ShapeTypes";
 import { GxUtils } from "../Shared/Utilities/GxUtils";
+import { PlaneColors } from "../Shared/PlaneColor";
+import { NumRanges } from "../Shared/Range";
 
 
 // Regular Polygon in 3D
@@ -141,5 +143,25 @@ export class Polygon extends Shape
         return cloneShape;
     }
 
+    static Import(shp:any):Polygon
+    {
+        let poly = new Polygon(shp.Name,shp.SidesCount,shp.A,shp.B,shp.H, Color.Import(shp.Color));
+        poly.Transformation = Transformation.Import(shp.Transformation);
+        poly.HiddenPlanes = shp.HiddenPlanes;
+        poly.PlaneColors = PlaneColors.Import(shp.PlaneColors);
+
+        if (shp.TopFaceInclination != null)
+        {
+            poly.TopFaceInclination = new Angle(shp.TopFaceInclination.alpha, shp.TopFaceInclination.beta, shp.TopFaceInclination.gamma);
+        }
+
+        if (shp.BottomFaceInclination != null)
+        {
+            poly.BottomFaceInclination = new Angle(shp.BottomFaceInclination.alpha, shp.BottomFaceInclination.beta, shp.BottomFaceInclination.gamma);
+        }
+        poly.VisibleRanges = NumRanges.Import(shp.VisibleRanges);
+
+        return poly;
+    }
 
 }

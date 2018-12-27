@@ -1,10 +1,11 @@
-import { IShape, PlaneColor } from "../Interfaces/IShape";
+import { IShape } from "../Interfaces/IShape";
 import { Plane } from "../Shared/Plane";
 import { Transformation } from "../Shared/Transformation";
 import { Color } from "../Shared/Color";
 import { GxUtils } from "../Shared/Utilities/GxUtils";
 import { ShapeTypes } from "./ShapeTypes";
 import { NumRange } from "../Shared/Range";
+import { PlaneColor } from "../Shared/PlaneColor";
 
 export class Shape implements IShape
 {
@@ -81,7 +82,7 @@ export class Shape implements IShape
         }
         let planes = this.Planes;
 
-        if (this.HiddenRanges != null)
+        if (this.HiddenRanges != null && this.HiddenRanges.length > 0)
         {
             this.HiddenRanges.forEach(function(range: NumRange)
             {
@@ -92,7 +93,7 @@ export class Shape implements IShape
             });
         }
 
-        if (this.VisibleRanges != null)
+        if (this.VisibleRanges != null && this.VisibleRanges.length > 0)
         {
             for (var cnt=0; cnt < planes.length; cnt++ )
             {
