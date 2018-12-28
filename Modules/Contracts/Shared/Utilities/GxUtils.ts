@@ -166,9 +166,9 @@ export class GxUtils
         return txedPlanes;
     }
 
-    static ApplyTransform:(planes: Plane[], transformation: Transformation)=> Plane[] = function(planes: Plane[], transformation: Transformation): Plane[] 
+    static ApplyRepeatTransform:(Planes: Plane[], transformation: Transformation)=> Plane[] = function(Planes: Plane[], transformation: Transformation): Plane[] 
     {
-        
+        let planes:Plane[] = JSON.parse(JSON.stringify(Planes));
         let txedPlanes: Plane[] = new Array();
         for(let plCnt=0; plCnt < planes.length; plCnt++)
         {

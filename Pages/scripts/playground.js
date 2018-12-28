@@ -171,7 +171,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Fort","Human","Eye","NewFort"];
+    let prjs = ["Fort","Human","Eye","NewFort","Elephant"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");

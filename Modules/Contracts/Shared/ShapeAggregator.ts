@@ -80,10 +80,10 @@ export class ShapeAggregator
 
             this.Planes = this.Planes.concat(planes);
 
-            for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes; repeatCnt++)
+            for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
             {
 
-                let txedPlanes: Plane[] = JSON.parse(JSON.stringify(GxUtils.ApplyTransform(planes, repeatHint.Transformation)));
+                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
 
                 this.Planes = this.Planes.concat(txedPlanes);
 

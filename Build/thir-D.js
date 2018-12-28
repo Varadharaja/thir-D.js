@@ -493,7 +493,8 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             }
             return txedPlanes;
         };
-        GxUtils.ApplyTransform = function (planes, transformation) {
+        GxUtils.ApplyRepeatTransform = function (Planes, transformation) {
+            var planes = JSON.parse(JSON.stringify(Planes));
             var txedPlanes = new Array();
             for (var plCnt = 0; plCnt < planes.length; plCnt++) {
                 var pts = new Array();
@@ -797,8 +798,8 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                         planes = shape.Planes;
                     }
                     this.Planes = this.Planes.concat(planes);
-                    for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes; repeatCnt++) {
-                        var txedPlanes = JSON.parse(JSON.stringify(GxUtils_3.GxUtils.ApplyTransform(planes, repeatHint.Transformation)));
+                    for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
+                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
                         this.Planes = this.Planes.concat(txedPlanes);
                         planes = txedPlanes;
                     }
