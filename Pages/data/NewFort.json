@@ -379,21 +379,46 @@
                 "StepId"
             ],
             "ShapeRepeatTransformationHint":
-                {
-                    "RepeatTimes" : 10,
-                    "Transformation": {
-                        "Translation":{
-                            "x": 0,
-                            "y": -0.05,
-                            "z": 0.1
-                        }
+            {
+                "RepeatTimes" : 10,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0,
+                        "y": -0.05,
+                        "z": 0.1
                     }
                 }
+            }
             
         },
         {
             "Name": "Elephant",
-            "Include": "Elephant"
+            "Include": "Elephant",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": 5,
+                    "y": 0,
+                    "z": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 0.1,
+                    "yScale": 0.1,
+                    "zScale": 0.1
+                }
+            },
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
+                "Transformation": {
+                    "Translation":{
+                        "x": -4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
         }
     ]
 }

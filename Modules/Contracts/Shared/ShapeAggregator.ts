@@ -28,14 +28,14 @@ export class ShapeAggregator
     {
         if (this.ShapeRepeatHints != null )
         {
-            throw new Error("Aggregator " + this.Name + " already has a shape associated with Repeat Hints. Please define a separate Shape Aggregator.");
+            //throw new Error("Aggregator " + this.Name + " already has a shape associated with Repeat Hints. Please define a separate Shape Aggregator.");
         }
         else
         {
             this.ShapeIds[this.ShapeIds.length] = shape.Id;
             shape.SetPlanes();
-            var hiddenPlanes = shape.HiddenPlanes;
-            var planes = this.Planes;
+            let hiddenPlanes = shape.HiddenPlanes;
+            let planes = this.Planes;
 
             shape.Planes.forEach(function(pl,idx)
             {
@@ -61,12 +61,12 @@ export class ShapeAggregator
 
     AddShapeWithRepeatTransformationHint = function(shape: IShape, repeatHint: RepeatHint): void
     {
-        if (this.ShapeIds.length > 0)
+        //if (this.ShapeIds.length > 0)
         {
-            throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+            //throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
         
         } 
-        else
+        //else
         {
             shape.SetPlanes();
             let planes: Plane[] = new Array();  
@@ -97,12 +97,12 @@ export class ShapeAggregator
 
     AddShapeWithRepeatHints = function(shape: IShape, repeatHints: RepeatHint[]): void 
     {
-        if (this.ShapeIds.length > 0)
+        //if (this.ShapeIds.length > 0)
         {
-            throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+            //throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
         
         } 
-        else
+        //else
         {
             let xRepeatHint: RepeatHint = new RepeatHint();
             let yRepeatHint: RepeatHint = new RepeatHint();
@@ -169,7 +169,42 @@ export class ShapeAggregator
 
     TransformedPlanes = function(): Plane[]
     {
-        return GxUtils.TransformPlanes(this.Planes, this.Transformation);
 
+        
+        if (this.Include != null)
+        {
+            let planes: Plane[] = GxUtils.Copy(this.Planes);
+            this.Planes = new Array();
+
+            if (this.Transformation.Translation != null)
+            {
+                planes = GxUtils.Translate(planes, this.Transformation.Translation);
+            }
+
+            if (this.Transformation.Zoom!= null)
+            {
+                planes = GxUtils.Zoom(planes, this.Transformation.Zoom);
+
+            }
+            this.Planes = this.Planes.concat(planes);
+
+
+            let repeatHint = this.ShapeRepeatTransformationHint;
+
+            for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
+            {
+
+                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+
+                this.Planes = this.Planes.concat(txedPlanes);
+
+                planes = txedPlanes;
+            }
+            return this.Planes;
+        }
+        else
+        {
+            return GxUtils.TransformPlanes(this.Planes, this.Transformation);
+        }
     }
 }

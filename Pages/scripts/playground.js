@@ -74,6 +74,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
             aggregators[aggCnt].Id = project.Aggregators[aggCnt].Id;
             aggregators[aggCnt].Name = project.Aggregators[aggCnt].Name;
             aggregators[aggCnt].ParentId = project.Aggregators[aggCnt].ParentId;
+            aggregators[aggCnt].Include = project.Aggregators[aggCnt].Include;
            
             if (project.Aggregators[aggCnt].Transformation != null)
             {
@@ -81,7 +82,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
             }
             if (project.Aggregators[aggCnt].ShapeRepeatTransformationHint != null)
             {
-                aggregators[aggCnt].ShapeRepeatTransformationHint = transformNS.Transformation.Import(project.Aggregators[aggCnt].ShapeRepeatTransformationHint);
+                aggregators[aggCnt].ShapeRepeatTransformationHint = project.Aggregators[aggCnt].ShapeRepeatTransformationHint;
             }
 
             if (project.Aggregators[aggCnt].Include != null)
@@ -114,7 +115,31 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                     {
                         shape.Color = new ColorNS.Color(255,0,0);
                     }
-                    if (shapeRepeatHints != null)
+                    if (aggregators[aggCnt].ParentId != null)
+                    {
+                        aggregators.forEach(function(agg)
+                        {
+                            if (agg.Name == aggregators[aggCnt].ParentId)
+                            {
+
+                                if (shapeRepeatHints != null)
+                                {
+                                    agg.AddShapeWithRepeatHints(shape,shapeRepeatHints);
+                                }
+                                else if (shapeRepeatTransformationHint != null)
+                                {
+                                    agg.AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
+                                }                    
+                                else
+                                {
+                                    agg.AddShape(shape);
+                                }
+
+                            }
+                        });
+                    }
+                    
+                    else if (shapeRepeatHints != null)
                     {
 
                         aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
@@ -124,18 +149,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                     {
                         aggregators[aggCnt].AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
 
-                    }
-                    else if (aggregators[aggCnt].ParentId != null)
-                    {
-                        aggregators.forEach(function(agg)
-                        {
-                            if (agg.Id == aggregators[aggCnt].ParentId)
-                            {
-                                agg.AddShape(shape);
-
-                            }
-                        });
-                    }
+                    }                    
                     else
                     {
                         aggregators[aggCnt].AddShape(shape);
@@ -169,7 +183,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
     }
     //AssignLightIntensity();
 
-    SetWebGLParams(Planes.filter(function(pl){return !pl.ShouldHide}));
+    SetWebGLParams(Planes.filter(function(pl){return pl != null && !pl.ShouldHide}));
     //SetWebGLParams(Planes);
     doAnimate = true;
     animate(0);
@@ -264,7 +278,7 @@ LoadIncludes = function()
 
                 let urlParts = this.url.split("/");
                 let aggName = urlParts[urlParts.length-1].replace(".json","");
-                let parentId = data.Id;
+                let parentId = data.Name;
                 Project.Shapes = Project.Shapes.concat(data.Shapes.map(function(shp){
                     shp.Id =  aggName + "." + shp.Id;
                     return shp;

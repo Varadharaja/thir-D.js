@@ -398,6 +398,67 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
     var GxUtils = (function () {
         function GxUtils() {
         }
+        GxUtils.Translate = function (planes, translation, centroid) {
+            if (centroid === void 0) { centroid = null; }
+            if (centroid == null) {
+                centroid = GxUtils.GetCentroid(planes);
+            }
+            var txedPlanes = new Array();
+            for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                var pts = new Array();
+                for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
+                    var pt = planes[plCnt].Points[ptCnt];
+                    var newPt = pt;
+                    if (translation != null) {
+                        newPt.x -= centroid.x;
+                        newPt.y -= centroid.y;
+                        newPt.z -= centroid.z;
+                        newPt.x += translation.x;
+                        newPt.y += translation.y;
+                        newPt.z += translation.z;
+                    }
+                    pts.push(newPt);
+                }
+                var newPl = new Plane_3.Plane(pts, planes[plCnt].Color);
+                newPl.ShapeId = planes[plCnt].ShapeId;
+                newPl.ShouldHide = planes[plCnt].ShouldHide;
+                newPl.Color = planes[plCnt].Color;
+                txedPlanes.push(newPl);
+            }
+            return txedPlanes;
+        };
+        GxUtils.Zoom = function (planes, zoom) {
+            var centroid = GxUtils.GetCentroid(planes);
+            var txedPlanes = new Array();
+            for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                var pts = new Array();
+                for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
+                    var pt = planes[plCnt].Points[ptCnt];
+                    var newPt = pt;
+                    if (zoom != null) {
+                        newPt.x -= centroid.x;
+                        newPt.y -= centroid.y;
+                        newPt.z -= centroid.z;
+                        newPt.x *= zoom.xScale;
+                        newPt.y *= zoom.yScale;
+                        newPt.z *= zoom.zScale;
+                        newPt.x += centroid.x;
+                        newPt.y += centroid.y;
+                        newPt.z += centroid.z;
+                    }
+                    pts.push(newPt);
+                }
+                var newPl = new Plane_3.Plane(pts, planes[plCnt].Color);
+                newPl.ShapeId = planes[plCnt].ShapeId;
+                newPl.ShouldHide = planes[plCnt].ShouldHide;
+                newPl.Color = planes[plCnt].Color;
+                txedPlanes.push(newPl);
+            }
+            return txedPlanes;
+        };
+        GxUtils.Copy = function (object) {
+            return JSON.parse(JSON.stringify(object));
+        };
         GxUtils.NewGuid = function () {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -494,7 +555,7 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             return txedPlanes;
         };
         GxUtils.ApplyRepeatTransform = function (Planes, transformation) {
-            var planes = JSON.parse(JSON.stringify(Planes));
+            var planes = GxUtils.Copy(Planes);
             var txedPlanes = new Array();
             for (var plCnt = 0; plCnt < planes.length; plCnt++) {
                 var pts = new Array();
@@ -764,15 +825,14 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
             this.Planes = new Array();
             this.AddShape = function (shape) {
                 if (this.ShapeRepeatHints != null) {
-                    throw new Error("Aggregator " + this.Name + " already has a shape associated with Repeat Hints. Please define a separate Shape Aggregator.");
                 }
                 else {
                     this.ShapeIds[this.ShapeIds.length] = shape.Id;
                     shape.SetPlanes();
-                    var hiddenPlanes = shape.HiddenPlanes;
+                    var hiddenPlanes_1 = shape.HiddenPlanes;
                     var planes = this.Planes;
                     shape.Planes.forEach(function (pl, idx) {
-                        if (hiddenPlanes != null && hiddenPlanes.length > 0 && hiddenPlanes.indexOf(idx) > -1) {
+                        if (hiddenPlanes_1 != null && hiddenPlanes_1.length > 0 && hiddenPlanes_1.indexOf(idx) > -1) {
                             pl.ShouldHide = true;
                         }
                     });
@@ -785,10 +845,9 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 }
             };
             this.AddShapeWithRepeatTransformationHint = function (shape, repeatHint) {
-                if (this.ShapeIds.length > 0) {
-                    throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+                {
                 }
-                else {
+                {
                     shape.SetPlanes();
                     var planes = new Array();
                     if (shape.Transformation != null) {
@@ -806,10 +865,9 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 }
             };
             this.AddShapeWithRepeatHints = function (shape, repeatHints) {
-                if (this.ShapeIds.length > 0) {
-                    throw new Error("Aggregator " + this.Name + " already has a shape associated. Please define a separate Shape Aggregator.");
+                {
                 }
-                else {
+                {
                     var xRepeatHint_1 = new RepeatHint_1.RepeatHint();
                     var yRepeatHint_1 = new RepeatHint_1.RepeatHint();
                     var zRepeatHint_1 = new RepeatHint_1.RepeatHint();
@@ -850,7 +908,27 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 this.Planes = this.Planes.concat(planes);
             };
             this.TransformedPlanes = function () {
-                return GxUtils_3.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+                if (this.Include != null) {
+                    var planes = GxUtils_3.GxUtils.Copy(this.Planes);
+                    this.Planes = new Array();
+                    if (this.Transformation.Translation != null) {
+                        planes = GxUtils_3.GxUtils.Translate(planes, this.Transformation.Translation);
+                    }
+                    if (this.Transformation.Zoom != null) {
+                        planes = GxUtils_3.GxUtils.Zoom(planes, this.Transformation.Zoom);
+                    }
+                    this.Planes = this.Planes.concat(planes);
+                    var repeatHint = this.ShapeRepeatTransformationHint;
+                    for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
+                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+                        this.Planes = this.Planes.concat(txedPlanes);
+                        planes = txedPlanes;
+                    }
+                    return this.Planes;
+                }
+                else {
+                    return GxUtils_3.GxUtils.TransformPlanes(this.Planes, this.Transformation);
+                }
             };
             this.Transformation = transformation;
             this.Id = GxUtils_3.GxUtils.NewGuid();

@@ -168,7 +168,7 @@ export class GxUtils
 
     static ApplyRepeatTransform:(Planes: Plane[], transformation: Transformation)=> Plane[] = function(Planes: Plane[], transformation: Transformation): Plane[] 
     {
-        let planes:Plane[] = JSON.parse(JSON.stringify(Planes));
+        let planes:Plane[] = GxUtils.Copy(Planes);
         let txedPlanes: Plane[] = new Array();
         for(let plCnt=0; plCnt < planes.length; plCnt++)
         {
@@ -203,6 +203,94 @@ export class GxUtils
     {
 
         return Math.sqrt(Math.pow(pointA.x -pointB.x,2) + Math.pow(pointA.y -pointB.y,2) + Math.pow(pointA.z -pointB.z,2));
+    }
+
+    static Translate(planes: Plane[], translation: Point, centroid: Point=null): Plane[] 
+    {
+        if (centroid == null)
+        {
+            centroid = GxUtils.GetCentroid(planes);
+        }
+        let txedPlanes: Plane[] = new Array();
+        for(let plCnt=0; plCnt < planes.length; plCnt++)
+        {
+            let pts: Point[] = new Array();
+
+            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++)
+            {
+                let pt = planes[plCnt].Points[ptCnt];
+                let newPt: Point = pt;
+              
+              
+                if (translation != null)
+                {
+                    newPt.x -= centroid.x;
+                    newPt.y -= centroid.y;
+                    newPt.z -= centroid.z;
+
+                    newPt.x += translation.x;
+                    newPt.y += translation.y;
+                    newPt.z += translation.z;
+
+                }
+                pts.push(newPt);
+
+            }
+            var newPl = new Plane(pts,planes[plCnt].Color);
+            newPl.ShapeId = planes[plCnt].ShapeId;
+            newPl.ShouldHide = planes[plCnt].ShouldHide;
+            newPl.Color = planes[plCnt].Color;
+            txedPlanes.push(newPl);
+        }
+        return txedPlanes;
+    }
+
+    static Zoom(planes: Plane[], zoom: Scale): Plane[] 
+    {
+        let centroid = GxUtils.GetCentroid(planes);
+        
+        let txedPlanes: Plane[] = new Array();
+        for(let plCnt=0; plCnt < planes.length; plCnt++)
+        {
+            let pts: Point[] = new Array();
+
+            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++)
+            {
+                let pt = planes[plCnt].Points[ptCnt];
+                let newPt: Point = pt;
+              
+              
+                if (zoom != null)
+                {
+                    newPt.x -= centroid.x;
+                    newPt.y -= centroid.y;
+                    newPt.z -= centroid.z;
+
+                    newPt.x *= zoom.xScale;
+                    newPt.y *= zoom.yScale;
+                    newPt.z *= zoom.zScale;
+                    
+                    newPt.x += centroid.x;
+                    newPt.y += centroid.y;
+                    newPt.z += centroid.z;
+        
+
+                }
+                pts.push(newPt);
+
+            }
+            var newPl = new Plane(pts,planes[plCnt].Color);
+            newPl.ShapeId = planes[plCnt].ShapeId;
+            newPl.ShouldHide = planes[plCnt].ShouldHide;
+            newPl.Color = planes[plCnt].Color;
+            txedPlanes.push(newPl);
+        }
+        return txedPlanes;
+    }
+
+    static Copy(object: any): any
+    {
+        return JSON.parse(JSON.stringify(object));
     }
 
 }
