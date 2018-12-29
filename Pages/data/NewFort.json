@@ -44,8 +44,7 @@
                     "z": -3.15
                 }
             }
-        },
-        
+        },        
         {
             "Id": "L1TowerId",
             "Name": "Level 1 Tower",
@@ -391,6 +390,10 @@
                     }
                 }
             
+        },
+        {
+            "Name": "Elephant",
+            "Include": "Elephant"
         }
     ]
 }

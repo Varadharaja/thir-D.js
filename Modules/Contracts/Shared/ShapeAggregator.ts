@@ -7,10 +7,12 @@ import { RepeatHint } from "./RepeatHint";
 
 export class ShapeAggregator
 {
+    Include: string;
+    ParentId: string;
     Id: string;
     Name: string;
     Transformation: Transformation;
-    ShapeIds : string[]  = new Array();  ;
+    ShapeIds : string[]  = new Array();  
     ShapeRepeatHints: RepeatHint[];
     AggregateRepeatHints: RepeatHint[];
     ShapeRepeatTransformationHint: RepeatHint;

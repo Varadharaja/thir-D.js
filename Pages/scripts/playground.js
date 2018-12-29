@@ -47,10 +47,15 @@ requirejs(required,function(poly,clr, txm, pt,cbe, shpAgg,scl, sph, prj, gxUtil,
 });
 
 let Projects = new Array();
+let aggIncludes = new Array();
+let aggIncludeLoadedCount = 0; 
+
+
 let Project = null;
 let Planes = new Array();
 let shapeMaps = new Array();
 let selectedShapeId = "";
+
 LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 {
     Project = project;
@@ -66,12 +71,24 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
         for(let aggCnt=0; aggCnt < project.Aggregators.length; aggCnt++)
         {
             aggregators[aggCnt] = new shapeAggregatorNS.ShapeAggregator();
-
+            aggregators[aggCnt].Id = project.Aggregators[aggCnt].Id;
+            aggregators[aggCnt].Name = project.Aggregators[aggCnt].Name;
+            aggregators[aggCnt].ParentId = project.Aggregators[aggCnt].ParentId;
+           
             if (project.Aggregators[aggCnt].Transformation != null)
             {
                 aggregators[aggCnt].Transformation = transformNS.Transformation.Import(project.Aggregators[aggCnt].Transformation);
             }
+            if (project.Aggregators[aggCnt].ShapeRepeatTransformationHint != null)
+            {
+                aggregators[aggCnt].ShapeRepeatTransformationHint = transformNS.Transformation.Import(project.Aggregators[aggCnt].ShapeRepeatTransformationHint);
+            }
 
+            if (project.Aggregators[aggCnt].Include != null)
+            {
+                continue;
+            }
+           
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
             let shapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
             let shapeRepeatTransformationHint = project.Aggregators[aggCnt].ShapeRepeatTransformationHint;
@@ -108,6 +125,17 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                         aggregators[aggCnt].AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
 
                     }
+                    else if (aggregators[aggCnt].ParentId != null)
+                    {
+                        aggregators.forEach(function(agg)
+                        {
+                            if (agg.Id == aggregators[aggCnt].ParentId)
+                            {
+                                agg.AddShape(shape);
+
+                            }
+                        });
+                    }
                     else
                     {
                         aggregators[aggCnt].AddShape(shape);
@@ -118,18 +146,25 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                 }
             });
 
-            if (aggregators[aggCnt].Transformation != null)
-            {
-                planes = planes.concat(aggregators[aggCnt].TransformedPlanes());
-            }   
-            else
-            {
-                planes = planes.concat(aggregators[aggCnt].Planes);
-
-            }
-            
 
         }
+
+        for (let aggCnt=0; aggCnt< aggregators.length; aggCnt++)
+        {
+            if (aggregators[aggCnt].ParentId == null)
+            {
+                if (aggregators[aggCnt].Transformation != null)
+                {
+                    planes = planes.concat(aggregators[aggCnt].TransformedPlanes());
+                }   
+                else
+                {
+                    planes = planes.concat(aggregators[aggCnt].Planes);
+    
+                }
+            }
+        }
+
         Planes = planes;
     }
     //AssignLightIntensity();
@@ -150,6 +185,11 @@ function LoadShapes(project)
             let shapeMenuHtml = '<hr/><div  class="shape-menu">';
             shapeMenuHtml += "<span>" + project.Aggregators[aggCnt].Name + "</span>";
             shapeMenuHtml += "<br/>";
+
+            if (project.Aggregators[aggCnt].Include != null)
+            {
+                continue;
+            }
             let shapeIds = project.Aggregators[aggCnt].ShapeIds.reduce(function(a,b){return a + "," + b});
 
             $.map(project.Shapes,function(e,i)
@@ -191,15 +231,73 @@ $("#glcanvas").click(function(){
 $("#projectSelector").change(function()
 {
     let prj = $(this).val();
+    aggIncludeLoadedCount = 0;
+    aggIncludes = new Array();
     $.get("../Pages/data/"+ prj + ".json",function(data)
     {
-        LoadProject(data);
-        LoadShapes(data);
+        Project = data;
+
+        LoadIncludes();
+        //LoadProject(data);
+        
+        //LoadShapes(data);
         //AssignLightIntensity();
 
     })
 
 });
+
+
+LoadIncludes = function()
+{
+
+    aggIncludes = Project.Aggregators.filter(function(agg){return agg.Include != null});
+
+    if (aggIncludes != null && aggIncludes.length > 0)
+    {
+        for(let includeCnt=0; includeCnt < aggIncludes.length; includeCnt++)
+        {
+            $.get("../Pages/data/"+ aggIncludes[includeCnt].Include + ".json",function(data)
+            {
+    
+                aggIncludeLoadedCount++;
+
+                let urlParts = this.url.split("/");
+                let aggName = urlParts[urlParts.length-1].replace(".json","");
+                let parentId = data.Id;
+                Project.Shapes = Project.Shapes.concat(data.Shapes.map(function(shp){
+                    shp.Id =  aggName + "." + shp.Id;
+                    return shp;
+                }));
+
+                Project.Aggregators = Project.Aggregators.concat(data.Aggregators.map(function(agg)
+                {
+                    agg.ShapeIds = agg.ShapeIds.map(function(shpId)
+                    {
+                        return aggName + "." + shpId; 
+                    });
+                    agg.ParentId = parentId;
+                    return agg;
+                }));
+    
+                if (aggIncludeLoadedCount == aggIncludes.length)
+                {
+                    LoadProject(Project);
+                    LoadShapes(Project);
+                }
+        
+            });
+        
+        }
+    }
+    else
+    {
+        LoadProject(Project);
+        LoadShapes(Project);
+    }
+
+
+}
 
 $(document).on("click","a[shape-id]",function(e)
 {

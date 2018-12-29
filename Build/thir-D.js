@@ -855,7 +855,6 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
             this.Transformation = transformation;
             this.Id = GxUtils_3.GxUtils.NewGuid();
         }
-        ;
         return ShapeAggregator;
     }());
     exports.ShapeAggregator = ShapeAggregator;

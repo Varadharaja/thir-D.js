@@ -74,7 +74,7 @@
 
             }
 
-            let rnd =0.05;
+            let rnd = 0.05;
 
             let clrIdx = colors.length-3;
             let r = colors[clrIdx] - (rnd );
