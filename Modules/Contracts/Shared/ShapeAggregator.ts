@@ -200,6 +200,8 @@ export class ShapeAggregator
 
                 planes = txedPlanes;
             }
+
+           
             return this.Planes;
         }
         else

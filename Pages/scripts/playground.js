@@ -75,7 +75,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
             aggregators[aggCnt].Name = project.Aggregators[aggCnt].Name;
             aggregators[aggCnt].ParentId = project.Aggregators[aggCnt].ParentId;
             aggregators[aggCnt].Include = project.Aggregators[aggCnt].Include;
-           
+
             if (project.Aggregators[aggCnt].Transformation != null)
             {
                 aggregators[aggCnt].Transformation = transformNS.Transformation.Import(project.Aggregators[aggCnt].Transformation);
@@ -225,7 +225,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Fort","Human","Eye","NewFort","Elephant"];
+    let prjs = ["Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1", "Fort/Wall/Wall","Fort/Wall/FortWallDemo"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");

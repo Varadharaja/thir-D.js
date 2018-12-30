@@ -397,23 +397,24 @@
             "Transformation": 
             {
                 "Translation" :{
-                    "x": 5,
-                    "y": 0,
-                    "z": 0
+                    "x": -0.5,
+                    "y": -1,
+                    "z": 1
                 },
                 "Zoom":
                 {
-                    "xScale": 0.1,
-                    "yScale": 0.1,
-                    "zScale": 0.1
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
                 }
             },
+            
             "ShapeRepeatTransformationHint":
             {
                 "RepeatTimes" : 2,
                 "Transformation": {
                     "Translation":{
-                        "x": -4,
+                        "x": 1,
                         "y": 0,
                         "z": 0
                     }

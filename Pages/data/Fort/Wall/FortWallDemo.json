@@ -1,0 +1,94 @@
+{
+    "Name": "Fort wall demo",
+    "Shapes": [
+        {
+            "Id": "GroundId",
+            "Name": "Ground",
+            "Type": "CUBE",
+            "L": 4,
+            "W": 4,
+            "H": 0.1,
+            "Color": 
+            {
+                "red": 0,
+                "blue": 0,
+                "green": 255
+            },
+            "Transformation":
+            {
+                "Translation":{
+                    "x": -2,
+                    "y": -1.5,
+                    "z": -3.1
+                }
+            }
+        }
+
+    ],
+    "Aggregators" : [
+        {
+            "Name": "Ground",
+            "ShapeIds": [
+                "GroundId"
+            ]
+        },
+        {
+            "Name": "Wall",
+            "Include": "Fort/Wall/Wall",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -2,
+                    "y": -1.45,
+                    "z": 0.9
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 5,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar1",
+            "Include": "Fort/Wall/Pillar1",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -0.5,
+                    "y": -1,
+                    "z": 1
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
+                "Transformation": {
+                    "Translation":{
+                        "x": 1,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        }
+    ]
+}
