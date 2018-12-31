@@ -5,7 +5,7 @@
             "Id": "GroundId",
             "Name": "Ground",
             "Type": "CUBE",
-            "L": 4,
+            "L": 3.9,
             "W": 4,
             "H": 0.1,
             "Color": 
@@ -18,7 +18,7 @@
             {
                 "Translation":{
                     "x": -2,
-                    "y": -1.8,
+                    "y": -1.85,
                     "z": -3.1
                 }
             }
@@ -27,8 +27,8 @@
             "Id": "WaterId",
             "Name": "water",
             "Type": "CUBE",
-            "L": 5,
-            "W": 5,
+            "L": 6,
+            "W": 6,
             "H": 0.3,
             "Color": {
                 "red": 0,
@@ -38,9 +38,9 @@
              "Transformation": {
                  "Translation": 
                  {
-                     "x": -2.5,
-                     "y": -2.5,
-                     "z": -2.5
+                     "x": -3,
+                     "y": -2.2,
+                     "z": -4.5
                  }
              }
          }
@@ -123,7 +123,7 @@
             "Transformation": 
             {
                 "Translation" :{
-                    "x": -0.5,
+                    "x": -0.52,
                     "y": -1.2,
                     "z": 1
                 },
@@ -250,7 +250,7 @@
             {
                 "Translation" :{
                     "x": -2.1,
-                    "y": -1.3,
+                    "y": -1.2,
                     "z": 1
                 },
                 "Zoom":
@@ -279,8 +279,8 @@
             {
                 "Translation" :{
                     "x": -2.1,
-                    "y": -1.3,
-                    "z": 0.2
+                    "y": -1.2,
+                    "z": -0.4
                 },
                 "Zoom":
                 {
@@ -291,12 +291,12 @@
             },            
             "ShapeRepeatTransformationHint":
             {
-                "RepeatTimes" : 4,
+                "RepeatTimes" : 2,
                 "Transformation": {
                     "Translation":{
                         "x": 0,
                         "y": 0,
-                        "z": -0.8
+                        "z": -1.4
                     }
                 }
             }
@@ -308,7 +308,7 @@
             {
                 "Translation" :{
                     "x": -2.1,
-                    "y": -1.3,
+                    "y": -1.2,
                     "z": -3.2
                 },
                 "Zoom":
@@ -320,7 +320,65 @@
             },            
             "ShapeRepeatTransformationHint":
             {
-                "RepeatTimes" : 5,
+                "RepeatTimes" : 3,
+                "Transformation": {
+                    "Translation":{
+                        "x": 1.4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar23",
+            "Include": "Fort/Wall/Pillar2",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": 2,
+                    "y": -1.2,
+                    "z": -3.2
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 3,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0,
+                        "y": 0,
+                        "z": 1.4
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar24",
+            "Include": "Fort/Wall/Pillar2",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": 1.2,
+                    "y": -1.2,
+                    "z": 1
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
                 "Transformation": {
                     "Translation":{
                         "x": 0.8,
@@ -336,15 +394,15 @@
             "Transformation": 
             {
                 "Translation" :{
-                    "x": -0.5,
-                    "y": -1,
-                    "z": 2
+                    "x": -0.42,
+                    "y": -1.45,
+                    "z": 1.2
                 },
                 "Zoom":
                 {
-                    "xScale": 0.15,
-                    "yScale": 0.15,
-                    "zScale": 0.15
+                    "xScale": 0.10,
+                    "yScale": 0.10,
+                    "zScale": 0.10
                 }
             },
             "ShapeRepeatTransformationHint":
@@ -352,7 +410,35 @@
                 "RepeatTimes" : 2,
                 "Transformation": {
                     "Translation":{
-                        "x": 1,
+                        "x": 0.8,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Stage",
+            "Include": "Fort/Wall/Stage",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -0.4,
+                    "y": -2,
+                    "z": 1.2
+                },
+                "Zoom":{
+                    "xScale": 0.5,
+                    "yScale": 0.5,
+                    "zScale": 0.5
+                }
+            },
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.8,
                         "y": 0,
                         "z": 0
                     }

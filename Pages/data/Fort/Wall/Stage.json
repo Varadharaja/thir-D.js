@@ -1,0 +1,35 @@
+{
+    "Name": "Stage",
+    "Shapes": [
+        {
+            "Id": "StageId",
+            "Name": "Stage",
+            "Type": "CUBE",
+            "L": 0.5,
+            "W": 0.5,
+            "H": 1.5,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "Color":
+            {
+                "red": 201,
+                "green": 184,
+                "blue": 168       
+            }
+        }
+    ],
+    "Aggregators" :[
+        {
+            "Name": "Stage",
+            "ShapeIds": [
+                "StageId"
+            ]
+        }
+    ]
+}
