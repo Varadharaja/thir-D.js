@@ -186,6 +186,13 @@ export class ShapeAggregator
                 planes = GxUtils.Zoom(planes, this.Transformation.Zoom);
 
             }
+
+            if (this.Transformation.Rotation!= null)
+            {
+                planes = GxUtils.RotatePlanes(planes, this.Transformation.Rotation);
+
+            }
+
             this.Planes = this.Planes.concat(planes);
 
 

@@ -1,0 +1,489 @@
+{
+    "Name": "Elephant",
+    "Shapes": [
+        {
+            "Id" : "HeadId",
+            "Name": "Head",
+            "Type": "SPHERE",
+            "Radius": 0.7,
+            "xPartitions": 6,
+            "yPartitions": 10,
+            "yPartStart": 1,
+            "yPartEnd": 9, 
+            "Color": {
+                "red": 100,
+                "green": 100,
+                "blue": 100
+             },
+             "Transformation":{
+                "Translation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+            }        
+        },
+        {
+            "Id": "EyeBallId",
+            "Name": "EyeBall",
+            "Type": "SPHERE",
+            "Radius": 0.07,
+            "xPartitions": 20,
+            "yPartitions": 70,        
+            "Color": {
+                "red": 245,
+                "green": 245,
+                "blue": 245
+             },
+
+             "Transformation":{
+                "Translation":{
+                    "x": -0.08,
+                    "y": -0.018,
+                    "z": 0.12
+                },
+                 "Rotation":{
+                     "alpha": 0,
+                     "beta": 180,
+                     "gamma": 0
+                 }
+             },
+            "PlaneColors":
+            [
+                {
+                    "Color": {
+                        "red": 0,
+                        "blue": 0,
+                        "green": 0
+                    },
+                    "Range":{
+                        "from": 0,
+                        "to": 20
+                    }
+                },
+                {
+                    "Color": {
+                        "red": 69,
+                        "blue": 125,
+                        "green": 160
+                    },
+                    "Range":{
+                        "from": 20,
+                        "to": 61
+                    }
+                }
+            ]
+        },
+        {
+            "Id" : "TuskId",
+            "Name": "Tusk",
+            "Type": "POLYGON",
+            "SidesCount": 20,
+            "A": 0.03,
+            "B": 0.01,
+            "H": 1.5,
+            "Color": {
+                "red": 200,
+                "blue": 200,
+                "green": 200
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": -0.2,
+                    "y": -1.2,
+                    "z": 0.3
+                },
+                "Rotation":{
+                    "alpha": 300,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id" : "TrunkId",
+            "Name": "Trunk",
+            "Type": "POLYGON",
+            "SidesCount": 20,
+            "A": 0.13,
+            "B": 0.07,
+            "H": 1.5,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": 0.05,
+                    "y": -1.5,
+                    "z": 0.1
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id" : "EndNoseId",
+            "Name": "Trunk 1",
+            "Type": "POLYGON",
+            "SidesCount": 20,
+            "A": 0.09,
+            "B": 0.05,
+            "H": 1,
+            "BottomFaceInclination":{
+                "alpha": 30,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": 0.07,
+                    "y": -1.8,
+                    "z": 0.9
+                },
+                "Rotation":{
+                    "alpha": 280,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "EarId",
+            "Name": "Ear",
+            "Type": "POLYGON",
+            "SidesCount": 7,
+            "A": 0.5,
+            "B": 0.5,
+            "H": 0.1,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": -0.6,
+                    "y": -0.2,
+                    "z": 0.1
+                },
+                "Rotation":{
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id":"BodyId",
+            "Name": "Body",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.5,
+            "B": 0.6,
+            "H": 2,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": 0,
+                    "y": -1.3,
+                    "z": -1
+                },
+                "Rotation":{
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        { 
+            "Id": "TummyId",
+            "Name": "Tummy",
+            "Type": "SPHERE",
+            "Radius": 1,
+            "xPartitions": 20,
+            "yPartitions": 20,
+            "Color": {
+                "red": 100,
+                "green": 100,
+                "blue": 100
+             },
+             "Transformation":{
+                "Translation": {
+                    "x": 0,
+                    "y": -0.12,
+                    "z": -0.3
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1.25
+                }
+            },
+            "HiddenRanges":[
+                {
+                    "from": 0,
+                    "to": 20
+                }
+            ]        
+        },
+        {
+            "Id": "LegId",
+            "Name": "Leg",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.27,
+            "B": 0.2,
+            "H": 1,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": -0.35,
+                    "y": -1.8,
+                    "z": -1
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "LegId1",
+            "Name": "Leg 1",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.2,
+            "B": 0.2,
+            "H": 0.6,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": -0.35,
+                    "y": -2.4,
+                    "z": -1
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },       
+        {
+            "Id": "LegId2",
+            "Name": "Leg 2",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.2,
+            "B": 0.23,
+            "H": 0.15,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": -0.35,
+                    "y": -2.5,
+                    "z": -1
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "TailId1",
+            "Name": "Tail Id1",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.26,
+            "B": 0.26,
+            "H": 0.1,
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": 0,
+                    "y": -0.5,
+                    "z": -2.5
+                },
+                "Rotation":{
+                    "alpha": 90,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        },
+        {
+            "Id": "TailId2",
+            "Name": "Tail Id2",
+            "Type": "POLYGON",
+            "SidesCount": 10,
+            "A": 0.05,
+            "B": 0.01,
+            "H": 1.5,
+            "TopFaceInclination":{
+                "alpha": 20,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 100,
+                "blue": 100,
+                "green": 100
+            },
+            "Transformation":{
+                "Translation": {
+                    "x": 0,
+                    "y": -1.6,
+                    "z": -2.57
+                },
+                "Rotation":{
+                    "alpha": 8,
+                    "beta": 0,
+                    "gamma": 0
+                }
+            }
+        }
+
+    ],
+    "Aggregators":[
+        {
+            "Name": "Head + Trunk",
+            "ShapeIds":[
+                "HeadId",
+                "TrunkId"
+            ],
+            "Transformation":{
+                "Rotation":{
+                    "alpha": 340,
+                    "beta": 0,
+                    "gamma": 0
+                }
+
+            }
+        },
+        {
+            "Name": "Ears",
+            "ShapeIds":[
+                "EarId"
+            ],
+            "ShapeRepeatTransformationHint":{
+                "RepeatTimes": 2,
+                "Transformation":
+                {
+                   "Translation":{
+                    "x": 1.5,
+                    "y": 0,
+                    "z": 0
+                   }
+                }
+            }            
+        },
+        {
+            "Name": "Body",
+            "ShapeIds":[
+                "BodyId"
+            ],
+            "Transformation":{
+                "Rotation":{
+                    "alpha": 350,
+                    "beta": 0,
+                    "gamma": 0
+                }
+
+            }
+
+        },
+        {
+            "Name": "Rest",
+            "ShapeIds":[
+                "TummyId",
+                "EndNoseId"
+            ]
+        },
+        {
+            "Name": "Legs",
+            "ShapeIds":[
+                "LegId",
+                "LegId1",
+                "LegId2"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes": 2,
+                    "SpaceDistance": 0.8
+                },
+                {
+                    "Axis": "Z",
+                    "RepeatTimes": 2,
+                    "SpaceDistance": -0.9
+                }
+            ]
+        },
+        {
+            "Name": "Tail",
+            "ShapeIds":[
+                "TailId1",
+                "TailId2"
+            ]
+        },
+        {
+            "Name": "Tusks",
+            "ShapeIds": [
+                "TuskId"
+            ],
+            "ShapeRepeatHints":
+            [
+                {
+                    "Axis": "X",
+                    "RepeatTimes": 2,
+                    "SpaceDistance": 0.55
+                }
+            ]
+        }
+    ]
+}

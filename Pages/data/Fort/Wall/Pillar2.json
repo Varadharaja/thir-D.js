@@ -1,0 +1,127 @@
+{
+    "Name": "Pillar 2",
+    "Shapes":[
+        {
+            "Id": "SlabId1",
+            "Name": "Slab1",
+            "Type": "CUBE",
+            "L": 1,
+            "W": 1,
+            "H": 0.1,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": -0.1,
+                    "y": 0.9,
+                    "z": -0.1
+                }
+            },
+            "Color":
+            {
+                "red": 215,
+                "green": 198,
+                "blue": 168                
+            }
+        },
+        {
+            "Id": "SlabId2",
+            "Name": "Slab2",
+            "Type": "CUBE",
+            "L": 0.9,
+            "W": 0.9,
+            "H": 0.1,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": -0.05,
+                    "y": 0.8,
+                    "z": -0.05
+                }
+            },
+            "Color":
+            {
+                "red": 186,
+                "green": 157,
+                "blue": 103       
+            }
+        },
+        {
+            "Id": "SlabId3",
+            "Name": "Slab3",
+            "Type": "CUBE",
+            "L": 1,
+            "W": 1,
+            "H": 0.1,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": -0.1,
+                    "y": 0.7,
+                    "z": -0.1
+                }
+            },
+            "Color":
+            {
+                "red": 215,
+                "green": 198,
+                "blue": 168                
+            }
+        },
+        {
+            "Id": "SlabId4",
+            "Name": "Slab4",
+            "Type": "CUBE",
+            "L": 0.9,
+            "W": 0.9,
+            "H": 0.1,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": -0.05,
+                    "y": 0.6,
+                    "z": -0.05
+                }
+            },
+            "Color":
+            {
+                "red": 186,
+                "green": 157,
+                "blue": 103       
+            }
+        },
+        {
+            "Id": "BaseId",
+            "Name": "Base",
+            "Type": "CUBE",
+            "L": 0.9,
+            "W": 0.9,
+            "H": 3,
+            "Transformation": 
+            {
+                "Translation": {
+                    "x": -0.05,
+                    "y": -2.4,
+                    "z": -0.05
+                }
+            },
+            "Color":
+            {
+                "red": 215,
+                "green": 198,
+                "blue": 168       
+            }
+        }
+    ],
+    "Aggregators": [
+        {
+            "Name": "Pillar 2",
+            "ShapeIds": [
+                "SlabId1",
+                "SlabId2",
+                "SlabId3",
+                "SlabId4",
+                "BaseId"
+            ]
+        }
+    ]
+}

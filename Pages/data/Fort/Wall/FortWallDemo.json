@@ -18,22 +18,44 @@
             {
                 "Translation":{
                     "x": -2,
-                    "y": -1.5,
+                    "y": -1.8,
                     "z": -3.1
                 }
             }
-        }
+        },
+        {
+            "Id": "WaterId",
+            "Name": "water",
+            "Type": "CUBE",
+            "L": 5,
+            "W": 5,
+            "H": 0.3,
+            "Color": {
+                "red": 0,
+                "green": 200,
+                "blue": 255
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -2.5,
+                     "y": -2.5,
+                     "z": -2.5
+                 }
+             }
+         }
 
     ],
     "Aggregators" : [
         {
-            "Name": "Ground",
+            "Name": "Nature",
             "ShapeIds": [
-                "GroundId"
+                "GroundId",
+                "WaterId"
             ]
         },
         {
-            "Name": "Wall",
+            "Name": "Wall1",
             "Include": "Fort/Wall/Wall",
             "Transformation": 
             {
@@ -51,12 +73,46 @@
             },            
             "ShapeRepeatTransformationHint":
             {
-                "RepeatTimes" : 5,
+                "RepeatTimes" : 4,
                 "Transformation": {
                     "Translation":{
                         "x": 0.4,
                         "y": 0,
                         "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Wall2",
+            "Include": "Fort/Wall/Wall",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -2.1,
+                    "y": -1.45,
+                    "z": 0.6
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 270,
+                    "gamma": 0
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 10,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.4
                     }
                 }
             }
@@ -68,7 +124,7 @@
             {
                 "Translation" :{
                     "x": -0.5,
-                    "y": -1,
+                    "y": -1.2,
                     "z": 1
                 },
                 "Zoom":
@@ -89,6 +145,221 @@
                     }
                 }
             }
+        },
+        {
+            "Name": "Wall3",
+            "Include": "Fort/Wall/Wall",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -1.8,
+                    "y": -1.45,
+                    "z": -3.2
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 180,
+                    "gamma": 0
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 10,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Wall4",
+            "Include": "Fort/Wall/Wall",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": 2,
+                    "y": -1.45,
+                    "z": 0.6
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 90,
+                    "gamma": 0
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 10,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.4
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Wall5",
+            "Include": "Fort/Wall/Wall",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": 0.6,
+                    "y": -1.45,
+                    "z": 0.9
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 4,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar20",
+            "Include": "Fort/Wall/Pillar2",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -2.1,
+                    "y": -1.3,
+                    "z": 1
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.8,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar21",
+            "Include": "Fort/Wall/Pillar2",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -2.1,
+                    "y": -1.3,
+                    "z": 0.2
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 4,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.8
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Pillar22",
+            "Include": "Fort/Wall/Pillar2",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -2.1,
+                    "y": -1.3,
+                    "z": -3.2
+                },
+                "Zoom":
+                {
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },            
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 5,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.8,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Elephant",
+            "Include": "Animals/Elephant",
+            "Transformation": 
+            {
+                "Translation" :{
+                    "x": -0.5,
+                    "y": -1,
+                    "z": 2
+                },
+                "Zoom":
+                {
+                    "xScale": 0.15,
+                    "yScale": 0.15,
+                    "zScale": 0.15
+                }
+            },
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 2,
+                "Transformation": {
+                    "Translation":{
+                        "x": 1,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
         }
+        
+        
     ]
 }

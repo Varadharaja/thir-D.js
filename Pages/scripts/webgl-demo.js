@@ -1,10 +1,47 @@
 
         /*============= Creating a canvas =================*/
         let canvas = document.getElementById('glcanvas');
-        gl = canvas.getContext('webgl');
-        let proj_matrix,mov_matrixm , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices;
+        gl = canvas.getContext('webgl2');
+        let proj_matrix,mov_matrixm , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices,  vertex_buffer, color_buffer  ;
+         let verticesLength = 0;
+        vertex_buffer = gl.createBuffer ();
+        index_buffer = gl.createBuffer ();
+        color_buffer = gl.createBuffer ();
 
+                /*=================== Shaders =========================*/
 
+                let vertCode = 'attribute vec3 position;'+
+                'uniform mat4 Pmatrix;'+
+                'uniform mat4 Vmatrix;'+
+                'uniform mat4 Mmatrix;'+
+                'attribute vec3 color;'+//the color of the point
+                'varying vec3 vColor;'+
+     
+                'void main(void) { '+//pre-built function
+                   'gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);'+
+                   'vColor = color;'+
+                '}';
+     
+             let fragCode = 'precision mediump float;'+
+                'varying vec3 vColor;'+
+                'void main(void) {'+
+                   'gl_FragColor = vec4(vColor, 1.);'+
+                '}';
+     
+             let vertShader = gl.createShader(gl.VERTEX_SHADER);
+             gl.shaderSource(vertShader, vertCode);
+             gl.compileShader(vertShader);
+     
+             let fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+             gl.shaderSource(fragShader, fragCode);
+             gl.compileShader(fragShader);
+     
+             let shaderProgram = gl.createProgram();
+             gl.attachShader(shaderProgram, vertShader);
+             gl.attachShader(shaderProgram, fragShader);
+             gl.linkProgram(shaderProgram);
+
+             
         function SetWebGLParams(planes)
         {
 
@@ -28,7 +65,7 @@
            0,1,0, 0,1,0, 0,1,0, 0,1,0
         ];
 
-        indices = [
+        let indices = [
            0,1,2, 0,2,3, 4,5,6, 4,6,7,
            8,9,10, 8,10,11, 12,13,14, 12,14,15,
            16,17,18, 16,18,19, 20,21,22, 20,22,23 
@@ -38,111 +75,121 @@
         let idxs = [];
         let vxLen = 0;
         colors = [];
+        let vtx_pts = new Array();
+
         for (let plCnt= 0; plCnt<  planes.length; plCnt++)
         {
-            let centroid = [0,0,0];
-            let idx = vxs.length;
 
-            vxs.push(centroid[0], centroid[1], centroid[2]);
-            vxLen++;
-            let centroidVxIdx =vxLen-1;
-            for (let ptCnt=0; ptCnt < planes[plCnt].Points.length; ptCnt++ )
+
+            if (planes[plCnt].Points.length == 4)
             {
-                let pt = planes[plCnt].Points[ptCnt];
-                centroid[0] +=pt.x;
-                centroid[1] +=pt.y;
-                centroid[2] +=pt.z;               
-                 
-                vxs.push(pt.x, pt.y, pt.z);
-                vxLen++;
-                if (ptCnt ==  planes[plCnt].Points.length-1)
-                {
-                    idxs.push(vxLen-1,centroidVxIdx,centroidVxIdx+1);
+               let pts = planes[plCnt].Points;
+               let idx = vxs.length/3-1;
 
-                }
-                else
-                {
-                    idxs.push(vxLen-1,centroidVxIdx,vxLen);
+               vxs.push(pts[0].x, pts[0].y, pts[0].z);
+               vxLen++;
+               vxs.push(pts[1].x, pts[1].y, pts[1].z);
+               vxLen++;
+               vxs.push(pts[2].x, pts[2].y, pts[2].z);
+               vxLen++;
+               vxs.push(pts[0].x, pts[0].y, pts[0].z);
+               vxLen++;
+               vxs.push(pts[2].x, pts[2].y, pts[2].z);
+               vxLen++;
+               vxs.push(pts[3].x, pts[3].y, pts[3].z);
+               vxLen++;
 
-                }
-                
-                let clr = planes[plCnt].Color;
-                let r = clr.red;
-                let g = clr.green;
-                let b = clr.blue;
-                colors.push(r, g,b);
+               idxs.push(idx+1,idx+2, idx+3);
+               idxs.push(idx+1,idx+3, idx+4);
+              
 
+               let clr = planes[plCnt].Color;
+               let r = clr.red;
+               let g = clr.green;
+               let b = clr.blue;
+
+               //let inclinationAngle = GxUtilsNS.GxUtils.GetInclinationWithXZPlane(planes[plCnt]);
+               //console.log(inclinationAngle);
+               //if (isNaN(inclinationAngle) || inclinationAngle<= 90)
+               {
+                  colors.push(r, g,b);
+                  colors.push(r, g,b);
+                  colors.push(r, g,b);
+                  colors.push(r, g,b);
+                  colors.push(r, g,b)
+                  colors.push(r, g,b)
+   
+               }
+               /* else
+               {
+                  let rnd = 0.05;
+                  let r1 = r - (rnd );
+                  let g1 =  g - rnd;
+                  let b1 =  b - rnd;
+                  colors.push(r1, g1,b1);
+                  colors.push(r1, g1,b1);
+                  colors.push(r1, g1,b1);
+                  colors.push(r1, g1,b1);
+   
+               }*/
+
+               //console.log('n');
             }
+            else
+            {
+               let idx = vxs.length;
+               let centroid = GxUtilsNS.GxUtils.GetCentroid([planes[plCnt]]);
+               let centroidVxIdx =vxLen;
 
-            let rnd = 0.05;
+               for (let ptCnt=1; ptCnt < planes[plCnt].Points.length; ptCnt++ )
+               {
+                   vxLen++;
+                   if (ptCnt ==  planes[plCnt].Points.length-1)
+                   {
+                        vxs.push(planes[plCnt].Points[ptCnt].x,planes[plCnt].Points[ptCnt].y,planes[plCnt].Points[ptCnt].z);
+                        vxs.push(centroid.x,centroid.y,centroid.z);
+                        vxs.push(planes[plCnt].Points[0].x,planes[plCnt].Points[0].y,planes[plCnt].Points[0].z);
 
-            let clrIdx = colors.length-3;
-            let r = colors[clrIdx] - (rnd );
-            let g =  colors[clrIdx+1] - rnd;
-            let b =  colors[clrIdx+2] - rnd;
-             colors.push(r, g,b);
-           // colors.push(colors);
-
-            vxs[idx]    = centroid[0] / planes[plCnt].Points.length;
-            vxs[idx+1]  = centroid[1] / planes[plCnt].Points.length;
-            vxs[idx+2]  = centroid[2] / planes[plCnt].Points.length;
+                   }
+                   else
+                   {
+                     vxs.push(planes[plCnt].Points[ptCnt-1].x,planes[plCnt].Points[ptCnt-1].y,planes[plCnt].Points[ptCnt-1].z);
+                     vxs.push(centroid.x,centroid.y,centroid.z);
+                     vxs.push(planes[plCnt].Points[ptCnt].x,planes[plCnt].Points[ptCnt].y,planes[plCnt].Points[ptCnt].z);
+                   }
+                   
+                   let clr = planes[plCnt].Color;
+                   let r = clr.red;
+                   let g = clr.green;
+                   let b = clr.blue;
+                   colors.push(r, g,b);
+                   colors.push(r, g,b);
+                   colors.push(r, g,b);
+               }
+   
+            }
+            
         }
         vertices = vxs;
-        indices = idxs;
-        //console.log(vxs);
-        //console.log(idxs);
+        verticesLength = vertices.length;
         
 
         /*============ Defining and storing the geometry =========*/
 
 
+
         // Create and store data into vertex buffer
-        let vertex_buffer = gl.createBuffer ();
         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
         // Create and store data into color buffer
-        let color_buffer = gl.createBuffer ();
         gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 
         // Create and store data into index buffer
-         index_buffer = gl.createBuffer ();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
-        /*=================== Shaders =========================*/
-
-        let vertCode = 'attribute vec3 position;'+
-           'uniform mat4 Pmatrix;'+
-           'uniform mat4 Vmatrix;'+
-           'uniform mat4 Mmatrix;'+
-           'attribute vec3 color;'+//the color of the point
-           'varying vec3 vColor;'+
-
-           'void main(void) { '+//pre-built function
-              'gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);'+
-              'vColor = color;'+
-           '}';
-
-        let fragCode = 'precision mediump float;'+
-           'varying vec3 vColor;'+
-           'void main(void) {'+
-              'gl_FragColor = vec4(vColor, 1.);'+
-           '}';
-
-        let vertShader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(vertShader, vertCode);
-        gl.compileShader(vertShader);
-
-        let fragShader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(fragShader, fragCode);
-        gl.compileShader(fragShader);
-
-        let shaderProgram = gl.createProgram();
-        gl.attachShader(shaderProgram, vertShader);
-        gl.attachShader(shaderProgram, fragShader);
-        gl.linkProgram(shaderProgram);
 
         /* ====== Associating attributes to vertex shader =====*/
          Pmatrix = gl.getUniformLocation(shaderProgram, "Pmatrix");
@@ -252,8 +299,8 @@
                 gl.uniformMatrix4fv(Vmatrix, false, view_matrix);
                 gl.uniformMatrix4fv(Mmatrix, false, mov_matrix);
                 gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);
-                gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
-
+                //gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+                  gl.drawArrays(gl.TRIANGLES,0,verticesLength/3);
                 window.requestAnimationFrame(animate);
             }
         }

@@ -456,8 +456,58 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             }
             return txedPlanes;
         };
+        GxUtils.RotatePlanes = function (Planes, angle) {
+            var planes = GxUtils.Copy(Planes);
+            var centroid = GxUtils.GetCentroid(planes);
+            var txedPlanes = new Array();
+            for (var plCnt = 0; plCnt < planes.length; plCnt++) {
+                var pts = new Array();
+                for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
+                    var pt = planes[plCnt].Points[ptCnt];
+                    var newPt = void 0;
+                    if (angle != null) {
+                        newPt = GxUtils.Rotate(pt, centroid, angle);
+                    }
+                    pts.push(newPt);
+                }
+                var newPl = new Plane_3.Plane(pts, planes[plCnt].Color);
+                newPl.ShapeId = planes[plCnt].ShapeId;
+                newPl.ShouldHide = planes[plCnt].ShouldHide;
+                newPl.Color = planes[plCnt].Color;
+                txedPlanes.push(newPl);
+            }
+            return txedPlanes;
+        };
         GxUtils.Copy = function (object) {
             return JSON.parse(JSON.stringify(object));
+        };
+        GxUtils.GetPlaneEquationCoefficients = function (plane) {
+            var A = plane.Points[0];
+            var B = plane.Points[1];
+            var C = plane.Points[2];
+            var A1 = B.x - A.x;
+            var A2 = B.y - A.y;
+            var A3 = B.z - A.z;
+            var B1 = C.x - A.x;
+            var B2 = C.y - A.y;
+            var B3 = C.z - A.z;
+            var s1 = A2 * B3 - A3 * B2;
+            var s2 = A3 * B1 - A1 * B3;
+            var s3 = A1 * B2 - A2 * B1;
+            var s4 = -s1 * A.x - s2 * A.y - s3 * A.z;
+            return [s1, s2, s3, s4];
+        };
+        GxUtils.GetInclinationWithXZPlane = function (plane) {
+            var planeCoeffts = GxUtils.GetPlaneEquationCoefficients(plane);
+            var a1 = planeCoeffts[0];
+            var b1 = planeCoeffts[1];
+            var c1 = planeCoeffts[2];
+            var a2 = 0;
+            var b2 = 1;
+            var c2 = 0;
+            var cosAlpha = Math.abs((a1 * a2) + (b1 * b2) + (c1 * c2)) / (Math.sqrt((a1 * a1) + (b1 * b1) + (c1 * c1) * Math.sqrt((a2 * a2) + (b2 * b2) + (c2 * c2))));
+            var alpha = Math.acos(cosAlpha);
+            return 180 * alpha / Math.PI;
         };
         GxUtils.NewGuid = function () {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -916,6 +966,9 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     }
                     if (this.Transformation.Zoom != null) {
                         planes = GxUtils_3.GxUtils.Zoom(planes, this.Transformation.Zoom);
+                    }
+                    if (this.Transformation.Rotation != null) {
+                        planes = GxUtils_3.GxUtils.RotatePlanes(planes, this.Transformation.Rotation);
                     }
                     this.Planes = this.Planes.concat(planes);
                     var repeatHint = this.ShapeRepeatTransformationHint;

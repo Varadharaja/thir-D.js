@@ -225,7 +225,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1", "Fort/Wall/Wall","Fort/Wall/FortWallDemo"];
+    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
@@ -271,14 +271,16 @@ LoadIncludes = function()
     {
         for(let includeCnt=0; includeCnt < aggIncludes.length; includeCnt++)
         {
-            $.get("../Pages/data/"+ aggIncludes[includeCnt].Include + ".json",function(data)
+            $.get("../Pages/data/"+ aggIncludes[includeCnt].Include + ".json?" + aggIncludes[includeCnt].Name,function(data)
             {
     
                 aggIncludeLoadedCount++;
 
-                let urlParts = this.url.split("/");
+                let querySplit = this.url.split("?");
+                
+                let urlParts = querySplit[0].split("/");
                 let aggName = urlParts[urlParts.length-1].replace(".json","");
-                let parentId = data.Name;
+                let parentId = querySplit[1] == null ? data.Name : querySplit[1];
                 Project.Shapes = Project.Shapes.concat(data.Shapes.map(function(shp){
                     shp.Id =  aggName + "." + shp.Id;
                     return shp;
