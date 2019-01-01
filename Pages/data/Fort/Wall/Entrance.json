@@ -1,0 +1,282 @@
+{
+    "Name": "Entrance",
+    "Shapes" :[
+        {
+            "Name": "Pillar",
+            "Id": "PillarId",
+            "Type": "CUBE",
+            "L": 0.4,
+            "W": 1,
+            "H": 1.5,
+            "Color":
+            {
+                "red": 186,
+                "green": 157,
+                "blue": 103               
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "BeamId",
+            "Name": "Beam",
+            "Type": "CUBE",
+            "L": 1.8,
+            "W": 1,
+            "H": 0.1,
+            "Color":
+            {
+                "red": 186,
+                "green": 157,
+                "blue": 103               
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 1.5,
+                    "z": 0
+                }
+            }
+      
+        },
+        {
+            "Id": "BeamId1",
+            "Name": "Beam 1",
+            "Type": "CUBE",
+            "L": 1.8,
+            "W": 1,
+            "H": 0.1,
+            "Color":
+            {
+                "red": 216,
+                "green": 200,
+                "blue": 169              
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 1.6,
+                    "z": 0
+                }
+            }
+      
+        },
+        {
+            "Id": "PeakId",
+            "Name": "Peak",
+            "Type": "CUBE",
+            "L": 0.5,
+            "W": 0.8,
+            "H": 0.3,
+            "Color":
+            {
+                "red": 216,
+                "green": 200,
+                "blue": 169              
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0.1,
+                    "y": 1.7,
+                    "z": 0.1
+                }
+            }
+        },
+        {
+            "Id": "PeakId1",
+            "Name": "Peak1",
+            "Type": "CUBE",
+            "L": 0.5,
+            "W": 0.8,
+            "H": 0.3,
+            "Color":
+            {
+                "red": 216,
+                "green": 200,
+                "blue": 169              
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 1.3,
+                    "y": 1.7,
+                    "z": 0.1
+                }
+            }
+        },
+        {
+            "Id": "PeakConnectId",
+            "Name": "Peak Connect",
+            "Type": "CUBE",
+            "L": 0.7,
+            "W": 0.5,
+            "H": 0.3,
+            "Color":
+            {
+                "red": 186,
+                "green": 157,
+                "blue": 103               
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0.6,
+                    "y": 1.7,
+                    "z": 0.2
+                }
+            }
+        },
+        {
+            "Id": "GopuramId",
+            "Name": "Gopuram",
+            "Type": "CUBE",
+            "L": 0.7,
+            "W": 0.2,
+            "H": 0.2,
+            "Color":
+            {
+                "red": 174,
+                "green": 151,
+                "blue": 117               
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0.5,
+                    "y": 2.6,
+                    "z": 0.3
+                }
+            }
+        },
+        {
+            "Id": "FlagPoleId",
+            "Name": "FlagPole",
+            "Type": "CUBE",
+            "L": 0.01,
+            "W": 0.01,
+            "H": 0.4,
+            "Color":
+            {
+                "red": 0,
+                "green": 0,
+                "blue": 0               
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0.9,
+                    "y": 2.8,
+                    "z": 0.4
+                }
+            }
+        },
+        {
+            "Id": "FlagId",
+            "Name": "Flag",
+            "Type": "POLYGON",
+            "SidesCount": 3,
+            "A": 0.2,
+            "B": 0.2,
+            "H": 0.01,
+            "Color": {
+                "red": 255,
+                "green": 0,
+                "blue": 0
+            },
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 1,
+                    "y": 3.3,
+                    "z": 0.4
+                },
+                "Rotation":{
+                    "alpha": 90,
+                    "beta": 0,
+                    "green": 0
+                }
+            }
+        }
+        
+    ],
+    "Aggregators" :[
+        {
+            "Name": "Pillars",
+            "ShapeIds":
+            [
+                "PillarId"
+            ],
+            "ShapeRepeatHints" :[
+                {
+                    "Axis": "X",
+                    "RepeatTimes": 2,
+                    "SpaceDistance": 1.4
+                }
+            ],
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Name": "Rest",
+            "ShapeIds" :[
+                "BeamId",
+                "BeamId1",
+                "GopuramId",
+                "FlagPoleId",
+                "FlagId"
+
+            ]
+        },
+        {
+            "Name": "Peak",
+            "ShapeIds":[
+                "PeakId",
+                "PeakId1",
+                "PeakConnectId"
+            ],
+            "ShapeRepeatTransformationHint" :
+            {
+                "RepeatTimes": 3,
+                "Transformation":{
+                    "Translation" :{
+                        "x": 0.2,
+                        "y": 0.3,
+                        "z": 0.1
+                    },
+                    "Zoom":
+                    {
+                        "xScale": 0.75,
+                        "yScale": 1,
+                        "zScale": 0.75
+                    }
+                }
+            }
+        }
+            
+    ]
+}

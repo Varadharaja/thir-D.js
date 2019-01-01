@@ -170,6 +170,7 @@ export class GxUtils
     {
         let planes:Plane[] = GxUtils.Copy(Planes);
         let txedPlanes: Plane[] = new Array();
+        let centroid: Point = GxUtils.GetCentroid(Planes);
         for(let plCnt=0; plCnt < planes.length; plCnt++)
         {
             let pts: Point[] = new Array();
@@ -179,7 +180,14 @@ export class GxUtils
                 let pt = planes[plCnt].Points[ptCnt];
                 let newPt: Point = pt;
               
-              
+                if (transformation.Zoom != null)
+                {
+                    newPt.x *= transformation.Zoom.xScale;
+                    newPt.y *= transformation.Zoom.yScale;
+                    newPt.z *= transformation.Zoom.zScale;
+                }
+
+
                 if (transformation.Translation != null)
                 {
                     newPt.x += transformation.Translation.x;
@@ -187,6 +195,9 @@ export class GxUtils
                     newPt.z += transformation.Translation.z;
 
                 }
+                
+           
+
                 pts.push(newPt);
 
             }

@@ -607,11 +607,17 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
         GxUtils.ApplyRepeatTransform = function (Planes, transformation) {
             var planes = GxUtils.Copy(Planes);
             var txedPlanes = new Array();
+            var centroid = GxUtils.GetCentroid(Planes);
             for (var plCnt = 0; plCnt < planes.length; plCnt++) {
                 var pts = new Array();
                 for (var ptCnt = 0; ptCnt < planes[plCnt].Points.length; ptCnt++) {
                     var pt = planes[plCnt].Points[ptCnt];
                     var newPt = pt;
+                    if (transformation.Zoom != null) {
+                        newPt.x *= transformation.Zoom.xScale;
+                        newPt.y *= transformation.Zoom.yScale;
+                        newPt.z *= transformation.Zoom.zScale;
+                    }
                     if (transformation.Translation != null) {
                         newPt.x += transformation.Translation.x;
                         newPt.y += transformation.Translation.y;
