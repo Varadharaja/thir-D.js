@@ -58,26 +58,20 @@
             }
         },
         {
-            "Id": "BranchId",
-            "Name": "Branch",
+            "Id": "StemId",
+            "Name": "Stem",
             "Type": "POLYGON",
             "SidesCount": 4,
-            "A": 0.02,
-            "B": 0.04,
-            "H": 2,
+            "A": 0.1,
+            "B": 0.2,
+            "H": 3,
             "Transformation": 
             {
                 "Translation" : 
                 {
-                    "x": -1,
-                    "y": -1.5,
+                    "x": 0.0,
+                    "y": -2,
                     "z": 0
-                },
-                "Rotation" :
-                {
-                    "alpha": 0,
-                    "beta": 25,
-                    "gamma": 0
                 }
             },
             "Color": {
@@ -85,10 +79,10 @@
                 "green": 92,
                 "blue": 79
             }
-        }    
+        }
+    
     ],
     "Aggregators" :[
-        
         {
             "Name": "LeftLeaves",
             "ShapeIds" :[
@@ -106,7 +100,7 @@
                 "Rotation":{
                     "alpha": 0,
                     "beta": 0,
-                    "gamma": 0
+                    "gamma": 40
                 }
                             
             },
@@ -114,7 +108,7 @@
                 "RepeatTimes": 20,
                 "Transformation":{
                     "Translation" : {
-                        "x": 0,
+                        "x": 0.02,
                         "y": 0.2,
                         "z": 0
                     },
@@ -127,10 +121,54 @@
                     "Rotation":{
                         "alpha": 0,
                         "beta": 0,
-                        "gamma":0
+                        "gamma": 10
+                    }   
+                }
+            }
+        },
+        {
+            "Name": "RightLeaves",
+            "ShapeIds" :[
+                "LeafId",
+                "AltLeaveId"
+            ],
+            "ApplyAfterTransformation": true,
+            "Transformation" :{
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 320
+                }
+                            
+            },
+            "ShapeRepeatTransformationHint":{
+                "RepeatTimes": 20,
+                "Transformation":{
+                    "Translation" : {
+                        "x": 0.02,
+                        "y": 0.2,
+                        "z": 0
+                    },
+                    "Zoom":
+                    {
+                        "xScale": 0.9,
+                        "yScale": 0.9,
+                        "zScale": 0.9
+                    },
+                    "Rotation":{
+                        "alpha": 0,
+                        "beta": 0,
+                        "gamma": 10
                     }   
                 }
             }
         }
+        
     ]
 }

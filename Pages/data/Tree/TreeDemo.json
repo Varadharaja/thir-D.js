@@ -1,46 +1,134 @@
 {
     "Name": "Tree",
     "Shapes" : [
-    ],
-    "Aggregators" :[
         {
-            "Name": "Leaf",
-            "Include": "Tree/Leaf",
-            "Transformation" :{
+            "Id": "StemId",
+            "Name": "Stem",
+            "Type": "POLYGON",
+            "SidesCount": 4,
+            "A": 0.01,
+            "B": 0.2,
+            "H": 10,
+            "Transformation": 
+            {
                 "Translation" : 
                 {
-                    "x": 0,
-                    "y": 0,
+                    "x": 0.0,
+                    "y": -7,
+                    "z": 0
+                }
+            },
+            "Color": {
+                "red": 165,
+                "green": 92,
+                "blue": 79
+            }
+        },
+        {
+            "Id": "BranchId",
+            "Name": "Branch",
+            "Type": "POLYGON",
+            "SidesCount": 4,
+            "A": 0.02,
+            "B": 0.04,
+            "H": 0.5,
+            "Transformation": 
+            {
+                "Translation" : 
+                {
+                    "x": -0.25,
+                    "y": -1,
                     "z": 0
                 },
-                "Rotation":{
+                "Rotation" :
+                {
                     "alpha": 0,
                     "beta": 0,
                     "gamma": 40
                 }
-                            
             },
-            "ShapeRepeatTransformationHint":{
-                "RepeatTimes": 10,
+            "Color": {
+                "red": 165,
+                "green": 92,
+                "blue": 79
+            }
+        }
+        
+        
+    ],
+    "Aggregators" :[
+        {
+            "Name": "Stem",
+            "ShapeIds" : [
+                "StemId"
+            ]
+        },
+        {
+            "Name": "Lead",
+            "Include": "Tree/Leaf",
+            "Transformation":{
+                "Translation" : 
+                {
+                    "x": -0.8,
+                    "y": -1,
+                    "z": 0
+                },
+                "Rotation" :
+                {
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 45
+                }
+            },
+             "ShapeRepeatTransformationHint":{
+                "RepeatTimes": 30,
                 "Transformation":{
                     "Translation" : {
                         "x": 0,
-                        "y": 0.3,
+                        "y": 0.2,
                         "z": 0
                     },
                     "Zoom":
                     {
-                        "xScale": 0.9,
-                        "yScale": 0.9,
-                        "zScale": 0.9
+                        "xScale": 0.95,
+                        "yScale": 0.95,
+                        "zScale": 0.95
                     },
                     "Rotation":{
                         "alpha": 0,
-                        "beta": 0,
-                        "gamma": 90
+                        "beta": 45,
+                        "gamma": 0
+                    }   
+                }
+            }
+        },
+        {
+            "Name": "Braches",
+            "ShapeIds": [
+                "BranchId"
+            ],
+             "ShapeRepeatTransformationHint":{
+                "RepeatTimes": 30,
+                "Transformation":{
+                    "Translation" : {
+                        "x": 0,
+                        "y": 0.2,
+                        "z": 0
+                    },
+                    "Zoom":
+                    {
+                        "xScale": 0.95,
+                        "yScale": 0.95,
+                        "zScale": 0.95
+                    },
+                    "Rotation":{
+                        "alpha": 0,
+                        "beta": 45,
+                        "gamma": 0
                     }   
                 }
             }
         }
+        
     ]
 }
