@@ -16,7 +16,7 @@ export class ShapeAggregator
     ShapeRepeatHints: RepeatHint[];
     AggregateRepeatHints: RepeatHint[];
     ShapeRepeatTransformationHint: RepeatHint;
-
+    ApplyAfterTransformation: boolean = false;
     constructor(transformation: Transformation)
     {
         this.Transformation = transformation;
@@ -68,6 +68,7 @@ export class ShapeAggregator
         } 
         //else
         {
+            
             shape.SetPlanes();
             let planes: Plane[] = new Array();  
 
@@ -85,7 +86,7 @@ export class ShapeAggregator
             for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
             {
 
-                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, this.Transformation == null ? null : this.Transformation.Translation);
 
                 this.Planes = this.Planes.concat(txedPlanes);
 
@@ -201,7 +202,7 @@ export class ShapeAggregator
             for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
             {
 
-                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+                let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation,null);
 
                 this.Planes = this.Planes.concat(txedPlanes);
 
@@ -213,6 +214,11 @@ export class ShapeAggregator
         }
         else
         {
+            if (this.Transformation.Translation != null && this.ApplyAfterTransformation!= null && this.ApplyAfterTransformation)
+            {
+                this.Planes = GxUtils.Translate(this.Planes, this.Transformation.Translation);
+            }
+
             return GxUtils.TransformPlanes(this.Planes, this.Transformation);
         }
     }

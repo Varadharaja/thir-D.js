@@ -47,6 +47,10 @@ define("Contracts/Shared/Angle", ["require", "exports", "Contracts/Shared/Degree
             this.beta = new Degree_1.Degree(b);
             this.gamma = new Degree_1.Degree(g);
         }
+        Angle.Import = function (ang) {
+            var oAng = new Angle(ang.alpha, ang.beta, ang.gamma);
+            return oAng;
+        };
         return Angle;
     }());
     exports.Angle = Angle;
@@ -392,7 +396,7 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
-define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point"], function (require, exports, Plane_3, Point_4) {
+define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point", "Contracts/Shared/Angle"], function (require, exports, Plane_3, Point_4, Angle_3) {
     "use strict";
     exports.__esModule = true;
     var GxUtils = (function () {
@@ -604,7 +608,8 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
             }
             return txedPlanes;
         };
-        GxUtils.ApplyRepeatTransform = function (Planes, transformation) {
+        GxUtils.ApplyRepeatTransform = function (Planes, transformation, aroundPoint) {
+            if (aroundPoint === void 0) { aroundPoint = null; }
             var planes = GxUtils.Copy(Planes);
             var txedPlanes = new Array();
             var centroid = GxUtils.GetCentroid(Planes);
@@ -622,6 +627,13 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
                         newPt.x += transformation.Translation.x;
                         newPt.y += transformation.Translation.y;
                         newPt.z += transformation.Translation.z;
+                    }
+                    if (transformation.Rotation != null) {
+                        var ang = Angle_3.Angle.Import(transformation.Rotation);
+                        if (aroundPoint == null) {
+                            aroundPoint = transformation.Translation != null ? transformation.Translation : centroid;
+                        }
+                        newPt = GxUtils.Rotate(newPt, aroundPoint, ang);
                     }
                     pts.push(newPt);
                 }
@@ -878,6 +890,7 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
     var ShapeAggregator = (function () {
         function ShapeAggregator(transformation) {
             this.ShapeIds = new Array();
+            this.ApplyAfterTransformation = false;
             this.Planes = new Array();
             this.AddShape = function (shape) {
                 if (this.ShapeRepeatHints != null) {
@@ -914,7 +927,7 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     }
                     this.Planes = this.Planes.concat(planes);
                     for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
-                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, this.Transformation == null ? null : this.Transformation.Translation);
                         this.Planes = this.Planes.concat(txedPlanes);
                         planes = txedPlanes;
                     }
@@ -979,13 +992,16 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     this.Planes = this.Planes.concat(planes);
                     var repeatHint = this.ShapeRepeatTransformationHint;
                     for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
-                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation);
+                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, null);
                         this.Planes = this.Planes.concat(txedPlanes);
                         planes = txedPlanes;
                     }
                     return this.Planes;
                 }
                 else {
+                    if (this.Transformation.Translation != null && this.ApplyAfterTransformation != null && this.ApplyAfterTransformation) {
+                        this.Planes = GxUtils_3.GxUtils.Translate(this.Planes, this.Transformation.Translation);
+                    }
                     return GxUtils_3.GxUtils.TransformPlanes(this.Planes, this.Transformation);
                 }
             };

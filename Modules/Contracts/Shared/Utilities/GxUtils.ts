@@ -166,7 +166,7 @@ export class GxUtils
         return txedPlanes;
     }
 
-    static ApplyRepeatTransform:(Planes: Plane[], transformation: Transformation)=> Plane[] = function(Planes: Plane[], transformation: Transformation): Plane[] 
+    static ApplyRepeatTransform:(Planes: Plane[], transformation: Transformation, aroundPoint: Point)=> Plane[] = function(Planes: Plane[], transformation: Transformation, aroundPoint: Point = null): Plane[] 
     {
         let planes:Plane[] = GxUtils.Copy(Planes);
         let txedPlanes: Plane[] = new Array();
@@ -195,8 +195,19 @@ export class GxUtils
                     newPt.z += transformation.Translation.z;
 
                 }
-                
-           
+
+                if (transformation.Rotation != null)
+                {
+                    let ang = Angle.Import(transformation.Rotation);
+
+                    if (aroundPoint == null)
+                    {
+                        aroundPoint = transformation.Translation != null ? transformation.Translation : centroid; 
+                    }
+                    newPt = GxUtils.Rotate(newPt,aroundPoint,ang);
+    
+                }
+              
 
                 pts.push(newPt);
 

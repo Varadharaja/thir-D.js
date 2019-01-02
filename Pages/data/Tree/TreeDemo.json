@@ -1,0 +1,46 @@
+{
+    "Name": "Tree",
+    "Shapes" : [
+    ],
+    "Aggregators" :[
+        {
+            "Name": "Leaf",
+            "Include": "Tree/Leaf",
+            "Transformation" :{
+                "Translation" : 
+                {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 40
+                }
+                            
+            },
+            "ShapeRepeatTransformationHint":{
+                "RepeatTimes": 10,
+                "Transformation":{
+                    "Translation" : {
+                        "x": 0,
+                        "y": 0.3,
+                        "z": 0
+                    },
+                    "Zoom":
+                    {
+                        "xScale": 0.9,
+                        "yScale": 0.9,
+                        "zScale": 0.9
+                    },
+                    "Rotation":{
+                        "alpha": 0,
+                        "beta": 0,
+                        "gamma": 90
+                    }   
+                }
+            }
+        }
+    ]
+}

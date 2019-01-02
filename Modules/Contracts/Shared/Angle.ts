@@ -13,5 +13,11 @@ export class Angle
         this.gamma = new Degree(g);
     }
 
+    static Import(ang: any): Angle
+    {
+        let oAng = new Angle(ang.alpha,ang.beta,ang.gamma);
+        return oAng;
+    }
+
 }
 
