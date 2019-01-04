@@ -108,16 +108,21 @@
                let g = clr.green;
                let b = clr.blue;
 
+               let intensity = 0.1;
+               let r1 = clr.red - intensity;
+               let g1 = clr.green - intensity;
+               let b1 = clr.blue - intensity;
+
                //let inclinationAngle = GxUtilsNS.GxUtils.GetInclinationWithXZPlane(planes[plCnt]);
                //console.log(inclinationAngle);
                //if (isNaN(inclinationAngle) || inclinationAngle<= 90)
                {
                   colors.push(r, g,b);
-                  colors.push(r, g,b);
+                  colors.push(r1, g1,b1);
                   colors.push(r, g,b);
                   colors.push(r, g,b);
                   colors.push(r, g,b)
-                  colors.push(r, g,b)
+                  colors.push(r1, g,b1);
    
                }
                /* else
@@ -210,10 +215,10 @@
         gl.enableVertexAttribArray(color);
         gl.useProgram(shaderProgram);
 
-         proj_matrix = get_projection(50, canvas.width/canvas.height, 1, 1000);
+         proj_matrix = get_projection(45, canvas.width/canvas.height, 1, 1000);
 
         mov_matrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
-         view_matrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
+        view_matrix = [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1];
 
         // translating z
         view_matrix[14] = view_matrix[14]-6;//zoom
@@ -283,9 +288,10 @@
             if (doAnimate)
             {
                 let dt = time-time_old;
-                rotateZ(mov_matrix, dt*0.000);//time
-                rotateY(mov_matrix, dt*0.0009);
-                rotateX(mov_matrix, dt*0.000);
+                
+                //rotateZ(mov_matrix, dt*0.000);//time
+                //rotateY(mov_matrix, dt*0.0009);
+                //rotateX(mov_matrix, dt*0.000);
                 time_old = time;
 
                 gl.enable(gl.DEPTH_TEST);

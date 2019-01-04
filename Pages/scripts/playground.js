@@ -202,7 +202,7 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
     //SetWebGLParams(Planes);
     doAnimate = true;
     animate(0);
-    doAnimate = false;
+    doAnimate = true;
 }
 
 function GetParent(aggregators, aggName, depth)
@@ -275,7 +275,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf-Demo","Tree/Leaf","Tree/TreeDemo"];
+    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf-Demo","Tree/Leaf","Tree/TreeDemo","Mountain/Terrain"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
@@ -537,3 +537,25 @@ AssignLightIntensity = function()
 
 }
 
+
+
+document.onkeydown = function(e) {
+    //doAnimate = true;
+    switch (e.keyCode) {
+        case 37:
+            rotateY(mov_matrix,0.01);
+            //alert('left');
+            break;
+        case 38:
+            //alert('up');
+            view_matrix[14]+=0.03;
+            break;
+        case 39:
+            rotateY(mov_matrix, -0.01);
+        break;
+        case 40:
+            //alert('down');
+            view_matrix[14]-=0.03;
+            break;
+    }
+};

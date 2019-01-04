@@ -1,7 +1,8 @@
 body
 {
-    background-image:none
-
+    background-image:none;
+    overflow-x:hidden;
+    overflow-y: hidden;
 }
 
 .logo
@@ -53,7 +54,7 @@ select
 .sidepanel {
     background: white;
     box-shadow: 1px 0px 7px 0px #9E9E9E;
-    height: 94vh;
+    height: 80vh;
     width: 10vw;
     margin-left: -10px;
     padding: 15px;
@@ -65,12 +66,12 @@ select
     position: absolute;
     left: 12vw;
     top: 6vh;
-    overflow-x: auto;
+    overflow-x: none;
 }
 .page-content
 {
     width: 100vw;
-    height: 94vh;
+    height: 80vh;
 }
 
 .shape-menu

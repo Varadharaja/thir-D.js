@@ -1,0 +1,34 @@
+{
+    "Name": "Terrain",
+    "Shapes" :[
+        {
+            "Id": "RockId",
+            "Name": "Rock",
+            "Type": "SPHERE",
+            "Radius": 1,
+            "xPartitions": 6,
+            "yPartitions": 6,
+            "Color" : {
+                "red": 200,
+                "blue": 200,
+                "green": 200
+            },
+            "Transformation" :
+            {
+                "Translation" : {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        }
+    ],
+    "Aggregators": [
+        {
+            "Name": "Rocks",
+            "ShapeIds" :[
+                "RockId"
+            ]
+        }
+    ]
+}
