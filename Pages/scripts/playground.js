@@ -92,6 +92,11 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                 aggregators[aggCnt].ShapeRepeatTransformationHint = project.Aggregators[aggCnt].ShapeRepeatTransformationHint;
             }
 
+            if (project.Aggregators[aggCnt].ShapeRepeatHints != null)
+            {
+                aggregators[aggCnt].ShapeRepeatHints = project.Aggregators[aggCnt].ShapeRepeatHints;
+            }
+
             if (project.Aggregators[aggCnt].Include != null)
             {
                 continue;

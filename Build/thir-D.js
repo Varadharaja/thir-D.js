@@ -396,7 +396,19 @@ define("Contracts/Shapes/Polygon", ["require", "exports", "Contracts/Shared/Poin
     }(Shape_2.Shape));
     exports.Polygon = Polygon;
 });
-define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point", "Contracts/Shared/Angle"], function (require, exports, Plane_3, Point_4, Angle_3) {
+define("Contracts/Shared/RepeatHint", ["require", "exports"], function (require, exports) {
+    "use strict";
+    exports.__esModule = true;
+    var RepeatHint = (function () {
+        function RepeatHint() {
+            this.RepeatTimes = 1;
+            this.SpaceDistance = 0;
+        }
+        return RepeatHint;
+    }());
+    exports.RepeatHint = RepeatHint;
+});
+define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/Shared/Plane", "Contracts/Shared/Point", "Contracts/Shared/Angle", "Contracts/Shared/RepeatHint"], function (require, exports, Plane_3, Point_4, Angle_3, RepeatHint_1) {
     "use strict";
     exports.__esModule = true;
     var GxUtils = (function () {
@@ -648,6 +660,36 @@ define("Contracts/Shared/Utilities/GxUtils", ["require", "exports", "Contracts/S
         GxUtils.ComputeDistance = function (pointA, pointB) {
             return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2) + Math.pow(pointA.z - pointB.z, 2));
         };
+        GxUtils.ApplyRepeatHints = function (Planes, repeatHints) {
+            var outputPlanes = new Array();
+            var xRepeatHint = new RepeatHint_1.RepeatHint();
+            var yRepeatHint = new RepeatHint_1.RepeatHint();
+            var zRepeatHint = new RepeatHint_1.RepeatHint();
+            repeatHints.forEach(function (hint) {
+                switch (hint.Axis) {
+                    case "X":
+                        xRepeatHint = hint;
+                        break;
+                    case "Y":
+                        yRepeatHint = hint;
+                        break;
+                    case "Z":
+                        zRepeatHint = hint;
+                        break;
+                }
+            });
+            for (var xRepeater = 0; xRepeater < xRepeatHint.RepeatTimes; xRepeater++) {
+                for (var yRepeater = 0; yRepeater < yRepeatHint.RepeatTimes; yRepeater++) {
+                    for (var zRepeater = 0; zRepeater < zRepeatHint.RepeatTimes; zRepeater++) {
+                        var repeatPlanes = GxUtils.Copy(Planes);
+                        var translation = new Point_4.Point(xRepeater * xRepeatHint.SpaceDistance, yRepeater * yRepeatHint.SpaceDistance, zRepeater * zRepeatHint.SpaceDistance);
+                        var translatedPlanes = GxUtils.Translate(repeatPlanes, translation);
+                        outputPlanes = outputPlanes.concat(translatedPlanes);
+                    }
+                }
+            }
+            return outputPlanes;
+        };
         return GxUtils;
     }());
     exports.GxUtils = GxUtils;
@@ -872,19 +914,7 @@ define("Contracts/Shared/Graphics", ["require", "exports", "Contracts/Shared/Uti
     }());
     exports.Graphics = Graphics;
 });
-define("Contracts/Shared/RepeatHint", ["require", "exports"], function (require, exports) {
-    "use strict";
-    exports.__esModule = true;
-    var RepeatHint = (function () {
-        function RepeatHint() {
-            this.RepeatTimes = 1;
-            this.SpaceDistance = 0;
-        }
-        return RepeatHint;
-    }());
-    exports.RepeatHint = RepeatHint;
-});
-define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Transformation_4, Point_6, GxUtils_3, RepeatHint_1) {
+define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Shared/Transformation", "Contracts/Shared/Point", "Contracts/Shared/Utilities/GxUtils", "Contracts/Shared/RepeatHint"], function (require, exports, Transformation_4, Point_6, GxUtils_3, RepeatHint_2) {
     "use strict";
     exports.__esModule = true;
     var ShapeAggregator = (function () {
@@ -937,9 +967,9 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                 {
                 }
                 {
-                    var xRepeatHint_1 = new RepeatHint_1.RepeatHint();
-                    var yRepeatHint_1 = new RepeatHint_1.RepeatHint();
-                    var zRepeatHint_1 = new RepeatHint_1.RepeatHint();
+                    var xRepeatHint_1 = new RepeatHint_2.RepeatHint();
+                    var yRepeatHint_1 = new RepeatHint_2.RepeatHint();
+                    var zRepeatHint_1 = new RepeatHint_2.RepeatHint();
                     repeatHints.forEach(function (hint) {
                         switch (hint.Axis) {
                             case "X":
@@ -989,12 +1019,18 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     if (this.Transformation.Rotation != null) {
                         planes = GxUtils_3.GxUtils.RotatePlanes(planes, this.Transformation.Rotation);
                     }
-                    this.Planes = this.Planes.concat(planes);
-                    var repeatHint = this.ShapeRepeatTransformationHint;
-                    for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
-                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, null);
+                    if (this.ShapeRepeatHints != null && this.ShapeRepeatHints.length > 0) {
+                        var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatHints(planes, this.ShapeRepeatHints);
                         this.Planes = this.Planes.concat(txedPlanes);
-                        planes = txedPlanes;
+                    }
+                    else {
+                        this.Planes = this.Planes.concat(planes);
+                        var repeatHint = this.ShapeRepeatTransformationHint;
+                        for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
+                            var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, null);
+                            this.Planes = this.Planes.concat(txedPlanes);
+                            planes = txedPlanes;
+                        }
                     }
                     return this.Planes;
                 }

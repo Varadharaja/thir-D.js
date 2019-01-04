@@ -12,6 +12,7 @@ import { Cube } from "../../Shapes/Cube";
 import { Sphere } from "../../Shapes/Sphere";
 import { Polygon } from "../../Shapes/Polygon";
 import { IShape } from "../../Interfaces/IShape";
+import { RepeatHint } from "../RepeatHint";
 
 export class GxUtils
 {
@@ -386,6 +387,53 @@ export class GxUtils
         //cosα = |a1a2+b1b2+c1c2|a21+b21+c21√a22+b22+c22√
 
         return 180 * alpha/Math.PI;
+    }
+
+    static ApplyRepeatHints = function(Planes: Plane[], repeatHints: RepeatHint[]): Plane[] 
+    {
+        let outputPlanes: Plane[] = new Array();
+        let xRepeatHint: RepeatHint = new RepeatHint();
+        let yRepeatHint: RepeatHint = new RepeatHint();
+        let zRepeatHint: RepeatHint = new RepeatHint();
+        
+        repeatHints.forEach(function (hint) {
+
+            switch(hint.Axis)
+            {
+                case "X":
+                xRepeatHint = hint;
+                break;
+                case "Y":
+                yRepeatHint = hint;
+                break;
+                case "Z":
+                zRepeatHint = hint;
+                break;
+
+            }
+
+        });
+
+        for (let xRepeater=0; xRepeater < xRepeatHint.RepeatTimes; xRepeater++)
+        {
+            for (let yRepeater=0; yRepeater < yRepeatHint.RepeatTimes; yRepeater++)
+            {
+                for (let zRepeater=0; zRepeater < zRepeatHint.RepeatTimes; zRepeater++)
+                {
+                    let repeatPlanes: Plane[] = GxUtils.Copy(Planes);
+                    
+                    let translation: Point = new Point(xRepeater * xRepeatHint.SpaceDistance,yRepeater * yRepeatHint.SpaceDistance, zRepeater * zRepeatHint.SpaceDistance);
+
+                    let translatedPlanes: Plane[] = GxUtils.Translate(repeatPlanes, translation);
+
+                    outputPlanes = outputPlanes.concat(translatedPlanes);
+
+                }
+            }    
+        }
+
+        return outputPlanes;
+
     }
 
 }

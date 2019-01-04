@@ -479,14 +479,30 @@
             "ApplyAfterTransformation": true,
             "Transformation": 
                 {
-
+                    "Translation": {
+                        "x": 0,
+                        "y": -1,
+                        "z": 0
+                    },
                     "Zoom":{
                     "xScale": 0.2,
                     "yScale": 0.2,
                     "zScale": 0.2
                 }
             },
-            "ShapeRepeatTransformationHint":
+            "ShapeRepeatHints" :[
+                {
+                    "Axis": "X",
+                    "SpaceDistance": 0.4,
+                    "RepeatTimes": 5
+                },
+                {
+                    "Axis": "Z",
+                    "SpaceDistance": 0.4,
+                    "RepeatTimes": 5
+                }
+            ],
+            "ShapeRepeatTransformationHint1":
             {
                 "RepeatTimes" : 5,
                 "Transformation": {
@@ -498,7 +514,5 @@
                 }
             }
         }
-        
-        
     ]
 }
