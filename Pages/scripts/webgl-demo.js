@@ -122,7 +122,7 @@
                   colors.push(r, g,b);
                   colors.push(r, g,b);
                   colors.push(r, g,b)
-                  colors.push(r1, g,b1);
+                  colors.push(r, g,b);
    
                }
                /* else
