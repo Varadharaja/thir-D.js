@@ -16,6 +16,7 @@ export class ShapeAggregator
     ShapeRepeatHints: RepeatHint[];
     AggregateRepeatHints: RepeatHint[];
     ShapeRepeatTransformationHint: RepeatHint;
+    AggregateRepeatTransformationHint: RepeatHint;
     ApplyAfterTransformation: boolean = false;
     constructor(transformation: Transformation)
     {

@@ -129,46 +129,50 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
                             if (agg.Name == aggregators[aggCnt].ParentId)
                             {
 
-                                if (shapeRepeatHints != null)
-                                {
-                                    agg.AddShapeWithRepeatHints(shape,shapeRepeatHints);
-                                }
-                                else if (shapeRepeatTransformationHint != null)
-                                {
-                                    agg.AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
-                                }                    
-                                else
-                                {
-                                    agg.AddShape(shape);
-                                }
+                                AddShapesToAggregator(agg,shape,shapeRepeatHints,shapeRepeatTransformationHint);
 
                             }
                         });
                     }
                     
-                    else if (shapeRepeatHints != null)
+                    else 
                     {
-
-                        aggregators[aggCnt].AddShapeWithRepeatHints(shape,shapeRepeatHints);
-
-                    }
-                    else if (shapeRepeatTransformationHint != null)
-                    {
-                        aggregators[aggCnt].AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
-
-                    }                    
-                    else
-                    {
-                        aggregators[aggCnt].AddShape(shape);
-
+                        
+                        AddShapesToAggregator(aggregators[aggCnt],shape,shapeRepeatHints,shapeRepeatTransformationHint);
+                        
                     }
 
                     shapeMaps.push({OldId: e.Id, NewId: shape.Id});
                 }
             });
 
+        }
+
+        // Aggregator fix - Roll up planes of lower depth  to root level from max depth level upto 2
+        for (let aggCnt=0; aggCnt< aggregators.length; aggCnt++)
+        {
+            let aggName =  aggregators[aggCnt].Name;
+            let children = aggregators.filter(function(agg){return agg.ParentId == aggName});
+            let parentAggName = aggregators[aggCnt].ParentId;
+         
+            if (children.length > 0 &&  parentAggName != null)
+            {
+                let parentAgg = aggregators.filter(function(agg){return agg.Name == parentAggName})[0];
+                let childPlanes = new Array();
+                if (aggregators[aggCnt].Transformation != null)
+                {
+                    childPlanes = planes.concat(aggregators[aggCnt].TransformedPlanes());
+                }   
+                else
+                {
+                    childPlanes = planes.concat(aggregators[aggCnt].Planes);
+    
+                }
+                parentAgg.AddPlanes(childPlanes);                
+            }
 
         }
+
 
         for (let aggCnt=0; aggCnt< aggregators.length; aggCnt++)
         {
@@ -188,13 +192,47 @@ LoadProject = function(project, selectShapeId = "", reusePlanes= false)
 
         Planes = planes;
     }
-    //AssignLightIntensity();
 
     SetWebGLParams(Planes.filter(function(pl){return pl != null && !pl.ShouldHide}));
     //SetWebGLParams(Planes);
     doAnimate = true;
     animate(0);
     doAnimate = false;
+}
+
+function GetParent(aggregators, aggName, depth)
+{
+
+    
+     if (result.length == 0)
+    {
+        return depth;
+    }
+    else
+    {   
+        depth++;
+        return GetDepth(aggregators, aggName, depth);
+    }
+
+
+}
+
+function AddShapesToAggregator(agg,shape,shapeRepeatHints,shapeRepeatTransformationHint)
+{
+
+    if (shapeRepeatHints != null)
+    {
+        agg.AddShapeWithRepeatHints(shape,shapeRepeatHints);
+    }
+    else if (shapeRepeatTransformationHint != null)
+    {
+        agg.AddShapeWithRepeatTransformationHint(shape,shapeRepeatTransformationHint);
+    }                    
+    else
+    {
+        agg.AddShape(shape);
+    }
+
 }
 
 function LoadShapes(project)
@@ -232,7 +270,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf","Tree/TreeDemo"];
+    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf-Demo","Tree/Leaf","Tree/TreeDemo"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
@@ -314,8 +352,9 @@ function LoadInclude(include, aggregatorName)
                     if (agg.Include != null)
                     {
                         aggTotalCount++;
-                        LoadInclude(agg.Include,agg.Name);
-                        //agg.ParentId = parentId;
+                        LoadInclude(agg.Include, agg.Name);
+                        agg.ParentId =  parentId;
+                        //agg.AggregateRepeatTransformationHint = 
                         return agg;
                     }
                     else
@@ -324,6 +363,7 @@ function LoadInclude(include, aggregatorName)
                         {
                             return  aggName + "." + shpId; 
                         });
+                        
                         agg.ParentId = parentId;
                         return agg;
     
@@ -333,7 +373,7 @@ function LoadInclude(include, aggregatorName)
                 if (aggIncludeLoadedCount == aggTotalCount)
                 {
                     LoadProject(Project);
-                    //LoadShapes(Project);
+                    LoadShapes(Project);
                 }
         
             });

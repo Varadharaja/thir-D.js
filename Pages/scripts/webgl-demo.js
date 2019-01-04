@@ -2,7 +2,7 @@
         /*============= Creating a canvas =================*/
         let canvas = document.getElementById('glcanvas');
         gl = canvas.getContext('webgl2');
-        let proj_matrix,mov_matrixm , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices,  vertex_buffer, color_buffer  ;
+        let proj_matrix,mov_matrix , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices,  vertex_buffer, color_buffer  ;
          let verticesLength = 0;
         vertex_buffer = gl.createBuffer ();
         index_buffer = gl.createBuffer ();
