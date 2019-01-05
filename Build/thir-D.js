@@ -1026,10 +1026,12 @@ define("Contracts/Shared/ShapeAggregator", ["require", "exports", "Contracts/Sha
                     else {
                         this.Planes = this.Planes.concat(planes);
                         var repeatHint = this.ShapeRepeatTransformationHint;
-                        for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
-                            var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, null);
-                            this.Planes = this.Planes.concat(txedPlanes);
-                            planes = txedPlanes;
+                        if (repeatHint != null) {
+                            for (var repeatCnt = 0; repeatCnt < repeatHint.RepeatTimes - 1; repeatCnt++) {
+                                var txedPlanes = GxUtils_3.GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation, null);
+                                this.Planes = this.Planes.concat(txedPlanes);
+                                planes = txedPlanes;
+                            }
                         }
                     }
                     return this.Planes;

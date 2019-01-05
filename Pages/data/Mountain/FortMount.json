@@ -1,0 +1,61 @@
+{
+    "Name": "FortMountain",
+    "Shapes" :[
+        {
+            "Id": "MountainId",
+            "Name": "Mountain",
+            "Type": "POLYGON",
+            "A": 3,
+            "B": 4,
+            "H": 2,
+            "SidesCount": 10,
+            "PlaneColors": [
+                {
+                    "Color": {
+                        "red": 206,
+                        "green":236,
+                        "blue": 0
+                    },
+                    "Planes" :[0]
+                }
+            ],
+            "TopFaceInclination": 
+            {
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 162,
+                "green":185,
+                "blue": 0
+            },
+            "Transformation" :
+            {
+                "Translation" : {
+                    "x": 0,
+                    "y": -1,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha":0 ,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom": {
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1
+                }
+            }
+        }
+    ],
+    "Aggregators": [
+        {
+            "Name": "FortMountain",
+            "ShapeIds" :[
+                "MountainId"
+            ]
+        }
+    ]
+}

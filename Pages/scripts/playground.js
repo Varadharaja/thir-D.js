@@ -548,14 +548,14 @@ document.onkeydown = function(e) {
             break;
         case 38:
             //alert('up');
-            view_matrix[14]+=0.03;
+            view_matrix[14]+=0.05;
             break;
         case 39:
             rotateY(mov_matrix, -0.01);
         break;
         case 40:
             //alert('down');
-            view_matrix[14]-=0.03;
+            view_matrix[14]-=0.05;
             break;
     }
 };

@@ -207,18 +207,20 @@ export class ShapeAggregator
 
                 let repeatHint = this.ShapeRepeatTransformationHint;
 
-                for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
+                if (repeatHint != null)
                 {
-    
-                    let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation,null);
-    
-                    this.Planes = this.Planes.concat(txedPlanes);
-    
-                    planes = txedPlanes;
+                    for (let repeatCnt=0; repeatCnt < repeatHint.RepeatTimes-1; repeatCnt++)
+                    {
+        
+                        let txedPlanes: Plane[] = GxUtils.ApplyRepeatTransform(planes, repeatHint.Transformation,null);
+        
+                        this.Planes = this.Planes.concat(txedPlanes);
+        
+                        planes = txedPlanes;
+                    }
                 }
+                
             }
-
-      
 
            
             return this.Planes;

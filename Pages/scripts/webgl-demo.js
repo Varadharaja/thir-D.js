@@ -4,6 +4,8 @@
         gl = canvas.getContext('webgl2');
         let proj_matrix,mov_matrix , view_matrix,Pmatrix,Vmatrix, Mmatrix,index_buffer, indices,  vertex_buffer, color_buffer  ;
          let verticesLength = 0;
+
+         let VXS, CLRS;
         vertex_buffer = gl.createBuffer ();
         index_buffer = gl.createBuffer ();
         color_buffer = gl.createBuffer ();
@@ -182,14 +184,15 @@
         /*============ Defining and storing the geometry =========*/
 
 
-
+        VXS = new Float32Array(vertices);
+        CLRS = new Float32Array(colors);
         // Create and store data into vertex buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, VXS , gl.STATIC_DRAW);
 
         // Create and store data into color buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, color_buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER,CLRS , gl.STATIC_DRAW);
 
         // Create and store data into index buffer
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index_buffer);

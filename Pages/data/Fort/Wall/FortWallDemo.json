@@ -2,6 +2,28 @@
     "Name": "Fort wall demo",
     "Shapes": [
         {
+            "Id": "LandId",
+            "Name": "Land",
+            "Type": "CUBE",
+            "L": 40,
+            "W": 40,
+            "H": 1,
+            "Color": {
+                "red": 214,
+                "green":200,
+                "blue": 182
+
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -20,
+                     "y": -4.9,
+                     "z": -42
+                 }
+             }
+        },
+        {
             "Id": "GroundId",
             "Name": "Ground",
             "Type": "CUBE",
@@ -24,6 +46,27 @@
             }
         },
         {
+            "Id": "RiverWaterId",
+            "Name": "River",
+            "Type": "CUBE",
+            "L": 40,
+            "W": 40,
+            "H": 1,
+            "Color": {
+                "red": 0,
+                "green": 200,
+                "blue": 255
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -20,
+                     "y": -5,
+                     "z": -4.5
+                 }
+             }
+         },
+        {
             "Id": "WaterId",
             "Name": "water",
             "Type": "CUBE",
@@ -43,6 +86,27 @@
                      "z": -4.5
                  }
              }
+         },
+         {
+            "Id": "SkyId",
+            "Name": "Sky",
+            "Type": "CUBE",
+            "L": 100,
+            "W": 100,
+            "H": 100,
+            "Color": {
+                "red": 171,
+                "green": 179,
+                "blue": 189
+             },
+             "Transformation": {
+                 "Translation": 
+                 {
+                     "x": -50,
+                     "y": -50,
+                     "z": -50
+                 }
+             }
          }
 
     ],
@@ -51,7 +115,9 @@
             "Name": "Nature",
             "ShapeIds": [
                 "GroundId",
-                "WaterId"
+                "WaterId",
+                "RiverWaterId",
+                "LandId"
             ]
         },
         {
@@ -475,13 +541,13 @@
         },
         {
             "Name": "Trees",
-            "Include": "Tree/TreeDemo",
+            "Include": "Tree/Tree",
             "ApplyAfterTransformation": true,
             "Transformation": 
                 {
                     "Translation": {
                         "x": 0,
-                        "y": 0,
+                        "y": -1,
                         "z": 0
                     },
                     "Zoom":{
@@ -490,20 +556,7 @@
                     "zScale": 0.2
                 }
             },
-            "ShapeRepeatHints" :[
-                {
-                    "Axis": "X",
-                    "SpaceDistance": 0.4,
-                    "RepeatTimes": 5
-                },
-                
-                {
-                    "Axis": "Y",
-                    "SpaceDistance": -0.4,
-                    "RepeatTimes": 5
-                }
-            ],
-            "ShapeRepeatTransformationHint1":
+            "ShapeRepeatTransformationHint":
             {
                 "RepeatTimes" : 5,
                 "Transformation": {
@@ -512,6 +565,99 @@
                         "y": 0,
                         "z": 0
                     }
+                }
+            }
+        },
+        {
+            "Name": "Trees1",
+            "Include": "Tree/Tree",
+            "ApplyAfterTransformation": true,
+            "Transformation": 
+                {
+                    "Translation": {
+                        "x": -1,
+                        "y": -1,
+                        "z": 0
+                    },
+                    "Zoom":{
+                    "xScale": 0.2,
+                    "yScale": 0.2,
+                    "zScale": 0.2
+                }
+            },
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes" : 5,
+                "Transformation": {
+                    "Translation":{
+                        "x": 0.4,
+                        "y": 0,
+                        "z": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Terrain",
+            "Include": "Mountain/Terrain",
+            "Transformation": 
+                {
+                    "Translation": {
+                        "x": -4,
+                        "y": -2.5,
+                        "z": -6
+                    },
+                    "Zoom":{
+                    "xScale": 2,
+                    "yScale": 2,
+                    "zScale": 2
+                }
+            },
+            "ShapeRepeatTransformationHint" :{
+                    "SpaceDistance": 0.4,
+                    "RepeatTimes": 3,
+                    "Transformation": {
+
+                        "Translation": {
+                            "x": 2,
+                            "y": -0.25,
+                            "z": 0
+                        }
+                    }
+            }
+            
+        },
+        {
+            "Name": "FortMountain",
+            "Include": "Mountain/FortMount",
+            "Transformation": 
+                {
+                    "Translation": {
+                        "x": 0,
+                        "y": -2.92,
+                        "z": -1
+                    },
+                    "Zoom":{
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1
+                }
+            }
+        },
+        {
+            "Name": "WaterfallMountain",
+            "Include": "Mountain/WaterfallMount",
+            "Transformation": 
+                {
+                    "Translation": {
+                        "x": -10,
+                        "y": -2.5,
+                        "z": 0
+                    },
+                    "Zoom":{
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1
                 }
             }
         }

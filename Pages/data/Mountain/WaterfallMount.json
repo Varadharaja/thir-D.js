@@ -1,0 +1,121 @@
+{
+    "Name": "WaterfallMountain",
+    "Shapes" :[
+        {
+            "Id": "MountainId",
+            "Name": "Mountain",
+            "Type": "POLYGON",
+            "A": 1,
+            "B": 4,
+            "H": 5,
+            "SidesCount": 10,
+            "TopFaceInclination": 
+            {
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "Color": {
+                "red": 162,
+                "green":185,
+                "blue": 0
+            },
+            "Transformation" :
+            {
+                "Translation" : {
+                    "x": 0,
+                    "y": -1,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha":0 ,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom": {
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1
+                }
+            }
+        },
+        {
+            "Id": "RockId",
+            "Name": "Rock",
+            "Type": "POLYGON",
+            "A": 1,
+            "B": 1.2,
+            "H": 0.3,
+            "SidesCount": 10,
+            "TopFaceInclination": 
+            {
+                "alpha": 0,
+                "beta": 0,
+                "gamma": 0
+            },
+            "PlaneColors":[
+                {
+                    "Color": {
+                        "red": 0,
+                        "green": 200,
+                        "blue": 255
+                    },
+                    "Planes":  [0,2,3,4]
+                }
+            ],  
+            "Color": {
+                "red": 200,
+                "green": 200,
+                "blue": 200
+            },
+            "Transformation" :
+            {
+                "Translation" : {
+                    "x": 4,
+                    "y": -1,
+                    "z": 7
+                },
+                "Rotation":{
+                    "alpha":0 ,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom": {
+                    "xScale": 1,
+                    "yScale": 1,
+                    "zScale": 1
+                }
+            }
+        }
+    ],
+    "Aggregators": [
+        {
+            "Name": "Mountain",
+            "ShapeIds" :[
+                "MountainId"
+            ]
+        },
+        {
+            "Name": "Rocks",
+            "ShapeIds" :[
+                "RockId"
+            ],
+            "ShapeRepeatTransformationHint":
+            {
+                "RepeatTimes": 16,
+                "Transformation":{
+                    "Translation":{
+                        "x": 0,
+                        "y": 0.3,
+                        "z": 0
+                    },
+                    "Zoom":{
+                        "xScale": 0.9,
+                        "yScale": 1,
+                        "zScale": 0.9
+                    }
+                }
+            }
+        }
+    ]
+}
