@@ -1,0 +1,277 @@
+{
+    "Name": "Sparrow",
+    "Shapes" :
+    [   
+        {
+            "Id": "HeadId",
+            "Name": "Head",
+            "Type": "SPHERE",
+            "Radius": 0.5,
+            "xPartitions": 8,
+            "yPartitions": 8,
+            "Color": {
+                "red": 222,
+                "green": 170,
+                "blue": 149
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            }
+        },
+        {
+            "Id": "BodyId",
+            "Name": "Body",
+            "Type": "SPHERE",
+            "Radius": 0.7,
+            "xPartitions": 8,
+            "yPartitions": 8,
+            "Color": {
+                "red": 250,
+                "green": 241,
+                "blue": 237
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": 0.15,
+                    "y": -0.15,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 0
+                },
+                "Zoom":
+                {
+                    "xScale": 1,
+                    "yScale": 1.2,
+                    "zScale": 1
+                }
+            }
+        },
+        {
+            "Id": "NeckId",
+            "Name": "Neck",
+            "Type": "POLYGON",
+            "SidesCount": 8,
+            "A": 0.3,
+            "B": 0.37,
+            "H": 0.7,
+            "Color": {
+                "red": 250,
+                "green": 241,
+                "blue": 237
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": 0.1,
+                    "y": -0.5,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 30
+                }
+            }
+        },
+        {
+            "Id": "TailId",
+            "Name": "Tail",
+            "Type":"POLYGON",
+            "SidesCount": 3,
+            "A": 0.3,
+            "B": 0.1,
+            "H": 1.5,
+            "Color":{
+                "red": 215,
+                "green": 193,
+                "blue":206
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": 1.5,
+                    "y": -2,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 45
+                }
+            }
+        },
+        {
+            "Id": "BeakId",
+            "Name": "Beak",
+            "Type":"POLYGON",
+            "SidesCount": 3,
+            "A": 0.01,
+            "B": 0.2,
+            "H": 0.5,
+            "Color":{
+                "red": 220,
+                "green": 208,
+                "blue": 182
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": -0.5,
+                    "y": -0.3,
+                    "z": 0
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 90
+                }
+            }
+        },
+        {
+            "Id": "EyeId",
+            "Name": "Eye",
+            "Type": "SPHERE",
+            "Radius": 0.05,
+            "xPartitions": 8,
+            "yPartitions": 8,
+            "Color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0
+            },
+            "Transformation" :
+            {
+                "Translation":{
+                    "x": -0.1,
+                    "y": 0,
+                    "z": 0.05
+                },
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 180
+                }
+            }
+
+        }       
+    ],
+    "Shapes1" :[
+        
+        {
+            "Id": "WingId",
+            "Name": "Wing"
+        },
+        {
+            "Id": "LegId",
+            "Name": "Leg"
+        }
+    ],
+    "Aggregators1" :[
+        {
+            "Name": "Sparrow",
+            "ShapeIds" :[
+                "TailId"
+            ]
+        }
+    ],
+    "Aggregators":[
+        {
+            "Name": "Sparrow",
+            "ShapeIds" :[
+                "HeadId",
+                "NeckId",
+                "BeakId"
+            ]
+        },
+
+        {
+            "Name":"Body",
+            "ShapeIds":[
+                "BodyId"
+            ],
+            "Transformation" :
+            {
+                "Rotation":{
+                    "alpha": 0,
+                    "beta": 0,
+                    "gamma": 60
+                }
+            }
+        },
+        {
+            "Name": "Tail",
+            "ShapeIds":[
+                "TailId"
+            ],
+            "ShapeRepeatTransformationHint" :
+            {
+                "RepeatTimes": 2,
+                "Transformation":{
+                    "Translation": {
+                        "x": 0,
+                        "y": -0.1,
+                        "z": 0
+                    },
+                    "Rotation": {
+                        "alpha": 0,
+                        "beta": 0,
+                        "gamma": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Beak",
+            "ShapeIds":[
+                "BeakId"
+            ],
+            "ShapeRepeatTransformationHint" :
+            {
+                "RepeatTimes": 2,
+                "Transformation":{
+                    "Translation":{
+                        "x": 0,
+                        "y": -0.15,
+                        "z": 0
+                    },
+                    "Rotation": {
+                        "alpha": 180,
+                        "beta": 0,
+                        "gamma": 0
+                    }
+                }
+            }
+        },
+        {
+            "Name": "Eyes",
+            "ShapeIds":[
+                "EyeId"
+            ],
+            "ShapeRepeatTransformationHint" :
+            {
+                "RepeatTimes": 2,
+                "Transformation":{
+                    "Translation":{
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.5
+                    },
+                    "Rotation": {
+                        "alpha": 0,
+                        "beta": 0,
+                        "gamma": 0
+                    }
+                }
+            }
+        }
+    ]
+}

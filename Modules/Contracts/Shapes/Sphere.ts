@@ -31,6 +31,7 @@ export class Sphere extends Shape
     {
         let origin = new Point(0,0,0);
 
+        
         let planes: Plane[] = new Array();
 
         this.yPartStart = this.yPartStart ==  null ? 0 : this.yPartStart;

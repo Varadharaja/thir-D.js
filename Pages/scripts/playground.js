@@ -275,7 +275,7 @@ function LoadShapes(project)
 
 $(document).ready(function()
 {   
-    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf-Demo","Tree/Leaf","Tree/TreeDemo","Mountain/Terrain"];
+    let prjs = ["Tree/Cube","Fort","Human","Eye","NewFort","Elephant","Fort/Wall/Pillar1","Fort/Wall/Pillar2", "Fort/Wall/Wall","Fort/Wall/FortWallDemo","Fort/Wall/Entrance","Tree/Leaf-Demo","Tree/Leaf","Tree/TreeDemo","Mountain/Terrain","Birds/Sparrow"];
 
      $.map(prjs, function(e,i){
         $("#projectSelector").append("<option>" +  e + "</option>");
