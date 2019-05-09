@@ -1,6 +1,6 @@
 # thir-D.js
 
-A modern typescript based UX framework to build 3D shapes for basic animation using Html5, Webgl and Canvas
+A modern javascript based UX framework to build 3D shapes for basic animation using Html5, Webgl and Canvas
 
 Complex shapes can be built independently by assembling basic shapes - Cube, Poylgons & sphere and saved in library (json format).   
 
