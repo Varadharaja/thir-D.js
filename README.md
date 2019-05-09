@@ -18,6 +18,5 @@ Complex shapes can be built independently by assembling basic shapes - Cube, Poy
 
 Each of these shapes can be aggregated in one place to create a animated scene as shown below:
 
-[![Sample Animation demo](https://user-images.githubusercontent.com/43912771/57462908-61537b80-7297-11e9-9e9b-7b20479ded4f.jpg)]()
+[![Sample Animation demo](https://user-images.githubusercontent.com/43912771/57465935-3f5cf780-729d-11e9-9f08-d664b79f6f7b.jpg)](https://youtu.be/41yE29hsszg)
 
-<iframe width="953" height="520" src="https://www.youtube.com/embed/41yE29hsszg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
