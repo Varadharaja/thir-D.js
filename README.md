@@ -18,6 +18,7 @@ Complex shapes can be built independently by assembling basic shapes - Cube, Poy
 
 Each of these shapes can be aggregated in one place to create a scene as shown below:
 
-![thir-d](https://user-images.githubusercontent.com/43912771/57460784-67dff400-7293-11e9-9b26-7f80b25f80cc.jpg)
+![thir-d](https://user-images.githubusercontent.com/43912771/57462908-61537b80-7297-11e9-9e9b-7b20479ded4f.jpg)
+
 
 
